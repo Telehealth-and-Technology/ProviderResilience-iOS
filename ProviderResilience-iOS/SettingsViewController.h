@@ -61,6 +61,12 @@
 @property (retain, nonatomic) IBOutlet UILabel *labelFeedback;
 @property (retain, nonatomic) IBOutlet UIButton *buttonFeedback;
 
+// Study Enrollment
+- (IBAction)sendResearchData_Clicked:(id)sender;
+- (IBAction)disenrollFromStudy_Clicked:(id)sender;
+@property (retain, nonatomic) IBOutlet UIButton *buttonSendResearchData;
+@property (retain, nonatomic) IBOutlet UIButton *buttonDisenrollFromStudy;
+
 // Email methods
 -(void)displayComposerSheet;
 -(void)launchMailAppOnDevice;

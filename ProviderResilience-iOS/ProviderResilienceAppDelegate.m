@@ -122,10 +122,14 @@ void uncaughtExceptionHandler(NSException *exception) {
                         
         } else {
             // Show a random card
+            // 01-07-2013 Don't show these on start up anymore
+            /*
             CardsViewController *viewController = [CardsViewController alloc];
             [viewController StartupMode];
             self.window.rootViewController = viewController;
             [viewController release];
+             */
+            [self normalStartUp];
         }
         
     }
@@ -150,7 +154,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     [currentSettings writeToPlist];     // Turn off the welcome message after the first showing
 }
 
-- (void)normalStartUp {
+- (void)normalStartUp {    
     // Hand off to the tab bar controller
     self.window.rootViewController = __rootController;
     self.window.rootViewController.tabBarController.selectedIndex = 2;   // Display the cards first
@@ -256,8 +260,112 @@ application.applicationIconBadgeNumber = 0;
         DashboardViewController *ourView = (DashboardViewController *)viewController;
         [ourView NoAssessment];         // Turn off Assessment mode
         viewController.view = ourView.viewMainDashboard;
-        [ourView attachDigitalClockView:viewController.view];   // Make sure we have the digital clock                
+        [ourView attachDigitalClockView:viewController.view];   // Make sure we have the digital clock
+        
     }
+    
+}
+
+#pragma openURL Delegate Methods
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    NSLog(@"%s", __FUNCTION__);
+    
+    if(!url) { return NO; }
+    
+    
+    
+    NSString *filePath = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    
+    
+    
+    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:filePath];//Using nsdata category base64 to decode string to nsdata
+    
+    NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];//Convert data to nstring
+    
+    NSData *myData = [decodedString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    if ([decodedString length] > 0) {
+        
+        
+        
+        /* JSON Parsing */
+        
+        NSError *e = nil;
+        
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData: myData options: NSJSONReadingMutableContainers error: &e];
+        
+        
+        
+        NSString *action = [jsonDict objectForKey:@"action"];
+        
+        NSString *participantID = [jsonDict objectForKey:@"participantId"];
+        
+        NSString *recipientEmail = [jsonDict objectForKey:@"recipientEmail"];
+        
+        
+        
+        // You could prompt user as this point whether they want to participate with this email address
+        
+        NSString *msgText = [NSString stringWithFormat:@"You have enrolled in a study: %@ | %@ | %@", action, participantID, recipientEmail];
+        
+        
+        
+        UIAlertView *alertBarInfo = [[UIAlertView alloc] initWithTitle:@"Successfully Enrolled" message:msgText delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        
+        [alertBarInfo show];
+        
+        
+        
+        // Save something for test.
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:participantID forKey:@"DEFAULTS_PARTICIPANTNUMBER"];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:recipientEmail forKey:@"DEFAULTS_STUDYEMAIL"];
+        
+        
+        
+        // Create new text log
+        
+        NSMutableString * txtFile = [NSMutableString string];
+        
+        NSString *fileName = @"/study.csv";
+        
+        
+        
+        NSString * headerLine = [NSString stringWithFormat:@"Participant#: %@",participantID];
+        
+        NSString * topRows = [NSString stringWithFormat:@"Timestamp,Action,Duration,Item,UserData"];
+        
+        
+        
+        [txtFile appendFormat:@"%@\n", headerLine];
+        
+        [txtFile appendFormat:@"%@\n", topRows];
+        
+        
+        
+        
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
+        
+        NSString *documentsDir = [paths objectAtIndex:0];
+        
+        NSString *finalPath = [NSString stringWithFormat:@"%@%@",documentsDir, fileName];
+        
+        [txtFile writeToFile:finalPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        
+        
+        [Analytics logEvent:@"RESEARCH_STUDY_ENROLL"];
+        
+    }
+    
+    return YES;
     
 }
 

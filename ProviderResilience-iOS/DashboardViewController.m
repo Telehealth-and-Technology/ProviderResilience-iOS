@@ -12,6 +12,8 @@
 #import "Analytics.h"
 #import "QuartzCore/QuartzCore.h"
 
+// Constants
+#define PI 3.14159265
 
 @interface DashboardViewController ()
 
@@ -22,18 +24,20 @@
 @synthesize boLabelGauge;
 @synthesize boLabelScore;
 
-@synthesize resImageGauge;
-@synthesize resLabelGauge;
+//@synthesize resImageGauge;
+//@synthesize resLabelGauge;
 @synthesize resLabelScore;
+@synthesize resMeterPointer;
+@synthesize testScoreStepper;
 
 @synthesize updateClockTimer;
 
-@synthesize mdRateTraumaImage;
-@synthesize mdRateTraumaLabel;
-@synthesize mdRateBurnoutImage;
-@synthesize mdRateBurnoutLabel;
-@synthesize mdRateCompassionImage;
-@synthesize mdRateCompassionLabel;
+//@synthesize mdRateTraumaImage;
+//@synthesize mdRateTraumaLabel;
+//@synthesize mdRateBurnoutImage;
+//@synthesize mdRateBurnoutLabel;
+//@synthesize mdRateCompassionImage;
+//@synthesize mdRateCompassionLabel;
 
 @synthesize QOLItemArray;
 @synthesize QOLItemEnumerator;
@@ -55,6 +59,8 @@
 @synthesize rateTraumaScoreDescLabel;
 
 @synthesize qlDaysSinceLabel;
+@synthesize qlDaysTilNextUpdateLabel;
+@synthesize boDaysTilNextUpdateLabel;
 @synthesize rateCompassionLabel;
 @synthesize rateCompassionImage;
 @synthesize rateCompassionExplainLabel;
@@ -81,6 +87,7 @@
 @synthesize viewBuildersBonus;
 @synthesize viewKillers;
 
+@synthesize imageClockBackground;
 @synthesize digitLabelYear;
 @synthesize digitLabelMonth;
 @synthesize digitLabelDay;
@@ -149,6 +156,21 @@
 {
     [super viewDidLoad];
     
+    // Grab the information for the Meter pointer
+    
+    // Define the length of the hypotenuse
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        meterHypotenuseL = 138.0;  // TBD compute these based on the size of the meter?
+        meterCenterPtX = 384.0;
+        meterCenterPtY = 316.0;
+    } else { // iPhone
+        meterHypotenuseL = 71.0;  // TBD compute these based on the size of the meter?
+        meterCenterPtX = 160.0;
+        meterCenterPtY = 151.0;
+    }
+    meterFrame = self.resMeterPointer.frame;
+    
     // Testing...take a look at our database
     //NSLog(@"Open and read our SQL database...");
     //PRdatabaseSQL *mySQL = [PRdatabaseSQL alloc];
@@ -175,6 +197,12 @@
         [charLabelDay setFont:[UIFont fontWithName:@"DS-Digital" size:58.0]];
         [charLabelHour setFont:[UIFont fontWithName:@"DS-Digital" size:58.0]];
         [charLabelMinute setFont:[UIFont fontWithName:@"DS-Digital" size:58.0]];
+        
+        // And set the background image
+        UIImage *image = [UIImage imageNamed:@"clockbackground-Stretch.png"];
+        UIImage *stretchImage = [image stretchableImageWithLeftCapWidth:85.0 topCapHeight:0.0];
+        //UIImage *stretchImage = [[UIImage imageNamed:@"clockbackground-Stretch.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 87.0, 0.0, 83.0) resizingMode:UIImageResizingModeStretch];
+        [imageClockBackground setImage:stretchImage];
     } else {  // iPhone
         [digitLabelYear setFont:[UIFont fontWithName:@"DS-Digital" size:44.0]];
         [digitLabelMonth setFont:[UIFont fontWithName:@"DS-Digital" size:44.0]];
@@ -186,6 +214,11 @@
         [charLabelDay setFont:[UIFont fontWithName:@"DS-Digital" size:24.0]];
         [charLabelHour setFont:[UIFont fontWithName:@"DS-Digital" size:24.0]];
         [charLabelMinute setFont:[UIFont fontWithName:@"DS-Digital" size:24.0]];
+        
+        // And set the background image
+        UIImage *image = [UIImage imageNamed:@"clockbackground-Stretch.png"];
+        UIImage *stretchImage = [image stretchableImageWithLeftCapWidth:85.0 topCapHeight:0.0];
+        [imageClockBackground setImage:stretchImage];
     }
     
     // Add subviews 
@@ -433,6 +466,10 @@
     [self presentViewStatusQOL];
     [self presentResilienceRating];
     
+ 
+    // Compute how many days since the user took BURNOUT Survey
+    [self computeBurnoutDays];
+    
     [super viewWillAppear:animated];
 }
 
@@ -440,6 +477,25 @@
     [super viewDidAppear:animated];
     
 }
+
+- (void)computeBurnoutDays {
+    
+    // Update the # of days until the next Burnout survey (and place in a string on the Dashboard)
+    [self.currentSettings initPlist];
+    NSTimeInterval myInterval = [[NSDate date] timeIntervalSinceDate:[self.currentSettings dateTimeLastBurnout]];
+    myInterval /= 60*60*24;   // Get the interval in days
+    int numDays = (int)(myInterval + .5);  // round it to get the number of days
+    
+    // Now sort out the possibilities so that it reads well as to how long it has been
+    if (numDays >= 7)
+        self.boDaysTilNextUpdateLabel.text = [NSString stringWithFormat:@"Update Today!"];
+    else if (numDays == 6)
+        self.boDaysTilNextUpdateLabel.text = [NSString stringWithFormat:@"Update Tomorrow!"];
+    else
+        self.boDaysTilNextUpdateLabel.text = [NSString stringWithFormat:@"Update in %d days",7-numDays];
+    
+}
+
 
 - (void)changeViewToBurnoutChart {
     [Analytics logEvent:@"BURNOUT CHART"];
@@ -479,6 +535,7 @@
     [self setImg_toggleRR:nil];
     [self setViewUpdateQuality:nil];
     [self setQlDaysSinceLabel:nil];
+    [self setQlDaysTilNextUpdateLabel:nil];
     [self setRateCompassionLabel:nil];
     [self setRateCompassionImage:nil];
     [self setRateCompassionExplainLabel:nil];
@@ -526,8 +583,6 @@
 
 - (void)didReceiveMemoryWarning
 {
-    //NSLog(@"DashboardViewController Did Receive Memory Warning");
-    
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
     
@@ -535,6 +590,7 @@
 }
 
 - (void)dealloc {
+    [imageClockBackground release];
     [digitLabelYear release];
     [digitLabelMonth release];
     [digitLabelDay release];
@@ -553,6 +609,7 @@
     [img_toggleRR release];
     [viewUpdateQuality release];
     [qlDaysSinceLabel release];
+    [qlDaysTilNextUpdateLabel release];
     [rateCompassionLabel release];
     [rateCompassionImage release];
     [rateCompassionExplainLabel release];
@@ -591,12 +648,23 @@
 // Digital Clock
 - (void)attachDigitalClockView:(UIView *)viewForClock {
     // Get its current frame and modify it
+    // 01/10/2013 Note that we tag==24 is for the View - Update R&R clock
+    //  The default is for the Dashboard (if we need the clock in other views, add a Tag to them and position below accordingly)
     CGRect oldFrame = self.viewDigitalClock.frame;
+    double myY;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {   // iPad
-        CGRect newFrame = CGRectMake(0, 150, oldFrame.size.width, oldFrame.size.height);
+        myY = 408;
+        if (viewForClock.tag == 24) {
+            myY = 195;
+        }
+        CGRect newFrame = CGRectMake(0, myY, oldFrame.size.width, oldFrame.size.height);
         [self.viewDigitalClock setFrame:newFrame];
     } else {   // iPhone
-        CGRect newFrame = CGRectMake(0, 87, oldFrame.size.width, oldFrame.size.height);
+        myY = 196;
+        if (viewForClock.tag == 24) {
+            myY = 85;
+        } 
+        CGRect newFrame = CGRectMake(0, myY, oldFrame.size.width, oldFrame.size.height);
         [self.viewDigitalClock setFrame:newFrame];
     }
     [viewForClock addSubview:viewDigitalClock];    
@@ -1028,6 +1096,14 @@
     [detailScores writeToPlist];
     [detailScores release];
     detailScores = nil;
+    
+    // And save the time this Burnout survey was done
+    [self.currentSettings initPlist];
+    [self.currentSettings uDateTimeLastBurnout:[NSDate date]];
+    [self.currentSettings writeToPlist];     // Save the changes
+    
+    // Compute how many days since the user took BURNOUT Survey (and place in a label on the Dashboard)
+    [self computeBurnoutDays];
     
     // NOTE:  All scores are 0-100
     // BUT for the negative characteristics, the range is reversed...100-0
@@ -1626,37 +1702,99 @@
     return newRating;
 }
 
+// Score has been manually updated for testing
+- (IBAction)changeTestScore_Clicked:(id)sender {
+    // Grab the new score
+    int currentScore = (int)testScoreStepper.value;
+    double halfWidth = meterFrame.size.width/2; // Half the width of the meter pointer 
+    NSLog(@"halfWidth: %0.2f",halfWidth);
+    
+    // debug...check on our size and position
+    NSLog(@"new move (%d)",currentScore);
+   // NSLog(@"old Frame: (%0.2f,%0.2f,%0.2f,%0.2f)",meterFrame.origin.x, meterFrame.origin.y, meterFrame.size.width,meterFrame.size.height);
+    
+    if (currentScore > 0) {
+        // Display the new score value
+        self.resLabelScore.text = [NSString stringWithFormat:@"%d",currentScore];
+        
+        // And now figure out where to put the meter pointer
+        // It is on a semi-circle show we will use basic geometry to place it
+        // But then it gets a little weird because we need to make allowance for the screen coordinates
+        // (that are not exactly cartesian coordinates!)  Plus as the meter pointer is not anchored in the middle,
+        // so sometimes the coordinate we use is on the near side to the semicirlce and sometimes it is on the far side.
+        double angle = currentScore*PI/100;         // Get the angle in radians...our scale is 1 to 100
+        NSLog(@"angle: %0.3f  cos: %0.3f  sin: %0.3f",angle,cos(angle),sin(angle));
+        
+        // Reposition the meter pointer
+        double meterHypotenuse = meterHypotenuseL+halfWidth*cos(angle);          // Default to the right side hypotenuse
+        NSLog(@"original hypo: %0.3f  new hypo: %0.3f",meterHypotenuseL,meterHypotenuse);
+        NSLog(@"center x: %0.3f  y: %0.3f",meterCenterPtX, meterCenterPtY);
+        int xPos = meterCenterPtX - meterHypotenuse*cos(angle)-halfWidth;
+        int yPos = meterCenterPtY - meterHypotenuse*sin(angle);
+        
+        // Adjust the x pos if we are in the 'right' quadrant
+        if (cos(angle)< 0) xPos += -2.3*cos(angle)*halfWidth;  // Gradually add distance since the origin is now to the right of center
+        
+        NSLog(@"new pos (%d): (%d,%d)",currentScore,xPos,yPos);
+        
+        self.resMeterPointer.transform = CGAffineTransformIdentity;
+        CGRect newFrame = CGRectMake(xPos, yPos, meterFrame.size.width, meterFrame.size.height);
+        //NSLog(@"new Frame: (%0.2f,%0.2f,%0.2f,%0.2f)",newFrame.origin.x, newFrame.origin.y, newFrame.size.width,newFrame.size.height);
+        [self.resMeterPointer setFrame:newFrame];
+        
+        self.resMeterPointer.transform = CGAffineTransformMakeRotation(currentScore*PI/100);    // Rotate the meter pointer
+        self.resMeterPointer.hidden = NO;
+        
+    }
+    else {
+        self.resLabelScore.text = [NSString stringWithFormat:@"??"];
+        self.resMeterPointer.transform = CGAffineTransformIdentity;
+        self.resMeterPointer.transform = CGAffineTransformMakeRotation(0);   // Point toward 0!
+        self.resMeterPointer.hidden = YES;
+    }
+    NSLog(@"================================================");
+
+}
+
 -(void)presentResilienceRating {
     // First, get/compute the current Resilience Rating
     NSInteger currentScore = [self computeResilienceRating];
     
-    // Now present it in image and numeric form    
-    if (currentScore > 0)
+    double halfWidth = meterFrame.size.width/2; // Half the width of the meter pointer
+        
+    if (currentScore > 0) {
+        // Display the new score value
         self.resLabelScore.text = [NSString stringWithFormat:@"%d",currentScore];
-    else
-        self.resLabelScore.text = [NSString stringWithFormat:@"??"];
-  
-    UIImage *newImage = nil;
-    NSString *scoreLabel = [NSString stringWithFormat:@"?"];
-    
-    if (currentScore >= kRESHighBurnoutCutoff) {
-        scoreLabel = [NSString stringWithFormat:@"HIGH"];
-        newImage = [UIImage  imageNamed:@"gaugehoriz_green.png"];   
+        
+        // And now figure out where to put the meter pointer
+        // It is on a semi-circle show we will use basic geometry to place it
+        // But then it gets a little weird because we need to make allowance for the screen coordinates
+        // (that are not exactly cartesian coordinates!)  Plus as the meter pointer is not anchored in the middle,
+        // so sometimes the coordinate we use is on the near side to the semicirlce and sometimes it is on the far side.
+        double angle = currentScore*PI/100;         // Get the angle in radians...our scale is 1 to 100
+        
+        // Reposition the meter pointer
+        double meterHypotenuse = meterHypotenuseL+halfWidth*cos(angle);          // Default to the right side hypotenuse
+        int xPos = meterCenterPtX - meterHypotenuse*cos(angle)-halfWidth;
+        int yPos = meterCenterPtY - meterHypotenuse*sin(angle);
+        
+        // Adjust the x pos if we are in the 'right' quadrant
+        if (cos(angle)< 0) xPos += -2.3*cos(angle)*halfWidth;  // Gradually add distance since the origin is now to the right of center
+                
+        self.resMeterPointer.transform = CGAffineTransformIdentity;
+        CGRect newFrame = CGRectMake(xPos, yPos, meterFrame.size.width, meterFrame.size.height);
+        [self.resMeterPointer setFrame:newFrame];
+        
+        self.resMeterPointer.transform = CGAffineTransformMakeRotation(currentScore*PI/100);    // Rotate the meter pointer
+        self.resMeterPointer.hidden = NO;
+        
     }
     else {
-        if (currentScore >= kRESMedBurnoutCutoff) {
-            scoreLabel = [NSString stringWithFormat:@"MED"];
-            newImage = [UIImage  imageNamed:@"gaugehoriz_blue.png"];   
-        }
-        else
-            if (currentScore > kRESLowBurnoutCutoff) {
-                scoreLabel = [NSString stringWithFormat:@"LOW"];
-                newImage = [UIImage  imageNamed:@"gaugehoriz_red.png"];   
-            }
+        self.resLabelScore.text = [NSString stringWithFormat:@"??"];
+        self.resMeterPointer.transform = CGAffineTransformIdentity;
+        self.resMeterPointer.transform = CGAffineTransformMakeRotation(0);   // Point toward 0!
+        self.resMeterPointer.hidden = YES;
     }
-    
-    self.resImageGauge.image = newImage;
-    self.resLabelGauge.text = scoreLabel;
     
 }
 
@@ -1678,21 +1816,32 @@
     
 
     // Header area...how long has it been since the user took the ProQOL?
-    if (myCompassion == 0)
+    if (myCompassion == 0) {
         self.qlDaysSinceLabel.text = [NSString stringWithFormat:@"You have not yet taken the ProQOL."];
+        self.qlDaysTilNextUpdateLabel.text = [NSString stringWithFormat:@"Update Today!"];
+    }
     else {
         // Compute how many days since the user took ProQOL test
         NSTimeInterval myInterval = [[NSDate date] timeIntervalSinceDate:[self.currentSettings dateTimeLastProQOL]];
         myInterval /= 60*60*24;   // Get the interval in days
         int numDays = (int)(myInterval + .5);  // round it to get the number of days
         
-        // Now sort out the possibilities so that it reads well
+        // NOTE: The labels below appear in different views, but we'll update them both here
+        // Now sort out the possibilities so that it reads well as to how long it has been
         if (numDays == 0)
             self.qlDaysSinceLabel.text = [NSString stringWithFormat:@"It's been less than a day since your last update."];
         else if (numDays == 1)
                 self.qlDaysSinceLabel.text = [NSString stringWithFormat:@"It's been 1 day since your last update."];
         else 
             self.qlDaysSinceLabel.text = [NSString stringWithFormat:@"It's been %d days since your last update.",numDays];
+        
+        // Now tell them how soon they should update it again!
+        if (numDays >= 30) 
+            self.qlDaysTilNextUpdateLabel.text = [NSString stringWithFormat:@"Update Today!"];
+        else if (numDays == 29)
+            self.qlDaysTilNextUpdateLabel.text = [NSString stringWithFormat:@"Update Tomorrow!"];
+        else
+            self.qlDaysTilNextUpdateLabel.text = [NSString stringWithFormat:@"Update in %d days",30-numDays];
     }
     
     // Score area (ie; 'Med 30' on 2 lines in same label)
@@ -1701,9 +1850,9 @@
     self.rateBurnoutLabel.text = [NSString stringWithFormat:@"%@ %d",[self scoreDescriptor:myBurnout], myBurnout];
     self.rateTraumaLabel.text = [NSString stringWithFormat:@"%@ %d",[self scoreDescriptor:myTrauma], myTrauma];
     // viewMainDashboard
-    self.mdRateCompassionLabel.text = [NSString stringWithFormat:@"%@ %d",[self scoreDescriptor:myCompassion], myCompassion];        
-    self.mdRateBurnoutLabel.text = [NSString stringWithFormat:@"%@ %d",[self scoreDescriptor:myBurnout], myBurnout];
-    self.mdRateTraumaLabel.text = [NSString stringWithFormat:@"%@ %d",[self scoreDescriptor:myTrauma], myTrauma];
+    //self.mdRateCompassionLabel.text = [NSString stringWithFormat:@"%@ %d",[self scoreDescriptor:myCompassion], myCompassion];
+    //self.mdRateBurnoutLabel.text = [NSString stringWithFormat:@"%@ %d",[self scoreDescriptor:myBurnout], myBurnout];
+    //self.mdRateTraumaLabel.text = [NSString stringWithFormat:@"%@ %d",[self scoreDescriptor:myTrauma], myTrauma];
     
     // Score Icon Image
     // viewUpdateQuality
@@ -1711,9 +1860,9 @@
     self.rateBurnoutImage.image = [self imageNegativeTrait:myBurnout];
     self.rateTraumaImage.image = [self imageNegativeTrait:myTrauma];
     // viewMainDashboard
-    self.mdRateCompassionImage.image = [self imagePositiveTrait:myCompassion];
-    self.mdRateBurnoutImage.image = [self imageNegativeTrait:myBurnout];
-    self.mdRateTraumaImage.image = [self imageNegativeTrait:myTrauma];
+    //self.mdRateCompassionImage.image = [self imagePositiveTrait:myCompassion];
+    //self.mdRateBurnoutImage.image = [self imageNegativeTrait:myBurnout];
+    //self.mdRateTraumaImage.image = [self imageNegativeTrait:myTrauma];
     
     // Text Description area
     // Text Title

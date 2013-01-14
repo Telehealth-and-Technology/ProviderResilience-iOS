@@ -8,11 +8,13 @@
 
 #import "SettingsViewController.h"
 #import "Analytics.h"
+#import "FlurryUtility.h"
 #import <QuartzCore/QuartzCore.h>
 
 // Tag values to distinguish UIAlertViews
 #define kTagResetApplication        1
 #define kTagSendFeedback            2
+#define kTagDisenrollFromStudy      3
 
 // Tag values to distinguish DateTimePicker
 #define kTagRemindAt        0
@@ -35,6 +37,8 @@
 @synthesize buttonAnonymous;
 @synthesize labelResetScores;
 @synthesize buttonResetScores;
+@synthesize buttonDisenrollFromStudy;
+@synthesize buttonSendResearchData;
 @synthesize labelFeedback;
 @synthesize buttonFeedback;
 @synthesize img_anonymousOnOff;
@@ -85,6 +89,7 @@
     self.labelAnonymous.layer.cornerRadius = 8;
     self.labelResetScores.layer.cornerRadius = 8;
     self.labelFeedback.layer.cornerRadius = 8;
+    
 }
 
 - (void)viewDidUnload
@@ -98,6 +103,12 @@
 }
 - (void)viewWillAppear:(BOOL)animated  {
     [super viewWillAppear:animated];
+    
+    // Determine if we are currently in a Study Enrollment
+    BOOL boolValue = [[NSUserDefaults standardUserDefaults] boolForKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
+    // Now display/hide the buttons depending on whether we are doing the Research Study
+    buttonDisenrollFromStudy.hidden = !boolValue;
+    buttonSendResearchData.hidden = !boolValue;
 }
 
 - (void)didReceiveMemoryWarning
@@ -168,6 +179,14 @@
             if (buttonIndex == 0)
             {
                 [self launchMailAppOnDevice];
+            }
+            break;
+            
+        case kTagDisenrollFromStudy:
+            // Disenroll...or not
+            if (buttonIndex == 0)
+            {
+                [self disEnrolled];
             }
             break;
             
@@ -341,6 +360,135 @@
      
 }
 
+#pragma mark Study Enrollment
+// Send Research Data
+- (IBAction)sendResearchData_Clicked:(id)sender {
+    NSLog(@"Send the research data");
+	MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+	picker.mailComposeDelegate = self;
+	
+    // Fill in the subject line
+    NSString *participantID = [[NSUserDefaults standardUserDefaults] stringForKey:@"DEFAULTS_PARTICIPANTNUMBER"];
+    NSString *subjectLine = [NSString stringWithFormat:@"Participant: %@ -Usage Log",participantID];
+	[picker setSubject:subjectLine];
+    [Analytics logEvent:@"RESEARCH STUDY EMAIL"];
+	
+	// Set up recipient
+    NSString *recipientEmail = [[NSUserDefaults standardUserDefaults] stringForKey:@"DEFAULTS_STUDYEMAIL"];
+	NSArray *toRecipients = [NSArray arrayWithObject:recipientEmail];
+    NSLog(@"Recipient email: %@",recipientEmail);
+	
+	[picker setToRecipients:toRecipients];
+	
+    NSString *fileName = @"/study.csv";
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
+    NSString *documentsDir = [paths objectAtIndex:0];
+    NSString *finalPath = [NSString stringWithFormat:@"%@%@",documentsDir, fileName];
+    
+    NSLog(@"finalPath: %@", finalPath);
+    
+    NSData *myData2 = [NSData dataWithContentsOfFile:finalPath];
+    [picker addAttachmentData:myData2 mimeType:@"text/csv" fileName:fileName];
+        
+	// Fill out the email body text
+    // Start out with some header information
+	NSMutableString *emailBody = [NSMutableString stringWithCapacity:200];
+    
+    [emailBody appendString:@"<html><body style=""background-color:blue;""><p style=""font-family:arial;color:red;font-size:14px;"">Research Data is attached and will be sent to the Reseacher.</p>"];
+    
+    
+	[picker setMessageBody:emailBody isHTML:YES];
+    
+    picker.navigationBar.barStyle = UIBarStyleBlack;
+    picker.navigationBarHidden = NO;
+	
+	[self presentModalViewController:picker animated:YES];
+    [picker release];
+    
+}
+
+// Disenroll From Study
+- (IBAction)disenrollFromStudy_Clicked:(id)sender {
+    NSLog(@"Prompt User...do you really want to disenroll?");
+    
+    // Alert to save/delete log
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Disenroll"
+                          
+                                                    message:@"Are you sure you want to be disenrolled from the Research Study?"
+                          
+                                                   delegate:self
+                          
+                                          cancelButtonTitle:@"Yes"
+                          
+                                          otherButtonTitles:@"No", nil];
+    
+    alert.tag = kTagDisenrollFromStudy;
+    [alert show];
+}
+
+
+- (void)disEnrolled
+
+{
+    
+    [Analytics logEvent:@"RESEARCH_STUDY_DISENROLL"];
+    
+    // Disenroll from the study....delete all remnants
+    
+    NSLog(@"Delete Log");
+    
+    NSString *fileName = @"/study.csv";
+    
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
+    
+    NSString *documentsDir = [paths objectAtIndex:0];
+    
+    NSString *finalPath = [NSString stringWithFormat:@"%@%@",documentsDir, fileName];
+    
+    NSLog(@"finalPath: %@", finalPath);
+    
+    if ([fileMgr removeItemAtPath:finalPath error:nil] != YES)
+        
+        NSLog(@"Unable to delete file");
+    
+    
+    
+    // Disenroll
+    
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
+    
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"DEFAULTS_PARTICIPANTNUMBER"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"DEFAULTS_STUDYEMAIL"];
+    
+    //[menuTableView reloadData];
+    
+    
+    
+    // Show alert
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Disenrolled"
+                          
+                                                    message:@"You have been disenrolled from the Research Study.  Your logged data has been deleted."
+                          
+                                                   delegate:nil
+                          
+                                          cancelButtonTitle:@"Ok"
+                          
+                                          otherButtonTitles:nil];
+    
+    [alert show];
+    
+    alert.delegate = self;
+    
+    // Hide the study buttons
+    buttonDisenrollFromStudy.hidden = YES;
+    buttonSendResearchData.hidden = YES;
+    
+}
+
 #pragma mark Anonymous Data
 // Anonymous Data
 - (IBAction)anonymous_Clicked:(id)sender {
@@ -452,7 +600,7 @@
 	picker.mailComposeDelegate = self;
 	
 	[picker setSubject:NSLocalizedString(@"Provider Resilience Feedback", @"")];
-    [Analytics logEvent:[NSString stringWithFormat:@"EMAIL COMPOSE: %@",@"Provider Resilience Feedback"]];
+    [Analytics logEvent:@"EMAIL FEEDBACK"];
 	
     
 	// Set up recipients

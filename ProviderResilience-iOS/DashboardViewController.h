@@ -67,6 +67,14 @@
     
     CGFloat keyBoardHeight;
     
+    
+    // Store information about the Meter pointer
+    double meterHypotenuseL;  // TBD compute this based on the size of the meter!
+    double meterHypotenuseR;
+    double meterCenterPtX;
+    double meterCenterPtY;
+    CGRect meterFrame;
+    
 }
 
 @property (retain, nonatomic) SaveSettings *currentSettings;
@@ -91,7 +99,8 @@
 @property (retain, nonatomic) IBOutlet UIView *viewBuildersBonus;
 @property (retain, nonatomic) IBOutlet UIView *viewKillers;
 
-// R&R Clock Elements 
+// R&R Clock Elements
+@property (retain, nonatomic) IBOutlet UIImageView *imageClockBackground;
 @property (retain, nonatomic) IBOutlet UILabel *digitLabelYear;
 @property (retain, nonatomic) IBOutlet UILabel *digitLabelMonth;
 @property (retain, nonatomic) IBOutlet UILabel *digitLabelDay;
@@ -121,14 +130,16 @@
 - (IBAction)presentKillers_Clicked:(id)sender;
 - (IBAction)doneBuildersKillers_Clicked:(id)sender;
 
+- (IBAction)changeTestScore_Clicked:(id)sender;
+
 
 // Main Dashboard (md) QOL Elements
-@property (retain, nonatomic) IBOutlet UILabel *mdRateCompassionLabel;
-@property (retain, nonatomic) IBOutlet UIImageView *mdRateCompassionImage;
-@property (retain, nonatomic) IBOutlet UILabel *mdRateBurnoutLabel;
-@property (retain, nonatomic) IBOutlet UIImageView *mdRateBurnoutImage;
-@property (retain, nonatomic) IBOutlet UILabel *mdRateTraumaLabel;
-@property (retain, nonatomic) IBOutlet UIImageView *mdRateTraumaImage;
+//@property (retain, nonatomic) IBOutlet UILabel *mdRateCompassionLabel;
+//@property (retain, nonatomic) IBOutlet UIImageView *mdRateCompassionImage;
+//@property (retain, nonatomic) IBOutlet UILabel *mdRateBurnoutLabel;
+//@property (retain, nonatomic) IBOutlet UIImageView *mdRateBurnoutImage;
+//@property (retain, nonatomic) IBOutlet UILabel *mdRateTraumaLabel;
+//@property (retain, nonatomic) IBOutlet UIImageView *mdRateTraumaImage;
 
 // Main Dashboard (bo) Burnout Elements
 @property (retain, nonatomic) IBOutlet UILabel *boLabelScore;
@@ -137,8 +148,10 @@
 
 // Main Dashboard (res) Resiliency Elements
 @property (retain, nonatomic) IBOutlet UILabel *resLabelScore;
-@property (retain, nonatomic) IBOutlet UIImageView *resImageGauge;
-@property (retain, nonatomic) IBOutlet UILabel *resLabelGauge;
+@property (retain, nonatomic) IBOutlet UIImageView *resMeterPointer;
+@property (retain, nonatomic) IBOutlet UIStepper *testScoreStepper;
+//@property (retain, nonatomic) IBOutlet UIImageView *resImageGauge;
+//@property (retain, nonatomic) IBOutlet UILabel *resLabelGauge;
 
 // Burnout Survey Elements
 @property (retain, nonatomic) IBOutlet UIScrollView *boScrollView;
@@ -218,6 +231,8 @@
 
 // Update Quality of Life Elements  (Shows Updated Status)
 @property (retain, nonatomic) IBOutlet UILabel *qlDaysSinceLabel;
+@property (retain, nonatomic) IBOutlet UILabel *qlDaysTilNextUpdateLabel;
+@property (retain, nonatomic) IBOutlet UILabel *boDaysTilNextUpdateLabel;
 
 @property (retain, nonatomic) IBOutlet UILabel *rateCompassionLabel;
 @property (retain, nonatomic) IBOutlet UIImageView *rateCompassionImage;

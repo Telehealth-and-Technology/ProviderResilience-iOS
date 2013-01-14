@@ -160,7 +160,7 @@ BOOL bPlayBackStopped=YES;
 
 
 - (void)viewDidAppear:(BOOL)animated {
-    [Analytics logEvent:[NSString stringWithFormat:@"MOVIE: %@", self.videoDescription]];
+    //[Analytics logEvent:[NSString stringWithFormat:@"MOVIE: %@", self.videoDescription]];
     ProviderResilienceAppDelegate *appDelegate = (ProviderResilienceAppDelegate *)[UIApplication sharedApplication].delegate;
     NSError *err;
     if (self.videoID) {
@@ -175,7 +175,7 @@ BOOL bPlayBackStopped=YES;
             }
         } else {
             NSString *errStr = [appDelegate.bcServices getErrorsAsString:err];
-            [Analytics logEvent:[NSString stringWithFormat:@"VIDEO PLAYBACK ERROR: %@",errStr]];
+            //[Analytics logEvent:[NSString stringWithFormat:@"VIDEO PLAYBACK ERROR: %@",errStr]];
             //NSLog(@"BC Error: %@",errStr);
             //NSLog(@"NSError: %@",err);
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection Error"

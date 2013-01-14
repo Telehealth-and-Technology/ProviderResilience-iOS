@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1296</int>
-		<string key="IBDocument.SystemVersion">11E53</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
-		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<int key="IBDocument.SystemTarget">1536</int>
+		<string key="IBDocument.SystemVersion">11G63b</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
+		<string key="IBDocument.AppKitVersion">1138.51</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1179</string>
+			<string key="NS.object.0">1930</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>IBUIView</string>
-			<string>IBUIImageView</string>
-			<string>IBUILabel</string>
 			<string>IBProxyObject</string>
 			<string>IBUIActivityIndicatorView</string>
-			<string>IBUIWebView</string>
 			<string>IBUIButton</string>
+			<string>IBUIImageView</string>
+			<string>IBUILabel</string>
+			<string>IBUIView</string>
+			<string>IBUIWebView</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -108,7 +108,7 @@
 						<double key="IBUIImageEdgeInsets.top">4</double>
 						<double key="IBUIImageEdgeInsets.bottom">4</double>
 						<double key="IBUIImageEdgeInsets.left">45</double>
-						<double key="IBUIImageEdgeInsets.right">585</double>
+						<double key="IBUIImageEdgeInsets.right">614</double>
 						<reference key="IBUIHighlightedTitleColor" ref="475291872"/>
 						<object class="NSColor" key="IBUINormalTitleColor" id="578894283">
 							<int key="NSColorSpace">1</int>
@@ -157,7 +157,7 @@
 						<double key="IBUIImageEdgeInsets.top">4</double>
 						<double key="IBUIImageEdgeInsets.bottom">4</double>
 						<double key="IBUIImageEdgeInsets.left">45</double>
-						<double key="IBUIImageEdgeInsets.right">585</double>
+						<double key="IBUIImageEdgeInsets.right">614</double>
 						<reference key="IBUIHighlightedTitleColor" ref="475291872"/>
 						<reference key="IBUINormalTitleColor" ref="578894283"/>
 						<reference key="IBUINormalTitleShadowColor" ref="909124165"/>
@@ -222,7 +222,7 @@
 						<double key="IBUIImageEdgeInsets.top">4</double>
 						<double key="IBUIImageEdgeInsets.bottom">4</double>
 						<double key="IBUIImageEdgeInsets.left">45</double>
-						<double key="IBUIImageEdgeInsets.right">585</double>
+						<double key="IBUIImageEdgeInsets.right">614</double>
 						<string key="IBUIDisabledTitle">Remind me why I do this</string>
 						<reference key="IBUIHighlightedTitleColor" ref="475291872"/>
 						<reference key="IBUINormalTitleColor" ref="578894283"/>
@@ -281,7 +281,7 @@
 						<double key="IBUIImageEdgeInsets.top">4</double>
 						<double key="IBUIImageEdgeInsets.bottom">4</double>
 						<double key="IBUIImageEdgeInsets.left">45</double>
-						<double key="IBUIImageEdgeInsets.right">585</double>
+						<double key="IBUIImageEdgeInsets.right">614</double>
 						<reference key="IBUIHighlightedTitleColor" ref="475291872"/>
 						<reference key="IBUINormalTitleColor" ref="578894283"/>
 						<reference key="IBUINormalTitleShadowColor" ref="909124165"/>
@@ -337,7 +337,7 @@
 						<double key="IBUIImageEdgeInsets.top">4</double>
 						<double key="IBUIImageEdgeInsets.bottom">4</double>
 						<double key="IBUIImageEdgeInsets.left">45</double>
-						<double key="IBUIImageEdgeInsets.right">585</double>
+						<double key="IBUIImageEdgeInsets.right">614</double>
 						<reference key="IBUIHighlightedTitleColor" ref="475291872"/>
 						<reference key="IBUINormalTitleColor" ref="578894283"/>
 						<reference key="IBUINormalTitleShadowColor" ref="909124165"/>
@@ -393,7 +393,7 @@
 						<double key="IBUIImageEdgeInsets.top">4</double>
 						<double key="IBUIImageEdgeInsets.bottom">4</double>
 						<double key="IBUIImageEdgeInsets.left">45</double>
-						<double key="IBUIImageEdgeInsets.right">585</double>
+						<double key="IBUIImageEdgeInsets.right">614</double>
 						<reference key="IBUIHighlightedTitleColor" ref="475291872"/>
 						<reference key="IBUINormalTitleColor" ref="578894283"/>
 						<reference key="IBUINormalTitleShadowColor" ref="909124165"/>
@@ -449,7 +449,7 @@
 						<double key="IBUIImageEdgeInsets.top">4</double>
 						<double key="IBUIImageEdgeInsets.bottom">4</double>
 						<double key="IBUIImageEdgeInsets.left">45</double>
-						<double key="IBUIImageEdgeInsets.right">585</double>
+						<double key="IBUIImageEdgeInsets.right">614</double>
 						<reference key="IBUIHighlightedTitleColor" ref="475291872"/>
 						<reference key="IBUINormalTitleColor" ref="578894283"/>
 						<reference key="IBUINormalTitleShadowColor" ref="909124165"/>
@@ -470,6 +470,7 @@
 						<string key="NSFrame">{{250, 872}, {292, 50}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -584,6 +585,7 @@
 						<string key="NSFrame">{{428, 892}, {240, 63}}</string>
 						<reference key="NSSuperview" ref="1034685690"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -729,6 +731,7 @@
 						<string key="NSFrame">{{5, 40}, {758, 924}}</string>
 						<reference key="NSSuperview" ref="58399038"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<array key="IBUIGestureRecognizers" id="0"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -814,6 +817,7 @@
 						<string key="NSFrame">{{0, 82}, {768, 918}}</string>
 						<reference key="NSSuperview" ref="1005924008"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIGestureRecognizers" ref="0"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -901,6 +905,7 @@
 						<string key="NSFrame">{{0, 335}, {768, 200}}</string>
 						<reference key="NSSuperview" ref="200521300"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<int key="IBUITag">6</int>
@@ -1072,6 +1077,7 @@
 						<string key="NSFrame">{{234, 314}, {301, 142}}</string>
 						<reference key="NSSuperview" ref="915556878"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -1098,6 +1104,7 @@
 							<double key="NSSize">37</double>
 							<int key="NSfFlags">16</int>
 						</object>
+						<double key="preferredMaxLayoutWidth">301</double>
 					</object>
 				</array>
 				<string key="NSFrame">{{0, 20}, {768, 1004}}</string>
@@ -1305,6 +1312,7 @@
 							<double key="NSSize">13</double>
 							<int key="NSfFlags">16</int>
 						</object>
+						<double key="preferredMaxLayoutWidth">69</double>
 					</object>
 					<object class="IBUIButton" id="445720008">
 						<reference key="NSNextResponder" ref="655671858"/>
@@ -1312,6 +1320,7 @@
 						<string key="NSFrame">{{0, 805}, {768, 150}}</string>
 						<reference key="NSSuperview" ref="655671858"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<int key="IBUITag">5</int>
@@ -2385,7 +2394,7 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBIPadFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1296" key="NS.object.0"/>
+			<real value="1536" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
@@ -2416,6 +2425,6 @@
 			<string key="vid_trauma.jpg">{375, 195}</string>
 			<string key="videos.png">{500, 500}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">1179</string>
+		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
 </archive>
