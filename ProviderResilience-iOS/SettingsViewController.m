@@ -10,6 +10,7 @@
 #import "Analytics.h"
 #import "FlurryUtility.h"
 #import <QuartzCore/QuartzCore.h>
+#import "PRAnalytics.h"
 
 // Tag values to distinguish UIAlertViews
 #define kTagResetApplication        1
@@ -45,6 +46,7 @@
 @synthesize img_reminderOnOff;
 @synthesize img_welcomeOnOff;
 @synthesize currentSettings;
+@synthesize startSession;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -103,12 +105,41 @@
 }
 - (void)viewWillAppear:(BOOL)animated  {
     [super viewWillAppear:animated];
-    
+    startSession = [[NSDate date] retain];
+
     // Determine if we are currently in a Study Enrollment
     BOOL boolValue = [[NSUserDefaults standardUserDefaults] boolForKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
     // Now display/hide the buttons depending on whether we are doing the Research Study
     buttonDisenrollFromStudy.hidden = !boolValue;
     buttonSendResearchData.hidden = !boolValue;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    
+    int myDuration = 0;
+    NSDate *endSession = [NSDate date];
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    [dateFormatter setDateFormat:@"mm:ss:SS"];
+    
+    NSString *startString = [dateFormatter stringFromDate :startSession];
+    NSString *endString = [dateFormatter stringFromDate:endSession];
+    
+    NSDate* firstDate = [dateFormatter dateFromString:startString];
+    NSDate* secondDate = [dateFormatter dateFromString:endString];
+    NSTimeInterval timeDifference = [secondDate timeIntervalSinceDate:firstDate];
+    NSInteger time = round(timeDifference);
+    myDuration = time;
+    [Analytics logEvent:myDuration inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_SECTION_SETTINGSVIEW  withActivity:EVENT_VIEW_DURATION withValue:nil];
+    
+    NSLog(@"timeDifference: %i seconds", myDuration);
+    startSession = nil;
+    [startSession release];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -198,6 +229,9 @@
  *  resetUserData
  */
 - (void)resetUserData {
+    
+    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESETAPPDATA withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
     dispatch_async(queue, ^{
         // Clear out the user data.
@@ -252,14 +286,19 @@
     if (bOnOff) {
         img_welcomeOnOff.image = [UIImage imageNamed:@"exercise.png"];
         [buttonWelcome setTitle:@"On" forState:UIControlStateNormal];
+        
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_WELCOME withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:@"On"];
     } else {
         img_welcomeOnOff.image = [UIImage imageNamed:@"bg-on-1pxl.png"]; 
-        [buttonWelcome setTitle:@"Off" forState:UIControlStateNormal]; 
+        [buttonWelcome setTitle:@"Off" forState:UIControlStateNormal];
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_WELCOME withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:@"Off"];
     }
 }
 
 #pragma mark Reset Daily Scores
 - (IBAction)resetScores_clicked:(id)sender {
+    
+    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESTSCORES withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
     
     // Present dialog to allow user to enter the time of day to reset the daily scores
 	DateTimePicker *controller = [[DateTimePicker alloc] init];
@@ -301,9 +340,11 @@
     if (bOnOff) {
         img_reminderOnOff.image = [UIImage imageNamed:@"exercise.png"];
         [buttonReminder setTitle:@"On" forState:UIControlStateNormal];
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYREMINDERS withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:@"On"];
     } else {
         img_reminderOnOff.image = [UIImage imageNamed:@"bg-on-1pxl.png"]; 
-        [buttonReminder setTitle:@"Off" forState:UIControlStateNormal]; 
+        [buttonReminder setTitle:@"Off" forState:UIControlStateNormal];
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYREMINDERS withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:@"Off"];
     }
     
     [self scheduleNotification:bOnOff];
@@ -311,6 +352,8 @@
 
 // Remind me at:
 - (IBAction)remindAt_Clicked:(id)sender {
+    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYREMINDERS_TIME withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+    
     // Present dialog to allow user to enter the time of day to send the notification reminder
 	DateTimePicker *controller = [[DateTimePicker alloc] init];
     [controller resetDatePickerMode:UIDatePickerModeTime];
@@ -338,7 +381,7 @@
     if (bRemindersOn) {
         Class cls = NSClassFromString(@"UILocalNotification");
         if (cls != nil) {
-            
+
             UILocalNotification *notif = [[cls alloc] init];
             notif.fireDate = [self.currentSettings dateTimeDailyReminders];
             notif.timeZone = [NSTimeZone defaultTimeZone];
@@ -369,9 +412,11 @@
 	
     // Fill in the subject line
     NSString *participantID = [[NSUserDefaults standardUserDefaults] stringForKey:@"DEFAULTS_PARTICIPANTNUMBER"];
-    NSString *subjectLine = [NSString stringWithFormat:@"Participant: %@ -Usage Log",participantID];
+    NSString *subjectLine = [NSString stringWithFormat:@"ProviderResilience Study Log - Participant:%@", participantID];
 	[picker setSubject:subjectLine];
     [Analytics logEvent:@"RESEARCH STUDY EMAIL"];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESEARCHSTUDY withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+
 	
 	// Set up recipient
     NSString *recipientEmail = [[NSUserDefaults standardUserDefaults] stringForKey:@"DEFAULTS_STUDYEMAIL"];
@@ -380,10 +425,10 @@
 	
 	[picker setToRecipients:toRecipients];
 	
-    NSString *fileName = @"/study.csv";
+    NSString *fileName = [NSString stringWithFormat:@"ProviderResilience_Participant_%@.csv",participantID];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
     NSString *documentsDir = [paths objectAtIndex:0];
-    NSString *finalPath = [NSString stringWithFormat:@"%@%@",documentsDir, fileName];
+    NSString *finalPath = [NSString stringWithFormat:@"%@/%@",documentsDir, fileName];
     
     NSLog(@"finalPath: %@", finalPath);
     
@@ -394,7 +439,7 @@
     // Start out with some header information
 	NSMutableString *emailBody = [NSMutableString stringWithCapacity:200];
     
-    [emailBody appendString:@"<html><body style=""background-color:blue;""><p style=""font-family:arial;color:red;font-size:14px;"">Research Data is attached and will be sent to the Reseacher.</p>"];
+    [emailBody appendString:@"See attached ProviderResilience Study Data."];
     
     
 	[picker setMessageBody:emailBody isHTML:YES];
@@ -414,7 +459,7 @@
     // Alert to save/delete log
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Disenroll"
                           
-                                                    message:@"Are you sure you want to be disenrolled from the Research Study?"
+                                                    message:@"This action will permanently delete your current usage log, and disenroll you from the study. Would you like to continue?"
                           
                                                    delegate:self
                           
@@ -432,12 +477,19 @@
 {
     
     [Analytics logEvent:@"RESEARCH_STUDY_DISENROLL"];
-    
+    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESEARCHDISENROLL withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
     // Disenroll from the study....delete all remnants
     
     NSLog(@"Delete Log");
     
-    NSString *fileName = @"/study.csv";
+   // NSString *fileName = @"/study.csv";
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    NSString *participant = [defaults objectForKey:@"DEFAULTS_PARTICIPANTNUMBER"];
+
+    
+    NSString *fileName = [NSString stringWithFormat:@"ProviderResilience_Participant_%@.csv",participant];
+
     
     NSFileManager *fileMgr = [NSFileManager defaultManager];
     
@@ -492,6 +544,8 @@
 #pragma mark Anonymous Data
 // Anonymous Data
 - (IBAction)anonymous_Clicked:(id)sender {
+    
+
     // Toggle the status of the Anonymous Data
     [self.currentSettings initPlist];
     BOOL bCurrent = ![currentSettings boolFromNumber:[self.currentSettings bAnonymousData]]; 
@@ -508,9 +562,12 @@
     if (bOnOff) {
         img_anonymousOnOff.image = [UIImage imageNamed:@"exercise.png"];
         [buttonAnonymous setTitle:@"On" forState:UIControlStateNormal];
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_ANONYMOUSDATA withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:@"On"];
+        
     } else {
         img_anonymousOnOff.image = [UIImage imageNamed:@"bg-on-1pxl.png"]; 
         [buttonAnonymous setTitle:@"Off" forState:UIControlStateNormal];
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_ANONYMOUSDATA withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:@"Off"];
     }
 }
 
@@ -601,7 +658,7 @@
 	
 	[picker setSubject:NSLocalizedString(@"Provider Resilience Feedback", @"")];
     [Analytics logEvent:@"EMAIL FEEDBACK"];
-	
+    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_FEEDBACK withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
     
 	// Set up recipients
 	NSArray *toRecipients = [NSArray arrayWithObject:@"mobileapplications@t2health.org"]; 

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FlurryAnalytics.h"
+#import "Flurry.h"
 
 
 @interface Analytics : NSObject {
@@ -28,6 +28,7 @@
 
 + (void)countPageViews:(id)target;
 + (void)countPageView;
++ (void)logEvent:(int)duration inSection:(NSString *)section withItem:(NSString *)item withActivity:(NSString *)activity withValue:(NSString *)value;
 
 
 @end

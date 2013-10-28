@@ -20,7 +20,11 @@
     
     // Definition of the Virtual Card Deck
     VirtueCardDeck  *virtueCards;
+    NSDate *startSession;
 }
+
+@property (nonatomic, retain) NSDate *startSession;
+
 
 @property (copy, nonatomic) VirtueCardDeck *virtueCards;
 @property (retain, nonatomic) UIImageView *viewVirtueCard;

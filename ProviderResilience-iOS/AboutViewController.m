@@ -9,6 +9,7 @@
 #import "AboutViewController.h"
 #import "ProviderResilienceAppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
+#import "PRAnalytics.h"
 
 @interface AboutViewController ()
 
@@ -29,6 +30,7 @@
 @synthesize viewImageCard;
 @synthesize buttonCardNext;
 @synthesize buttonCardPrev;
+@synthesize startSession;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -130,8 +132,38 @@
     
     [Analytics logEvent:@"ABOUT VIEW"];
     [super viewWillAppear:animated];
+    
+    startSession = [[NSDate date] retain];
+
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    
+    int myDuration = 0;
+    NSDate *endSession = [NSDate date];
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    [dateFormatter setDateFormat:@"mm:ss:SS"];
+    
+    NSString *startString = [dateFormatter stringFromDate :startSession];
+    NSString *endString = [dateFormatter stringFromDate:endSession];
+    
+    NSDate* firstDate = [dateFormatter dateFromString:startString];
+    NSDate* secondDate = [dateFormatter dateFromString:endString];
+    NSTimeInterval timeDifference = [secondDate timeIntervalSinceDate:firstDate];
+    NSInteger time = round(timeDifference);
+    myDuration = time;
+    [Analytics logEvent:myDuration inSection:EVENT_SECTION_HELPVIEW  withItem:EVENT_SECTION_HELPVIEW  withActivity:EVENT_VIEW_DURATION withValue:nil];
+    
+    NSLog(@"timeDifference: %i seconds", myDuration);
+    startSession = nil;
+    [startSession release];
+    
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 { 

@@ -7,7 +7,7 @@
 //
 
 #import "FlurryUtility.h"
-#import "FlurryAnalytics.h"
+#import "Flurry.h"
 #import "ResearchUtility.h"
 
 @implementation FlurryUtility
@@ -16,7 +16,7 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	BOOL useFlurry = [defaults boolForKey:@"DEFAULTS_USE_FLURRY"];
 	if (useFlurry == YES) {
-		[FlurryAnalytics logEvent:activityString];
+		[Flurry logEvent:activityString];
 	}
     // Research Study
     BOOL useResearch = [defaults boolForKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
@@ -30,7 +30,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	BOOL useFlurry = [defaults boolForKey:@"DEFAULTS_USE_FLURRY"];
 	if (useFlurry == YES) {
-		[FlurryAnalytics logEvent:activityString];
+		[Flurry logEvent:activityString];
 	}
     // Research Study
     BOOL useResearch = [defaults boolForKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
@@ -44,7 +44,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL useFlurry = [defaults boolForKey:@"DEFAULTS_USE_FLURRY"];
 	if (useFlurry == YES) {
-		[FlurryAnalytics logEvent:activityString];
+		[Flurry logEvent:activityString];
 	}
     // Research Study
     BOOL useResearch = [defaults boolForKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
@@ -58,7 +58,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL useFlurry = [defaults boolForKey:@"DEFAULTS_USE_FLURRY"];
 	if (useFlurry == YES) {
-		[FlurryAnalytics logEvent:activityString];
+		[Flurry logEvent:activityString];
 	}
     // Research Study
     BOOL useResearch = [defaults boolForKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
@@ -71,7 +71,7 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	BOOL useFlurry = [defaults boolForKey:@"DEFAULTS_USE_FLURRY"];
 	if (useFlurry == YES) {
-		[FlurryAnalytics logEvent:activityString withParameters:userData];
+		[Flurry logEvent:activityString withParameters:userData];
 	}
     // Research Study
     BOOL useResearch = [defaults boolForKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
@@ -84,7 +84,7 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	BOOL useFlurry = [defaults boolForKey:@"DEFAULTS_USE_FLURRY"];
 	if (useFlurry == YES) {
-		[FlurryAnalytics logEvent:activityString timed:YES];
+		[Flurry logEvent:activityString timed:YES];
 	}
 }
 
@@ -92,7 +92,7 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	BOOL useFlurry = [defaults boolForKey:@"DEFAULTS_USE_FLURRY"];
 	if (useFlurry == YES) {
-		[FlurryAnalytics endTimedEvent:activityString withParameters:nil];
+		[Flurry endTimedEvent:activityString withParameters:nil];
 	}
 }
 

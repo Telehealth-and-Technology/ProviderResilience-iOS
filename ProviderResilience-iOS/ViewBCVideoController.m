@@ -13,6 +13,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "Analytics.h"
+#import "PRAnalytics.h"
 
 @implementation ViewBCVideoController
 @synthesize bcPlayer;
@@ -22,8 +23,10 @@
 @synthesize videoID;
 @synthesize videoDescription;
 @synthesize delegate;
+@synthesize startSession;
 
 BOOL bPlayBackStopped=YES;
+BOOL isFullscreen=YES;
 
 
 
@@ -40,7 +43,8 @@ BOOL bPlayBackStopped=YES;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
- 
+    isFullscreen = FALSE;
+
     ProviderResilienceAppDelegate *appDelegate = (ProviderResilienceAppDelegate *)[UIApplication sharedApplication].delegate;
     self.bcPlayer = [[BCMoviePlayerController alloc] init];
     [self.bcPlayer setUseApplicationAudioSession:NO];
@@ -53,8 +57,8 @@ BOOL bPlayBackStopped=YES;
     
     // Try this early on here (reduce latency?)
     [self.bcPlayer prepareToPlay];
-    
-    [bcPlayer searchForRenditionsBetweenLowBitRate:[NSNumber numberWithInt:800000] 
+
+    [bcPlayer searchForRenditionsBetweenLowBitRate:[NSNumber numberWithInt:800000]
                                     andHighBitRate:[NSNumber numberWithInt:2000000]];
     
     if (appDelegate.networkStatus == ReachableViaWiFi) {
@@ -104,10 +108,10 @@ BOOL bPlayBackStopped=YES;
              object:bcPlayer];
 
     
-    
+
     // Create a customized display to let the user know exactly what is going on with the video
     [self createWaitingOnDownload];
-        
+
     bPlayBackStopped=NO;
     
 }
@@ -142,8 +146,8 @@ BOOL bPlayBackStopped=YES;
                 object:bcPlayer];
     
     //[self.activityIndicator release];
-    [self.bcPlayer release];
-    self.bcPlayer = nil;
+    //[self.bcPlayer release];
+   // self.bcPlayer = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -156,34 +160,72 @@ BOOL bPlayBackStopped=YES;
 - (void)viewWillAppear:(BOOL)animated  {
     
     [super viewWillAppear:animated];
+    
+    startSession = [[NSDate date] retain];
+
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    
+    int myDuration = 0;
+    NSDate *endSession = [NSDate date];
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    [dateFormatter setDateFormat:@"mm:ss:SS"];
+    
+    NSString *startString = [dateFormatter stringFromDate :startSession];
+    NSString *endString = [dateFormatter stringFromDate:endSession];
+    
+    NSDate* firstDate = [dateFormatter dateFromString:startString];
+    NSDate* secondDate = [dateFormatter dateFromString:endString];
+    NSTimeInterval timeDifference = [secondDate timeIntervalSinceDate:firstDate];
+    NSInteger time = round(timeDifference);
+    myDuration = time;
+    [Analytics logEvent:myDuration inSection:EVENT_SECTION_BC_MOVIE  withItem:EVENT_SECTION_BC_MOVIE  withActivity:EVENT_VIEW_DURATION withValue:nil];
+    
+    NSLog(@"timeDifference: %i seconds", myDuration);
+    startSession = nil;
+    [startSession release];
+    
+}
 
 - (void)viewDidAppear:(BOOL)animated {
-    //[Analytics logEvent:[NSString stringWithFormat:@"MOVIE: %@", self.videoDescription]];
-    ProviderResilienceAppDelegate *appDelegate = (ProviderResilienceAppDelegate *)[UIApplication sharedApplication].delegate;
-    NSError *err;
-    if (self.videoID) {
+    
+    if (!isFullscreen)
+    {
+        // Research Study
+        [Analytics logEvent:nil inSection:EVENT_SECTION_BC_MOVIE  withItem:EVENT_SECTION_BC_MOVIE  withActivity:EVENT_ACTIVITY_WATCH_MOVIE withValue:self.videoDescription];
 
-        BCVideo *vid = (BCVideo *)[appDelegate.bcServices findVideoById:self.videoID error:&err];
-        if (vid) {
-            [self.bcPlayer setContentURL:vid];
-            [self.bcPlayer prepareToPlay];
-            [self.bcPlayer play];
-            if (![self.activityIndicator isAnimating]) {
-                [self.activityIndicator startAnimating];
+        
+        //[Analytics logEvent:[NSString stringWithFormat:@"MOVIE: %@", self.videoDescription]];
+        ProviderResilienceAppDelegate *appDelegate = (ProviderResilienceAppDelegate *)[UIApplication sharedApplication].delegate;
+        NSError *err;
+        if (self.videoID) {
+
+            BCVideo *vid = (BCVideo *)[appDelegate.bcServices findVideoById:self.videoID error:&err];
+            if (vid) {
+                [self.bcPlayer setContentURL:vid];
+                [self.bcPlayer prepareToPlay];
+                [self.bcPlayer play];
+                if (![self.activityIndicator isAnimating]) {
+                    [self.activityIndicator startAnimating];
+                }
+            } else {
+                NSString *errStr = [appDelegate.bcServices getErrorsAsString:err];
+                //[Analytics logEvent:[NSString stringWithFormat:@"VIDEO PLAYBACK ERROR: %@",errStr]];
+                //NSLog(@"BC Error: %@",errStr);
+                //NSLog(@"NSError: %@",err);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection Error"
+                                                                message:@"A Connection to the Internet is needed and could not be found"
+                                                               delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                
+                [alert show];
+                [alert release];
             }
-        } else {
-            NSString *errStr = [appDelegate.bcServices getErrorsAsString:err];
-            //[Analytics logEvent:[NSString stringWithFormat:@"VIDEO PLAYBACK ERROR: %@",errStr]];
-            //NSLog(@"BC Error: %@",errStr);
-            //NSLog(@"NSError: %@",err);
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection Error"
-                                                            message:@"A Connection to the Internet is needed and could not be found"
-                                                           delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            
-            [alert show];
-            [alert release];
         }
     }
 }
@@ -195,10 +237,15 @@ BOOL bPlayBackStopped=YES;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    if (self.bcPlayer) {
-        [self.bcPlayer stop];
-        [self.bcPlayer release];
-        self.bcPlayer = nil;
+    if (!isFullscreen)
+    {
+        NSLog(@"did release video");
+        
+        if (self.bcPlayer) {
+            [self.bcPlayer stop];
+            [self.bcPlayer release];
+            self.bcPlayer = nil;
+        }
     }
 
 }
@@ -408,7 +455,10 @@ BOOL bPlayBackStopped=YES;
 #pragma mark - MoviePlayer Notifications
 
 - (void)playbackStateDidChange:(NSNotification *)notification {
+    
+
     MPMoviePlaybackState playbackState = [self.bcPlayer playbackState];
+
 //    MPMoviePlaybackStateStopped,
 //    MPMoviePlaybackStatePlaying,
 //    MPMoviePlaybackStatePaused,
@@ -419,27 +469,40 @@ BOOL bPlayBackStopped=YES;
    NSString *logText = @"";
     switch (playbackState) {
         case MPMoviePlaybackStateStopped:
+            NSLog(@"playbackState: MPMoviePlaybackStateStopped");
+
             lblText = NSLocalizedString(@"Buffering ...",nil);
             logText = @"MPMoviePlaybackStateStopped";
             bPlayBackStopped = YES;
             break;
         case MPMoviePlaybackStatePlaying:
+            NSLog(@"playbackState: MPMoviePlaybackStatePlaying");
+
+            
             lblText = NSLocalizedString(@"Buffering ...",nil);
             logText = @"MPMoviePlaybackStatePlaying";
             break;
         case MPMoviePlaybackStatePaused:
+            NSLog(@"playbackState: MPMoviePlaybackStatePaused");
+
             lblText = NSLocalizedString(@"Buffering",nil);  //@"Paused";
             logText = @"MPMoviePlaybackStatePaused";
             break;
         case MPMoviePlaybackStateInterrupted:
+            NSLog(@"playbackState: MPMoviePlaybackStateInterrupted");
+
             lblText = NSLocalizedString(@"Interrupted",nil);
             logText = @"MPMoviePlaybackStateInterrupted";
             break;
         case MPMoviePlaybackStateSeekingForward:
+            NSLog(@"playbackState: MPMoviePlaybackStateSeekingForward");
+
             lblText = NSLocalizedString(@"Seeking Forward",nil);
             logText = @"MPMoviePlaybackStateSeekingForward";
             break;
         case MPMoviePlaybackStateSeekingBackward:
+            NSLog(@"playbackState: MPMoviePlaybackStateSeekingBackward");
+
             lblText = NSLocalizedString(@"Seeking Backward",nil);
             logText = @"MPMoviePlaybackStateSeekingBackward";
             break;
@@ -450,27 +513,39 @@ BOOL bPlayBackStopped=YES;
     self.lblLoading.text = [NSString stringWithFormat:@"%@",lblText];
     
     // Pop out of full screen mode...we are done
+    
     if ([self.bcPlayer playbackState] == MPMoviePlaybackStateStopped) {
         if ([self.bcPlayer isFullscreen]) {
             [self.bcPlayer setFullscreen:NO animated:YES];
         }
     }
+    
 }
 
 - (void)loadStateDidChange:(NSNotification *)notification {
+    NSLog(@"loadStateDidChange %d", [self.bcPlayer loadState]);
+
     NSInteger loadState = [self.bcPlayer loadState];
     NSString *logText = @"";
     if (loadState & MPMovieLoadStateUnknown) {
-        logText = @"MPMovieLoadStateUnknown";  
+        NSLog(@"MPMovieLoadStateUnknown");
+
+        logText = @"MPMovieLoadStateUnknown";
     }
     if (loadState & MPMovieLoadStatePlayable) {
-        logText = @"MPMovieLoadStatePlayable";   
+        NSLog(@"MPMovieLoadStatePlayable");
+
+        logText = @"MPMovieLoadStatePlayable";
     }
     if (loadState & MPMovieLoadStatePlaythroughOK) {
-        logText = @"MPMovieLoadStatePlaythroughOK";   
+        NSLog(@"MPMovieLoadStatePlaythroughOK");
+
+        logText = @"MPMovieLoadStatePlaythroughOK";
     }
     if (loadState & MPMovieLoadStateStalled) {
-        logText = @"MPMovieLoadStateStalled";   
+        NSLog(@"MPMovieLoadStateStalled");
+
+        logText = @"MPMovieLoadStateStalled";
     }
     //NSLog(@"loadStateDidChange: %@",logText);
 //    MPMovieLoadStateUnknown        = 0,
@@ -480,11 +555,14 @@ BOOL bPlayBackStopped=YES;
     
    if ([self.bcPlayer loadState] == (MPMovieLoadStatePlaythroughOK | MPMovieLoadStatePlayable) || [self.bcPlayer loadState] ==MPMovieLoadStatePlayable)
      {
+         NSLog(@"playable");
+         
         if ([self.activityIndicator isAnimating]) {
             [self.activityIndicator stopAnimating];
         }
-        
-        // We are restarting our video 
+         isFullscreen = TRUE;
+
+        // We are restarting our video
         self.bcPlayer.view.hidden = NO;
         [self.bcPlayer setFullscreen:YES animated:YES];
         
@@ -494,6 +572,9 @@ BOOL bPlayBackStopped=YES;
         bPlayBackStopped=NO;
     } else
     {
+        
+        NSLog(@"not playable");
+
         // Video playback stopped...show that we are waiting for download
         // But only if we are really waiting...if the user Stopped playback, they don't care
         if (bPlayBackStopped==NO)
@@ -524,7 +605,7 @@ BOOL bPlayBackStopped=YES;
 
     
     bPlayBackStopped=YES;
-    
+    isFullscreen = FALSE;
     self.bcPlayer.view.hidden = YES;
     [self.bcPlayer.view removeFromSuperview];
     [self showWaitingOnDownload:NO];                // Make sure we aren't shown a progress indicator

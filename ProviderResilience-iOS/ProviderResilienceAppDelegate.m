@@ -27,7 +27,7 @@
 @synthesize bcServices;
 
 void uncaughtExceptionHandler(NSException *exception) {
-    [FlurryAnalytics logError:@"Uncaught" message:@"Crash!" exception:exception];
+    [Flurry logError:@"Uncaught" message:@"Crash!" exception:exception];
 }
 
 - (void)dealloc
@@ -48,7 +48,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
+    NSLog(@"welcome");
+
     // Grab the current settings
     SaveSettings *currentSettings = [SaveSettings alloc];
     [currentSettings initPlist];
@@ -86,11 +87,11 @@ void uncaughtExceptionHandler(NSException *exception) {
     BOOL bAnonymousData = [currentSettings boolFromNumber:[currentSettings bAnonymousData]];
     
     [Analytics init:analyticsKey isEnabled:bAnonymousData];        // Enable/Disable Analytics 
-    
+
     // Make sure we have a database before we go too far
     PRdatabaseSQL *mySQL = [PRdatabaseSQL alloc];
     [mySQL createDbTables];
-    [mySQL release];
+   // [mySQL release];
     
     //self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
@@ -135,7 +136,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
     
     [currentSettings release];
-    
     return YES;
 }
 
@@ -286,7 +286,7 @@ application.applicationIconBadgeNumber = 0;
     NSData *myData = [decodedString dataUsingEncoding:NSUTF8StringEncoding];
     
     if ([decodedString length] > 0) {
-        
+
         
         
         /* JSON Parsing */
@@ -307,8 +307,9 @@ application.applicationIconBadgeNumber = 0;
         
         // You could prompt user as this point whether they want to participate with this email address
         
-        NSString *msgText = [NSString stringWithFormat:@"You have enrolled in a study: %@ | %@ | %@", action, participantID, recipientEmail];
-        
+       // NSString *msgText = [NSString stringWithFormat:@"You have enrolled in a study: %@ | %@ | %@", action, participantID, recipientEmail];
+        NSString *msgText = [NSString stringWithFormat:@"Study enrollment successful"];
+
         
         
         UIAlertView *alertBarInfo = [[UIAlertView alloc] initWithTitle:@"Successfully Enrolled" message:msgText delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
@@ -331,17 +332,17 @@ application.applicationIconBadgeNumber = 0;
         
         NSMutableString * txtFile = [NSMutableString string];
         
-        NSString *fileName = @"/study.csv";
+       // NSString *fileName = @"/study.csv";
+        NSString *fileName = [NSString stringWithFormat:@"ProviderResilience_Participant_%@.csv",participantID];
+
         
         
+        //NSString * headerLine = [NSString stringWithFormat:@"Participant#: %@",participantID];
         
-        NSString * headerLine = [NSString stringWithFormat:@"Participant#: %@",participantID];
-        
-        NSString * topRows = [NSString stringWithFormat:@"Timestamp,Action,Duration,Item,UserData"];
-        
+        NSString * topRows = [NSString stringWithFormat:@"Participant,Timestamp,Device,OS,OS Version,App,App Version,Duration (sec),Section,Item,Activity,Value"];        
         
         
-        [txtFile appendFormat:@"%@\n", headerLine];
+      //  [txtFile appendFormat:@"%@\n", headerLine];
         
         [txtFile appendFormat:@"%@\n", topRows];
         
@@ -353,7 +354,7 @@ application.applicationIconBadgeNumber = 0;
         
         NSString *documentsDir = [paths objectAtIndex:0];
         
-        NSString *finalPath = [NSString stringWithFormat:@"%@%@",documentsDir, fileName];
+        NSString *finalPath = [NSString stringWithFormat:@"%@/%@",documentsDir, fileName];
         
         [txtFile writeToFile:finalPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
         

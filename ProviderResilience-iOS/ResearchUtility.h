@@ -10,6 +10,8 @@
 
 @interface ResearchUtility : NSObject
 
+
++ (void)logEvent:(int)duration inSection:(NSString *)section withItem:(NSString *)item withActivity:(NSString *)activity withValue:(NSString *)value;
 + (void)logEvent:(NSString *)activityString;
 + (void)logEvent:(NSString *)activityString withData:(NSDictionary *)userData;
 + (void)logEvent:(NSString *)activityString withDuration:(int)duration;

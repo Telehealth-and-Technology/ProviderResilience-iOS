@@ -11,6 +11,7 @@
 #import "PRresources.h"
 #import "Analytics.h"
 #import "QuartzCore/QuartzCore.h"
+#import "PRAnalytics.h"
 
 // Constants
 #define PI 3.14159265
@@ -29,7 +30,7 @@
 @synthesize resLabelScore;
 @synthesize resMeterPointer;
 @synthesize testScoreStepper;
-
+@synthesize startSession;
 @synthesize updateClockTimer;
 
 //@synthesize mdRateTraumaImage;
@@ -443,6 +444,13 @@
 
 
 - (void)viewWillAppear:(BOOL)animated  {
+    
+#ifdef DEBUG
+    NSLog(@"***** FUNCTION %s *****", __FUNCTION__);
+#endif
+    startSession = [[NSDate date] retain];
+
+    
     // Not in Assessment mode!
     bAssessmentMode = NO;
     //buttonReturnToAssessment.hidden = YES;
@@ -473,6 +481,34 @@
     [super viewWillAppear:animated];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    
+    int myDuration = 0;
+    NSDate *endSession = [NSDate date];
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    [dateFormatter setDateFormat:@"mm:ss:SS"];
+    
+    NSString *startString = [dateFormatter stringFromDate :startSession];
+    NSString *endString = [dateFormatter stringFromDate:endSession];
+    
+    NSDate* firstDate = [dateFormatter dateFromString:startString];
+    NSDate* secondDate = [dateFormatter dateFromString:endString];
+    NSTimeInterval timeDifference = [secondDate timeIntervalSinceDate:firstDate];
+    NSInteger time = round(timeDifference);
+    myDuration = time;
+    [Analytics logEvent:myDuration inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_SECTION_DASHBOARD  withActivity:EVENT_VIEW_DURATION withValue:nil];
+    
+    NSLog(@"timeDifference: %i seconds", myDuration);
+    startSession = nil;
+    [startSession release];
+    
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
@@ -499,6 +535,7 @@
 
 - (void)changeViewToBurnoutChart {
     [Analytics logEvent:@"BURNOUT CHART"];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_BURNOUTCHART  withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
     self.view = self.viewBurnoutChart;
     [burnoutDatasource reReadData];
     [burnoutChart reloadData];
@@ -629,6 +666,9 @@
     [rateCompassionScoreDescLabel release];
     [rateBurnoutScoreDescLabel release];
     [rateTraumaScoreDescLabel release];
+    
+    [burnoutDatasource release];
+
     [super dealloc];
 }
 
@@ -809,6 +849,7 @@
 // Take us to the View to Change the Clock
 - (IBAction)updateClock_Clicked:(id)sender {
     [Analytics logEvent:@"UPDATE R&R CLOCK"];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_UPDATECLOCK  withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
     [self attachDigitalClockView:self.viewUpdateRRClock];       // Update R&R Clock View
     
     // Set the current value of the On Vacation button 
@@ -825,6 +866,7 @@
 
 - (IBAction)updateResilience_Clicked:(id)sender {
     [Analytics logEvent:@"UPDATE RESILIENCE RATING"];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_UPDATERR  withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
     bAssessmentMode = YES;
     buttonReturnToAssessment.hidden = NO;
     labelReturnToAssessment.hidden = NO;
@@ -833,6 +875,7 @@
 
 - (IBAction)updateQuality_Clicked:(id)sender {
     [Analytics logEvent:@"UPDATE QOL RATING"];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_UPDATEQUALITY withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
     // Display the current ProQOL status
     [self presentViewStatusQOL];
     [self presentResilienceRating];
@@ -1212,7 +1255,6 @@
         
         // Give the chart the data source
         burnoutChart.datasource = burnoutDatasource;
-        [burnoutDatasource release];
         
         // Create a date time axis to use as the x axis.
         SChartDateTimeAxis *xAxis = [[SChartDateTimeAxis alloc] init];
@@ -1283,6 +1325,8 @@
     
     //***** Important for resetting visible portion..if I ever get it towork
     //[burnoutChart.xAxis resetZoomLevel];
+    
+
     
 }
 

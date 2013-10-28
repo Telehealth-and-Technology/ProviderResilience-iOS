@@ -14,8 +14,12 @@
     
     IBOutlet UIButton *buttonProceed;
     BOOL bStartupMode;
+    NSDate *startSession;
+
     
 }
+
+@property (nonatomic, retain) NSDate *startSession;
 
 @property (retain, nonatomic) IBOutlet UIView *viewAbout;
 @property (retain, nonatomic) IBOutlet UIButton *buttonAboutNext;

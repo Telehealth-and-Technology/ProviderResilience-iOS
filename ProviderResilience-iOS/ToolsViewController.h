@@ -30,8 +30,13 @@
     
     // Determine which video menu to return to
     int videoReturn;            // 0->Video Menu, 1->Remind Me..Menu
+    NSDate *startSession;
     
+                                
 }
+
+@property (nonatomic, retain) NSDate *startSession;
+
 
 // This is the default view (menu items)
 @property (retain, nonatomic) IBOutlet UIView *viewToolsMenu;

@@ -8,7 +8,7 @@
 //
 
 #import "Analytics.h"
-#import "FlurryAnalytics.h"
+#import "Flurry.h"
 #import "ResearchUtility.h"
 
 static BOOL ANALYTICS_ENABLED = YES;
@@ -17,6 +17,19 @@ static NSString *API_KEY = @"";
 
 @implementation Analytics
 
++ (void)logEvent:(int)duration inSection:(NSString *)section withItem:(NSString *)item withActivity:(NSString *)activity withValue:(NSString *)value
+
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    // Research Study
+    BOOL useResearch = [defaults boolForKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
+    if (useResearch) {
+		[ResearchUtility logEvent:duration inSection:section withItem:item withActivity:activity withValue:value];
+        
+	}
+}
+
 + (void)init:(NSString *)apiKey isEnabled:(BOOL)enabled {
 	API_KEY = apiKey;
 	ANALYTICS_ENABLED = enabled;
@@ -24,7 +37,7 @@ static NSString *API_KEY = @"";
 	if(ANALYTICS_ENABLED) {
 		SESSION_STARTED = YES;
 		//[FlurryAnalytics startSessionWithLocationServices:API_KEY];
-		[FlurryAnalytics startSession:API_KEY];
+		[Flurry startSession:API_KEY];
 	}
 }
 
@@ -34,14 +47,14 @@ static NSString *API_KEY = @"";
 	if(ANALYTICS_ENABLED && !SESSION_STARTED) {
 		SESSION_STARTED = YES;
 		//[FlurryAnalytics startSessionWithLocationServices:API_KEY];
-		[FlurryAnalytics startSession:API_KEY];
+		[Flurry startSession:API_KEY];
 	}
 }
 
 
 + (void)logEvent:(NSString *)eventName {
 	if(ANALYTICS_ENABLED) {
-		[FlurryAnalytics logEvent:eventName];
+		[Flurry logEvent:eventName];
 	}
     // Research Study
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -53,7 +66,7 @@ static NSString *API_KEY = @"";
 
 + (void)logEvent:(NSString *)eventName withParameters:(NSDictionary *)parameters {
 	if(ANALYTICS_ENABLED) {
-		[FlurryAnalytics logEvent:eventName withParameters:parameters];
+		[Flurry logEvent:eventName withParameters:parameters];
 	}
     // Research Study
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -66,20 +79,20 @@ static NSString *API_KEY = @"";
 
 + (void)logError:(NSString *)errorID message:(NSString *)message exception:(NSException *)exception {
 	if(ANALYTICS_ENABLED) {
-		[FlurryAnalytics logError:errorID message:message exception:exception];
+		[Flurry logError:errorID message:message exception:exception];
 	}
 }
 
 + (void)logError:(NSString *)errorID message:(NSString *)message error:(NSError *)error {
 	if(ANALYTICS_ENABLED) {
-		[FlurryAnalytics logError:errorID message:message error:error];
+		[Flurry logError:errorID message:message error:error];
 	}
 }
  
 
 + (void)logEvent:(NSString *)eventName timed:(BOOL)timed {
 	if(ANALYTICS_ENABLED) {
-		[FlurryAnalytics logEvent:eventName timed:timed];
+		[Flurry logEvent:eventName timed:timed];
         //NSLog(@"FlurryAnalytics logEvent (timed): %@",eventName);
 	}
     // Research Study
@@ -92,7 +105,7 @@ static NSString *API_KEY = @"";
 
 + (void)logEvent:(NSString *)eventName withParameters:(NSDictionary *)parameters timed:(BOOL)timed {
 	if(ANALYTICS_ENABLED) {
-		[FlurryAnalytics logEvent:eventName withParameters:parameters timed:timed];
+		[Flurry logEvent:eventName withParameters:parameters timed:timed];
 	}
     // Research Study
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -104,20 +117,20 @@ static NSString *API_KEY = @"";
 
 + (void)endTimedEvent:(NSString *)eventName withParameters:(NSDictionary *)parameters {
 	if(ANALYTICS_ENABLED) {
-		[FlurryAnalytics endTimedEvent:eventName withParameters:parameters];
+		[Flurry endTimedEvent:eventName withParameters:parameters];
         //NSLog(@"FlurryAnalytics endTimedEvent: %@",eventName);
 	}
 }
 
 + (void)countPageViews:(id)target {
 	if(ANALYTICS_ENABLED) {
-		[FlurryAnalytics  logAllPageViews:target];
+		[Flurry  logAllPageViews:target];
 	}
 }
 
 + (void)countPageView {
 	if(ANALYTICS_ENABLED) {
-		[FlurryAnalytics logPageView];
+		[Flurry logPageView];
 	}
 }
 

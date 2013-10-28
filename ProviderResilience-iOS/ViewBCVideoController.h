@@ -32,7 +32,13 @@
     
     // Delegate
     id < ViewBCDelegate > delegate;
+    
+    NSDate *startSession;
+
 }
+
+@property (nonatomic, retain) NSDate *startSession;
+
 @property (nonatomic, retain) BCMoviePlayerController *bcPlayer;
 @property (nonatomic, retain) BCVideo *video;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;

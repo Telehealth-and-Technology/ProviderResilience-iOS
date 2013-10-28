@@ -75,7 +75,12 @@
     double meterCenterPtY;
     CGRect meterFrame;
     
+    NSDate *startSession;
+
+    
 }
+@property (nonatomic, retain) NSDate *startSession;
+
 
 @property (retain, nonatomic) SaveSettings *currentSettings;
 @property (retain, nonatomic) NSMutableArray *QOLItemArray;

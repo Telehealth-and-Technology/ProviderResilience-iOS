@@ -19,7 +19,12 @@
     BOOL bAnonymousData;
     
     SaveSettings *currentSettings;
+    
+    NSDate *startSession;
+
 }
+@property (nonatomic, retain) NSDate *startSession;
+
 
 @property (retain, nonatomic) SaveSettings *currentSettings;
 

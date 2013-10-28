@@ -250,6 +250,8 @@
     // NSLog(@"Create table:  ResilienceBuilders...");
     //******************************************************************
     char *errorMsg;
+    NSLog(@"ResilienceBuilders");
+
     NSString *createSQL = @"CREATE TABLE IF NOT EXISTS ResilienceBuilders (rbID INTEGER PRIMARY KEY, rbQuestion STRING, custom INTEGER );";
     if (sqlite3_exec (database, [createSQL UTF8String],
                       NULL, NULL, &errorMsg) != SQLITE_OK) {

@@ -23,7 +23,6 @@
 		08059DD715E54752003E0986 /* hintDash@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 08059DD315E54752003E0986 /* hintDash@2x~iphone.png */; };
 		08059DD815E54752003E0986 /* hintDash~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08059DD415E54752003E0986 /* hintDash~ipad.png */; };
 		08059DD915E54752003E0986 /* hintDash@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 08059DD515E54752003E0986 /* hintDash@2x~ipad.png */; };
-		080DC02115AC7C3400C47A26 /* ShinobiCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080DC02015AC7C3400C47A26 /* ShinobiCharts.framework */; };
 		080DC02415AC7C5100C47A26 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080DC02315AC7C5100C47A26 /* OpenGLES.framework */; };
 		080DC03315AC868F00C47A26 /* LineChartDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 080DC03215AC805800C47A26 /* LineChartDataSource.m */; };
 		080DC04015ACD2BE00C47A26 /* BurnoutScores-Save.plist in Resources */ = {isa = PBXBuildFile; fileRef = 080DC03F15ACD2BE00C47A26 /* BurnoutScores-Save.plist */; };
@@ -291,7 +290,6 @@
 		086C912D1561BD040087D125 /* VirtueCardDeck.m in Sources */ = {isa = PBXBuildFile; fileRef = 086C912C1561BCE70087D125 /* VirtueCardDeck.m */; };
 		0871559415C6F2B700723BF8 /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 084446A115B0EB7000187A93 /* Analytics.m */; };
 		0871559615C6F44D00723BF8 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0844469D15B0EAC000187A93 /* Reachability.m */; };
-		0871559815C6F65500723BF8 /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0871559715C6F65500723BF8 /* libFlurryAnalytics.a */; };
 		0871559A15C6F6A100723BF8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0871559915C6F6A100723BF8 /* SystemConfiguration.framework */; };
 		0876329015D077E700DCD24D /* MainWindow~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0876328F15D077E700DCD24D /* MainWindow~ipad.xib */; };
 		0876329215D0788C00DCD24D /* DateTimePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0876329115D0788C00DCD24D /* DateTimePicker.xib */; };
@@ -388,6 +386,10 @@
 		08DBD4C0169C852F00DC38EB /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DBD4BE169C852F00DC38EB /* arrow.png */; };
 		08DBD4C9169CCC2800DC38EB /* clockbackground-Stretch.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DBD4C8169CCC2800DC38EB /* clockbackground-Stretch.png */; };
 		08EB5B3615CAE6310023AED1 /* ball-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 08EB5B3515CAE6310023AED1 /* ball-green.png */; };
+		FB5833F917CD1AFC00671CD8 /* libFlurry_4.2.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833F817CD1AFC00671CD8 /* libFlurry_4.2.3.a */; };
+		FB5833FB17CD1B3600671CD8 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833FA17CD1B3600671CD8 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		FB5833FD17CD1B3D00671CD8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833FC17CD1B3D00671CD8 /* Security.framework */; };
+		FB58343217D7A11200671CD8 /* ShinobiCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833F417CD1A9100671CD8 /* ShinobiCharts.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -407,7 +409,6 @@
 		08059DD315E54752003E0986 /* hintDash@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hintDash@2x~iphone.png"; sourceTree = "<group>"; };
 		08059DD415E54752003E0986 /* hintDash~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hintDash~ipad.png"; sourceTree = "<group>"; };
 		08059DD515E54752003E0986 /* hintDash@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hintDash@2x~ipad.png"; sourceTree = "<group>"; };
-		080DC02015AC7C3400C47A26 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShinobiCharts.framework; path = ../../../Desktop/ShinobiCharts/ShinobiCharts.framework; sourceTree = "<group>"; };
 		080DC02315AC7C5100C47A26 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		080DC03115AC805800C47A26 /* LineChartDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LineChartDataSource.h; path = "ProviderResilience-iOS/LineChartDataSource.h"; sourceTree = "<group>"; };
 		080DC03215AC805800C47A26 /* LineChartDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LineChartDataSource.m; path = "ProviderResilience-iOS/LineChartDataSource.m"; sourceTree = "<group>"; };
@@ -649,11 +650,8 @@
 		0844469C15B0EA6500187A93 /* SBJsonWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		0844469D15B0EAC000187A93 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		0844469E15B0EAC000187A93 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		084446A115B0EB7000187A93 /* Analytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Analytics.m; sourceTree = "<group>"; };
-		084446A215B0EB7000187A93 /* Analytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Analytics.h; sourceTree = "<group>"; };
-		084446A415B0EBA200187A93 /* FlurryAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlurryAPI.h; sourceTree = "<group>"; };
-		084446A515B0EBA200187A93 /* FlurryAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
-		084446A615B0EBA200187A93 /* FlurryAdDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlurryAdDelegate.h; sourceTree = "<group>"; };
+		084446A115B0EB7000187A93 /* Analytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Analytics.m; path = ../Analytics.m; sourceTree = "<group>"; };
+		084446A215B0EB7000187A93 /* Analytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Analytics.h; path = ../Analytics.h; sourceTree = "<group>"; };
 		0851CD191594C71C007B9F04 /* EULA.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EULA.txt; sourceTree = "<group>"; };
 		0851CD2315950E9B007B9F04 /* DateTimePicker~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "DateTimePicker~iphone.xib"; sourceTree = "<group>"; };
 		0851CD2515950EAC007B9F04 /* DateTimePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateTimePicker.h; sourceTree = "<group>"; };
@@ -703,7 +701,6 @@
 		0867B12A156D83C3001A9124 /* PRdatabaseSQL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRdatabaseSQL.m; sourceTree = "<group>"; };
 		086C912B1561BCE70087D125 /* VirtueCardDeck.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VirtueCardDeck.h; sourceTree = "<group>"; };
 		086C912C1561BCE70087D125 /* VirtueCardDeck.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VirtueCardDeck.m; sourceTree = "<group>"; };
-		0871559715C6F65500723BF8 /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurryAnalytics.a; path = "../PECoach 1.0/PECoach/PECoach/libFlurryAnalytics.a"; sourceTree = "<group>"; };
 		0871559915C6F6A100723BF8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0876328F15D077E700DCD24D /* MainWindow~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow~ipad.xib"; sourceTree = "<group>"; };
 		0876329115D0788C00DCD24D /* DateTimePicker.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DateTimePicker.xib; sourceTree = "<group>"; };
@@ -817,6 +814,12 @@
 		08DBD4BE169C852F00DC38EB /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		08DBD4C8169CCC2800DC38EB /* clockbackground-Stretch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clockbackground-Stretch.png"; sourceTree = "<group>"; };
 		08EB5B3515CAE6310023AED1 /* ball-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ball-green.png"; sourceTree = "<group>"; };
+		FB5833F417CD1A9100671CD8 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShinobiCharts.framework; path = ../B2R/Classes/ViewControllers/ShinobiCharts.framework; sourceTree = "<group>"; };
+		FB5833F717CD1AFC00671CD8 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		FB5833F817CD1AFC00671CD8 /* libFlurry_4.2.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_4.2.3.a; sourceTree = "<group>"; };
+		FB5833FA17CD1B3600671CD8 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		FB5833FC17CD1B3D00671CD8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		FB7CFFC11818259700D397DD /* PRAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRAnalytics.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -824,20 +827,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB58343217D7A11200671CD8 /* ShinobiCharts.framework in Frameworks */,
+				FB5833FD17CD1B3D00671CD8 /* Security.framework in Frameworks */,
+				FB5833FB17CD1B3600671CD8 /* AdSupport.framework in Frameworks */,
 				0871559A15C6F6A100723BF8 /* SystemConfiguration.framework in Frameworks */,
 				0844468915B0E50B00187A93 /* MediaPlayer.framework in Frameworks */,
 				080DC02415AC7C5100C47A26 /* OpenGLES.framework in Frameworks */,
-				080DC02115AC7C3400C47A26 /* ShinobiCharts.framework in Frameworks */,
 				0867B124156D8255001A9124 /* libsqlite3.dylib in Frameworks */,
 				08C3D746156A8CAF00366D6B /* MessageUI.framework in Frameworks */,
 				083BFA2815617291001CCC2D /* QuartzCore.framework in Frameworks */,
-				0871559815C6F65500723BF8 /* libFlurryAnalytics.a in Frameworks */,
 				081D98641559894500424E28 /* UIKit.framework in Frameworks */,
 				081D98661559894500424E28 /* Foundation.framework in Frameworks */,
 				081D98681559894500424E28 /* CoreGraphics.framework in Frameworks */,
 				081D986A1559894500424E28 /* CoreData.framework in Frameworks */,
 				08DBD4BA169B917B00DC38EB /* libBrightcoveMediaAPI.a in Frameworks */,
 				08DBD4BC169B91F000DC38EB /* libBrightcovePlayerKit.a in Frameworks */,
+				FB5833F917CD1AFC00671CD8 /* libFlurry_4.2.3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -893,8 +898,7 @@
 		081D98541559894500424E28 = {
 			isa = PBXGroup;
 			children = (
-				0871559715C6F65500723BF8 /* libFlurryAnalytics.a */,
-				084446A015B0EB5E00187A93 /* Flurry */,
+				FB5833F617CD1AFC00671CD8 /* Flurry */,
 				0844468F15B0EA0D00187A93 /* BrightCove */,
 				08DBD4BB169B91F000DC38EB /* libBrightcovePlayerKit.a */,
 				08DBD4B9169B917B00DC38EB /* libBrightcoveMediaAPI.a */,
@@ -918,10 +922,12 @@
 		081D98621559894500424E28 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FB5833F417CD1A9100671CD8 /* ShinobiCharts.framework */,
+				FB5833FC17CD1B3D00671CD8 /* Security.framework */,
+				FB5833FA17CD1B3600671CD8 /* AdSupport.framework */,
 				0871559915C6F6A100723BF8 /* SystemConfiguration.framework */,
 				0844468815B0E50B00187A93 /* MediaPlayer.framework */,
 				080DC02315AC7C5100C47A26 /* OpenGLES.framework */,
-				080DC02015AC7C3400C47A26 /* ShinobiCharts.framework */,
 				0867B123156D8255001A9124 /* libsqlite3.dylib */,
 				08C3D745156A8CAF00366D6B /* MessageUI.framework */,
 				081D98691559894500424E28 /* CoreData.framework */,
@@ -1202,18 +1208,6 @@
 			name = BrightCove;
 			sourceTree = "<group>";
 		};
-		084446A015B0EB5E00187A93 /* Flurry */ = {
-			isa = PBXGroup;
-			children = (
-				084446A115B0EB7000187A93 /* Analytics.m */,
-				084446A215B0EB7000187A93 /* Analytics.h */,
-				084446A415B0EBA200187A93 /* FlurryAPI.h */,
-				084446A515B0EBA200187A93 /* FlurryAnalytics.h */,
-				084446A615B0EBA200187A93 /* FlurryAdDelegate.h */,
-			);
-			name = Flurry;
-			sourceTree = "<group>";
-		};
 		0851CD2015950E63007B9F04 /* Other Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -1416,6 +1410,7 @@
 				0893D84516A0D31A00A40CFE /* FlurryUtility.h */,
 				0893D84616A0D31A00A40CFE /* NSData+Base64.h */,
 				0893D84716A0D31A00A40CFE /* NSData+Base64.m */,
+				FB7CFFC11818259700D397DD /* PRAnalytics.h */,
 			);
 			name = StudyEnrollment;
 			sourceTree = "<group>";
@@ -1532,6 +1527,17 @@
 				08D1A3291565475400E9F1AC /* GDataXMLElement-Extras.m */,
 			);
 			name = GDataXML;
+			sourceTree = "<group>";
+		};
+		FB5833F617CD1AFC00671CD8 /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				084446A115B0EB7000187A93 /* Analytics.m */,
+				084446A215B0EB7000187A93 /* Analytics.h */,
+				FB5833F717CD1AFC00671CD8 /* Flurry.h */,
+				FB5833F817CD1AFC00671CD8 /* libFlurry_4.2.3.a */,
+			);
+			path = Flurry;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2041,9 +2047,12 @@
 		081D987D1559894500424E28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Melvin Manzano (UXV7SWZH42)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Desktop/ShinobiCharts\"",
+					"\"$(SRCROOT)/../B2R/Classes/ViewControllers\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ProviderResilience-iOS/ProviderResilience-Prefix.pch";
@@ -2052,17 +2061,18 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../PECoach 1.0/PECoach\"",
-					"\"$(SRCROOT)/../PECoach 1.0/PECoach/PECoach\"",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				"OTHER_LDFLAGS[arch=*]" = "-lxml2";
 				PRELINK_LIBS = "-all_load -ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "BFB5EB49-5270-40E7-9D5A-A12B7678B5F3";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2070,10 +2080,13 @@
 		081D987E1559894500424E28 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Melvin Manzano (UXV7SWZH42)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: The Informatics Applications Group, Inc.";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Desktop/ShinobiCharts\"",
+					"\"$(SRCROOT)/../B2R/Classes/ViewControllers\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ProviderResilience-iOS/ProviderResilience-Prefix.pch";
@@ -2082,18 +2095,19 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../PECoach 1.0/PECoach\"",
-					"\"$(SRCROOT)/../PECoach 1.0/PECoach/PECoach\"",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				"OTHER_LDFLAGS[arch=*]" = "-lxml2";
 				PRELINK_LIBS = "-all_load -ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=*]" = "";
+				PROVISIONING_PROFILE = "3560BFB2-A1D3-4C18-A831-A80BFAFDD1A6";
+				"PROVISIONING_PROFILE[sdk=*]" = "DC5F03CB-5A92-4C9C-97A9-8C54F5F9459A";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -10,6 +10,8 @@
 #import "ProviderResilienceAppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 
+#import "PRAnalytics.h"
+
 @interface CardsViewController ()
 
 @end
@@ -21,6 +23,7 @@
 @synthesize labelSwipeHorz;
 @synthesize viewVirtueCard;
 @synthesize buttonProceed;
+@synthesize startSession;
 
 #pragma mark View Lifecycle
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -87,6 +90,37 @@
 - (void)viewWillAppear:(BOOL)animated  {
     
     [super viewWillAppear:animated];
+    
+    startSession = [[NSDate date] retain];
+
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    
+    int myDuration = 0;
+    NSDate *endSession = [NSDate date];
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    [dateFormatter setDateFormat:@"mm:ss:SS"];
+    
+    NSString *startString = [dateFormatter stringFromDate :startSession];
+    NSString *endString = [dateFormatter stringFromDate:endSession];
+    
+    NSDate* firstDate = [dateFormatter dateFromString:startString];
+    NSDate* secondDate = [dateFormatter dateFromString:endString];
+    NSTimeInterval timeDifference = [secondDate timeIntervalSinceDate:firstDate];
+    NSInteger time = round(timeDifference);
+    myDuration = time;
+    [Analytics logEvent:myDuration inSection:EVENT_SECTION_CARDSVIEW  withItem:EVENT_SECTION_CARDSVIEW  withActivity:EVENT_VIEW_DURATION withValue:nil];
+    
+    NSLog(@"timeDifference: %i seconds", myDuration);
+    startSession = nil;
+    [startSession release];
+    
 }
 
 - (void)viewDidUnload

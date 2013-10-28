@@ -14,6 +14,7 @@
 #import "GDataXMLElement-Extras.h"
 #import "ViewBCVideoController.h"
 #import "ProviderResilienceAppDelegate.h"
+#import "PRAnalytics.h"
 
 @interface ToolsViewController ()
 
@@ -44,6 +45,7 @@
 @synthesize nextButton_Dilbert;
 @synthesize nameDateDiblert;
 @synthesize dilbertActivityIndicator;
+@synthesize startSession;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -93,8 +95,37 @@
     
     [Analytics logEvent:@"TOOLS"];
     self.view = self.viewToolsMenu;
-    
+    startSession = [[NSDate date] retain];
+
     [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    
+    int myDuration = 0;
+    NSDate *endSession = [NSDate date];
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    [dateFormatter setDateFormat:@"mm:ss:SS"];
+    
+    NSString *startString = [dateFormatter stringFromDate :startSession];
+    NSString *endString = [dateFormatter stringFromDate:endSession];
+    
+    NSDate* firstDate = [dateFormatter dateFromString:startString];
+    NSDate* secondDate = [dateFormatter dateFromString:endString];
+    NSTimeInterval timeDifference = [secondDate timeIntervalSinceDate:firstDate];
+    NSInteger time = round(timeDifference);
+    myDuration = time;
+    [Analytics logEvent:myDuration inSection:EVENT_SECTION_TOOLSVIEW  withItem:EVENT_SECTION_TOOLSVIEW  withActivity:EVENT_VIEW_DURATION withValue:nil];
+    
+    NSLog(@"timeDifference: %i seconds", myDuration);
+    startSession = nil;
+    [startSession release];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -145,6 +176,9 @@
     [nextButton_Dilbert release];
     [nameDateDiblert release];
     [dilbertActivityIndicator release];
+    
+    [qolDatasource release];
+
     [super dealloc];
 }
 
@@ -153,6 +187,8 @@
 - (IBAction)videoButton_Clicked:(id)sender {
     
     [Analytics logEvent:@"VIDEOS"];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_TOOLSVIEW  withItem:EVENT_ITEM_VIDEOS withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+
     // First make sure the content size is set (for scrolling)
     [self.viewScrollVideos setContentSize:CGSizeMake(self.view.frame.size.width, 300.0f)]; 
     
@@ -179,7 +215,7 @@
         case 2:
             [Analytics logEvent:@"VIDEO ANGER"];
             videoName = [NSString stringWithFormat:@"anger"];
-            videoKey = [NSString stringWithFormat:@"apikey2"];
+            videoKey = [NSString stringWithFormat:@"apikey1"];
             break;
             
         case 3:
@@ -227,7 +263,8 @@
     controllerBundle = @"ViewBCVideoController";
     
     ViewBCVideoController *anotherController2 = [[ViewBCVideoController alloc] initWithNibName:controllerBundle bundle:nil];
-    
+    anotherController2.videoDescription = videoName;
+
     anotherController2.videoID = videoID;
     anotherController2.delegate = self;
     
@@ -264,6 +301,8 @@
 // View the Stretch cards
 - (IBAction)physicalButton_Clicked:(id)sender {
     [Analytics logEvent:@"PHYSICAL EXERCISE"];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_TOOLSVIEW  withItem:EVENT_ITEM_PE withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+
     self.view = self.viewExercise;
     
     // Handle Swipe Gestures for these Stretch/Exercise cards
@@ -342,6 +381,8 @@
 
 - (IBAction)remindButton_Clicked:(id)sender {
     [Analytics logEvent:@"REMIND ME"];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_TOOLSVIEW  withItem:EVENT_ITEM_REMINDME withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+
     // Give them credit for doing something fun today
     [self scoreFunStuff];
     
@@ -358,6 +399,8 @@
 
 - (IBAction)laughButton_Clicked:(id)sender {
     [Analytics logEvent:@"I NEED A LAUGH"];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_TOOLSVIEW  withItem:EVENT_ITEM_LAUGH withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+
     // Give them credit for doing something fun today
     [self scoreFunStuff];
     
@@ -837,6 +880,8 @@
 #pragma mark ProQOL Graph
 - (IBAction) graphButton_Clicked:(id)sender {
     [Analytics logEvent:@"PROQOL GRAPH"];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_TOOLSVIEW  withItem:EVENT_ITEM_PROQOL withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+
     [self createQOLChart];
     self.view = self.viewProQOLGraph;
     [qolDatasource reReadData];
@@ -866,7 +911,6 @@
         
         // Give the chart the data source
         qolChart.datasource = qolDatasource;
-        [qolDatasource release];
         
         // Create a date time axis to use as the x axis.    
         SChartDateTimeAxis *xAxis = [[SChartDateTimeAxis alloc] init];
@@ -947,6 +991,7 @@
     //[self vasBurnoutScore:lastScore];
     [qolChart reloadData];
     [qolChart redrawChartAndGL:YES];
+    
     
 }
 
