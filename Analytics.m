@@ -21,7 +21,7 @@ static NSString *API_KEY = @"";
 
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
+    NSLog(@"Event Logged: %i, %@, %@, %@, %@", duration, section, item, activity, value);
     // Research Study
     BOOL useResearch = [defaults boolForKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
     if (useResearch) {

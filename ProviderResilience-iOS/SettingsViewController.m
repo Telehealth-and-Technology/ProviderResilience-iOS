@@ -46,7 +46,6 @@
 @synthesize img_reminderOnOff;
 @synthesize img_welcomeOnOff;
 @synthesize currentSettings;
-@synthesize startSession;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -103,9 +102,9 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-- (void)viewWillAppear:(BOOL)animated  {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
-    startSession = [[NSDate date] retain];
 
     // Determine if we are currently in a Study Enrollment
     BOOL boolValue = [[NSUserDefaults standardUserDefaults] boolForKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
@@ -117,29 +116,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    
-    int myDuration = 0;
-    NSDate *endSession = [NSDate date];
-    
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
-    [dateFormatter setDateFormat:@"mm:ss:SS"];
-    
-    NSString *startString = [dateFormatter stringFromDate :startSession];
-    NSString *endString = [dateFormatter stringFromDate:endSession];
-    
-    NSDate* firstDate = [dateFormatter dateFromString:startString];
-    NSDate* secondDate = [dateFormatter dateFromString:endString];
-    NSTimeInterval timeDifference = [secondDate timeIntervalSinceDate:firstDate];
-    NSInteger time = round(timeDifference);
-    myDuration = time;
-    [Analytics logEvent:myDuration inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_SECTION_SETTINGSVIEW  withActivity:EVENT_VIEW_DURATION withValue:nil];
-    
-    NSLog(@"timeDifference: %i seconds", myDuration);
-    startSession = nil;
-    [startSession release];
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -150,7 +126,8 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [img_welcomeOnOff release];
     [img_reminderOnOff release];
     [img_anonymousOnOff release];
@@ -179,7 +156,8 @@
 }
 
 // Reset Application
-- (IBAction)reset_Clicked:(id)sender {
+- (IBAction)reset_Clicked:(id)sender
+{
     // Double check with the user...this will delete all the App data
     UIAlertView *alert = [[UIAlertView alloc]
                           initWithTitle:NSLocalizedString(@"Reset Application", @"")
@@ -196,7 +174,8 @@
 // Reset Application
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    switch (alertView.tag) {
+    switch (alertView.tag)
+    {
         case kTagResetApplication:
             // Reset the Application...or not
             if (buttonIndex == 0)
@@ -228,9 +207,9 @@
 /**
  *  resetUserData
  */
-- (void)resetUserData {
-    
-    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESETAPPDATA withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+- (void)resetUserData
+{
+    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESETAPP withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
     dispatch_async(queue, ^{
@@ -275,6 +254,11 @@
     [self.currentSettings uWelcome:bCurrent];
     [self.currentSettings writeToPlist];     // Save the changes
     
+    if (bCurrent)
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_WELCOME withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"On"];
+    else
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_WELCOME withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"Off"];
+    
     [self setUpWelcomeButton:bCurrent];  
     
     //[self.currentSettings release];
@@ -286,19 +270,16 @@
     if (bOnOff) {
         img_welcomeOnOff.image = [UIImage imageNamed:@"exercise.png"];
         [buttonWelcome setTitle:@"On" forState:UIControlStateNormal];
-        
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_WELCOME withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:@"On"];
     } else {
         img_welcomeOnOff.image = [UIImage imageNamed:@"bg-on-1pxl.png"]; 
         [buttonWelcome setTitle:@"Off" forState:UIControlStateNormal];
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_WELCOME withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:@"Off"];
     }
 }
 
 #pragma mark Reset Daily Scores
 - (IBAction)resetScores_clicked:(id)sender {
     
-    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESTSCORES withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYSCORESRESET withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
     
     // Present dialog to allow user to enter the time of day to reset the daily scores
 	DateTimePicker *controller = [[DateTimePicker alloc] init];
@@ -310,7 +291,7 @@
 	controller.defaultDate = [self.currentSettings dateTimeScoresReset]; 
     controller.view.tag = kTagResetScores;
     
-	[self presentModalViewController:controller animated:YES];
+	[self presentViewController:controller animated:YES completion:nil];
 	[controller release];    
 }
 
@@ -322,12 +303,17 @@
     //self.currentSettings = [SaveSettings alloc];
     [self.currentSettings initPlist];
     
-    BOOL bCurrent = ![self.currentSettings boolFromNumber:[self.currentSettings bDailyReminders]]; 
+    BOOL bCurrent = ![self.currentSettings boolFromNumber:[self.currentSettings bDailyReminders]];
     
     // Now turn on/off the Reminder notifications
     
     [self.currentSettings uDaily:bCurrent];
     [self.currentSettings writeToPlist];     // Save the changes
+    
+    if (bCurrent)
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYREMINDERS withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"On"];
+    else
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYREMINDERS withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"Off"];
     
     [self setUpReminderButton:bCurrent];
     
@@ -340,11 +326,9 @@
     if (bOnOff) {
         img_reminderOnOff.image = [UIImage imageNamed:@"exercise.png"];
         [buttonReminder setTitle:@"On" forState:UIControlStateNormal];
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYREMINDERS withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:@"On"];
     } else {
         img_reminderOnOff.image = [UIImage imageNamed:@"bg-on-1pxl.png"]; 
         [buttonReminder setTitle:@"Off" forState:UIControlStateNormal];
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYREMINDERS withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:@"Off"];
     }
     
     [self scheduleNotification:bOnOff];
@@ -352,7 +336,7 @@
 
 // Remind me at:
 - (IBAction)remindAt_Clicked:(id)sender {
-    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYREMINDERS_TIME withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_REMINDME withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
     
     // Present dialog to allow user to enter the time of day to send the notification reminder
 	DateTimePicker *controller = [[DateTimePicker alloc] init];
@@ -364,7 +348,7 @@
 	controller.defaultDate = [self.currentSettings dateTimeDailyReminders]; 
     controller.view.tag = kTagRemindAt;
     
-	[self presentModalViewController:controller animated:YES];
+	[self presentViewController:controller animated:YES completion:nil];
 	[controller release];
     
 }
@@ -415,7 +399,7 @@
     NSString *subjectLine = [NSString stringWithFormat:@"ProviderResilience Study Log - Participant:%@", participantID];
 	[picker setSubject:subjectLine];
     [Analytics logEvent:@"RESEARCH STUDY EMAIL"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESEARCHSTUDY withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESEARCHSTUDY withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
 
 	
 	// Set up recipient
@@ -447,7 +431,7 @@
     picker.navigationBar.barStyle = UIBarStyleBlack;
     picker.navigationBarHidden = NO;
 	
-	[self presentModalViewController:picker animated:YES];
+	[self presentViewController:picker animated:YES completion:nil];
     [picker release];
     
 }
@@ -458,13 +442,9 @@
     
     // Alert to save/delete log
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Disenroll"
-                          
                                                     message:@"This action will permanently delete your current usage log, and disenroll you from the study. Would you like to continue?"
-                          
                                                    delegate:self
-                          
                                           cancelButtonTitle:@"Yes"
-                          
                                           otherButtonTitles:@"No", nil];
     
     alert.tag = kTagDisenrollFromStudy;
@@ -473,11 +453,10 @@
 
 
 - (void)disEnrolled
-
 {
     
     [Analytics logEvent:@"RESEARCH_STUDY_DISENROLL"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESEARCHDISENROLL withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_DISENROLLED withValue:@"null"];
     // Disenroll from the study....delete all remnants
     
     NSLog(@"Delete Log");
@@ -553,7 +532,12 @@
     
     [self.currentSettings uAnonymous:bCurrent];
     [self.currentSettings writeToPlist];     // Save the changes
-        
+    
+    if (bCurrent)
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_ANONYMOUSDATA withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"On"];
+    else
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_ANONYMOUSDATA withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"Off"];
+
     [self setUpAnonymousButton:bCurrent];
 }
 
@@ -562,12 +546,10 @@
     if (bOnOff) {
         img_anonymousOnOff.image = [UIImage imageNamed:@"exercise.png"];
         [buttonAnonymous setTitle:@"On" forState:UIControlStateNormal];
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_ANONYMOUSDATA withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:@"On"];
         
     } else {
         img_anonymousOnOff.image = [UIImage imageNamed:@"bg-on-1pxl.png"]; 
         [buttonAnonymous setTitle:@"Off" forState:UIControlStateNormal];
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_ANONYMOUSDATA withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:@"Off"];
     }
 }
 
@@ -615,7 +597,12 @@
     // Grab the current settings file contents
     [self.currentSettings initPlist];
     
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    [dateFormatter setDateFormat:@"HH:mm"];
+    
     if (controller.view.tag == kTagRemindAt) {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_REMINDME withActivity:EVENT_ACTIVITY_CLICKED withValue:[dateFormatter stringFromDate:date]];
         // Reset the time to remind the user to update their scores
         [self.currentSettings uDateTimeDailyReminders:date];
         [self.currentSettings writeToPlist];     // Save the changes
@@ -626,6 +613,7 @@
     }
     
     if (controller.view.tag == kTagResetScores) {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYSCORESRESET withActivity:EVENT_ACTIVITY_CLICKED withValue:[dateFormatter stringFromDate:date]];
         // Reset the time that the daily scores will be reset
         [self.currentSettings uDateTimeScoresReset:date];
         [self.currentSettings uDateTimeLastReset:[NSDate date]];    // And remember when we did this!
@@ -635,7 +623,7 @@
     }
     
     
-	[controller dismissModalViewControllerAnimated:YES];
+	[controller dismissViewControllerAnimated:YES completion:nil];
     
     self.view = self.view;
     
@@ -643,7 +631,7 @@
 
 - (void)dateTimePickerCancel:(DateTimePicker *)controller
 {
-	[controller dismissModalViewControllerAnimated:YES];
+	[controller dismissViewControllerAnimated:YES completion:nil];
     self.view = self.view;
 }
 
@@ -658,7 +646,7 @@
 	
 	[picker setSubject:NSLocalizedString(@"Provider Resilience Feedback", @"")];
     [Analytics logEvent:@"EMAIL FEEDBACK"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_FEEDBACK withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_FEEDBACK withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
     
 	// Set up recipients
 	NSArray *toRecipients = [NSArray arrayWithObject:@"mobileapplications@t2health.org"]; 
@@ -687,7 +675,7 @@
     picker.navigationBar.barStyle = UIBarStyleBlack;
     picker.navigationBarHidden = NO;
 	
-	[self presentModalViewController:picker animated:YES];
+	[self presentViewController:picker animated:YES completion:nil];
     [picker release];
 }
 
@@ -719,7 +707,7 @@
             //[Analytics logEvent:[NSString stringWithFormat:@"EMAIL COMPOSE: %@",@"Not Sent (?)"]];
 			break;
 	}
-	[self dismissModalViewControllerAnimated:YES];
+	[controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -737,7 +725,4 @@
 	
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
 }
-
-
-
 @end

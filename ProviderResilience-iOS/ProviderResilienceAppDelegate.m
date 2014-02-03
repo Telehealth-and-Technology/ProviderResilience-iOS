@@ -13,6 +13,7 @@
 #import "PRdatabaseSQL.h"
 #import "EulaViewController.h"
 #import "AboutViewController.h"
+#import "PRAnalytics.h"
 
 @implementation ProviderResilienceAppDelegate
 
@@ -154,7 +155,13 @@ void uncaughtExceptionHandler(NSException *exception) {
     [currentSettings writeToPlist];     // Turn off the welcome message after the first showing
 }
 
-- (void)normalStartUp {    
+- (void)normalStartUp {
+    //Record dashboard startup
+    [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:[NSString stringWithFormat:@"%i", [self computeResilienceRating]]];
+    
+    //Assign DashboardViewController to previousTabNibName
+    previousTabNibName = @"DashboardViewController";
+    
     // Hand off to the tab bar controller
     self.window.rootViewController = __rootController;
     self.window.rootViewController.tabBarController.selectedIndex = 2;   // Display the cards first
@@ -247,7 +254,31 @@ application.applicationIconBadgeNumber = 0;
     NSLog(@"Tab index = %u", indexOfTab);
 }
  */
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    //Depending on where we came from record an open event
+    if([viewController.nibName isEqualToString:@"AboutViewController"])
+    {
+        if([previousTabNibName isEqualToString:viewController.nibName])
+            return;
+        
+        [Analytics logEvent:nil inSection:EVENT_SECTION_HELPVIEW withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+    }
+    else if([viewController.nibName isEqualToString:@"DashboardViewController"])
+    {
+        if([previousTabNibName isEqualToString:viewController.nibName])
+            [viewController viewWillDisappear:NO];
+        
+        [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:[NSString stringWithFormat:@"%i", [self computeResilienceRating]]];
+    }
+    else if([viewController.nibName isEqualToString:@"CardsViewController"])
+    {
+        if([previousTabNibName isEqualToString:viewController.nibName])
+            return;
+        
+        [Analytics logEvent:nil inSection:EVENT_SECTION_CARDSVIEW withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+    }
+    
     //NSLog(@"tabBarController delegate called: %@",viewController.nibName);
     // The user has tapped a Tab Bar item
     // Return this controller to its default view (well, the ones that have more than one view)
@@ -261,9 +292,9 @@ application.applicationIconBadgeNumber = 0;
         [ourView NoAssessment];         // Turn off Assessment mode
         viewController.view = ourView.viewMainDashboard;
         [ourView attachDigitalClockView:viewController.view];   // Make sure we have the digital clock
-        
     }
     
+    previousTabNibName = viewController.nibName;
 }
 
 #pragma openURL Delegate Methods
@@ -273,103 +304,182 @@ application.applicationIconBadgeNumber = 0;
     
     if(!url) { return NO; }
     
-    
-    
     NSString *filePath = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     
-    
-    
     NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:filePath];//Using nsdata category base64 to decode string to nsdata
-    
     NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];//Convert data to nstring
-    
     NSData *myData = [decodedString dataUsingEncoding:NSUTF8StringEncoding];
     
     if ([decodedString length] > 0) {
-
-        
-        
         /* JSON Parsing */
         
         NSError *e = nil;
-        
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData: myData options: NSJSONReadingMutableContainers error: &e];
         
-        
-        
-        NSString *action = [jsonDict objectForKey:@"action"];
-        
+//        NSString *action = [jsonDict objectForKey:@"action"];
         NSString *participantID = [jsonDict objectForKey:@"participantId"];
-        
         NSString *recipientEmail = [jsonDict objectForKey:@"recipientEmail"];
         
-        
-        
         // You could prompt user as this point whether they want to participate with this email address
-        
        // NSString *msgText = [NSString stringWithFormat:@"You have enrolled in a study: %@ | %@ | %@", action, participantID, recipientEmail];
         NSString *msgText = [NSString stringWithFormat:@"Study enrollment successful"];
-
-        
-        
         UIAlertView *alertBarInfo = [[UIAlertView alloc] initWithTitle:@"Successfully Enrolled" message:msgText delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         
         [alertBarInfo show];
         
-        
-        
         // Save something for test.
-        
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"DEFAULTS_USE_RESEARCHSTUDY"];
-        
         [[NSUserDefaults standardUserDefaults] setObject:participantID forKey:@"DEFAULTS_PARTICIPANTNUMBER"];
-        
         [[NSUserDefaults standardUserDefaults] setObject:recipientEmail forKey:@"DEFAULTS_STUDYEMAIL"];
         
-        
-        
         // Create new text log
-        
         NSMutableString * txtFile = [NSMutableString string];
-        
        // NSString *fileName = @"/study.csv";
         NSString *fileName = [NSString stringWithFormat:@"ProviderResilience_Participant_%@.csv",participantID];
-
-        
-        
         //NSString * headerLine = [NSString stringWithFormat:@"Participant#: %@",participantID];
-        
-        NSString * topRows = [NSString stringWithFormat:@"Participant,Timestamp,Device,OS,OS Version,App,App Version,Duration (sec),Section,Item,Activity,Value"];        
-        
+        NSString * topRows = [NSString stringWithFormat:@"Participant,Timestamp,Device,OS,OS Version,App,App Version,Duration (sec),Section,Item,Activity,Value"];
         
       //  [txtFile appendFormat:@"%@\n", headerLine];
-        
         [txtFile appendFormat:@"%@\n", topRows];
         
-        
-        
-        
-        
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
-        
         NSString *documentsDir = [paths objectAtIndex:0];
-        
         NSString *finalPath = [NSString stringWithFormat:@"%@/%@",documentsDir, fileName];
-        
         [txtFile writeToFile:finalPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
         
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        
-        
         [Analytics logEvent:@"RESEARCH_STUDY_ENROLL"];
-        
+        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_ENROLLED withValue:@"(null)"];
     }
-    
     return YES;
     
 }
-
+-(NSInteger)computeResilienceRating
+{
+    // NOTE:  I did not use constants to define the scoring cutoff points, unless they were already defined elsewhere
+    // At this time, the other #'s are only used here, so it is easier to see the numbers instead of a 'name'.
+    // If these numbers are used somewhere else in the future, then that developer can make the decision to use #defines
+    
+    NSInteger newRating = 0;
+    
+    // Add each component (a 'perfect' score will be 100 points)
+    
+    // Grab the current scores...we'll need this a couple of times below
+    
+    SaveSettings* currentSettings = [[SaveSettings alloc] init];
+    [currentSettings initPlist];
+    
+    //***** Leave Clock (20% of total score)
+    // How many days has it been since the last Leave
+    NSDateFormatter *dateFormat = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormat setDateFormat:@"MM/dd/yy hh:mma"];
+    
+    // Score based on how long it has been since the last vacation
+    NSTimeInterval myInterval = [[NSDate date] timeIntervalSinceDate:[currentSettings dateTimeLastVacation]];
+    if (myInterval > 60*60*24*152)                  // >5 months -- 0 pts
+        newRating += 0;
+    else if (myInterval >= 60*60*24*122)            // >4 months -- 5 pts
+        newRating += 5;
+    else if (myInterval >= 60*60*24*91)         // >3 months -- 10 pts
+        newRating += 10;
+    else if (myInterval >= 60*60*24*61)     // >2 months -- 15 pts
+        newRating += 15;
+    else
+        newRating += 20;                // <2 months -- 20 pts
+    
+    //NSLog(@"Rating after Leave Clock: %d",newRating);
+    
+    //***** Daily Burnout VAS (15% of total score)
+    // Use the last Burnout score
+    // Initialise the data source
+    LineChartDataSource* burnoutDatasource = [[LineChartDataSource alloc] initWithFileName:LineChartSource_Burnout seriesCount:1];
+    NSInteger boScore = [burnoutDatasource reReadData];
+    if (boScore >= 85)
+        newRating += 15;
+    else if (boScore >= 70)
+        newRating += 10;
+    else if (boScore >= 50)
+        newRating += 5;
+    
+    //NSLog(@"Rating after Burnout VAS: %d",newRating);
+    
+    //***** Professional QOL scale (45% of total) // 08/16/2012 NOTE:  See NOTE Below
+    NSInteger myCompassion, myBurnout, myTrauma;
+    myCompassion = [currentSettings.nScoreCompassion integerValue];
+    myBurnout = [currentSettings.nScoreBurnout integerValue];
+    myTrauma = [currentSettings.nScoreTrauma integerValue];
+    
+    // Score each of these seperately
+    CGFloat fRating = 0.0;
+    if (myCompassion >= kQOLHighScoreCutoff)
+        fRating += 7;
+    else
+        if (myCompassion >= kQOLMedScoreCutoff)
+            fRating += 3;
+        else
+            if (myCompassion >= kQOLLowScoreCutoff)
+                fRating += 0;
+    
+    if (myBurnout >= kQOLHighScoreCutoff)
+        fRating += 0;
+    else
+        if (myBurnout >= kQOLMedScoreCutoff)
+            fRating += 3;
+        else
+            if (myBurnout >= kQOLLowScoreCutoff)
+                fRating += 7;
+    
+    if (myTrauma >= kQOLHighScoreCutoff)
+        fRating += 0;
+    else
+        if (myTrauma >= kQOLMedScoreCutoff)
+            fRating += 2;
+        else
+            if (myTrauma >= kQOLLowScoreCutoff)
+                fRating += 6;
+    
+    // 08/16/2012 NOTE: The original ratings had Pro QOL at 20% of total...that has been increased to 45%
+    //  Rather than change the original, individual ratings, we will multiply the sum by 2.25 (45%/20%)
+    
+    // Add to our cumulative rating (with appropriate round-off)
+    newRating += (fRating * 2.25);
+    //NSLog(@"ProQOL Score: %0.2f",(fRating*2.25));
+    //NSLog(@"Rating after ProQOL: %d",newRating);
+    
+    
+    //***** Builders/Bonus/Killers (10% of total)
+    NSInteger myBuilders, myKillers, myBonus, myFun;
+    NSInteger myBuilderScore = 0;
+    myBuilders = [currentSettings.nScoreBuilders integerValue];
+    // Needs to have happened in the past 24 hours...taken care of by a timer that resets these!
+    if (myBuilders > 0) {
+        myBuilderScore = 6 + (myBuilders - 1);  // 6 pts for having any Builder, plus 1 more point for each additional one
+    }
+    newRating += myBuilderScore;
+    //NSLog(@"Rating after Builders: %d",newRating);
+    
+    // Bonus will be reset everyday
+    myBonus = [currentSettings.nScoreBonus integerValue];
+    if ((myBonus > 0) && (myBuilderScore < 10))     // 1 more point possible for the Bonus, but only if we don't already have 10 pts
+        newRating += myBonus;                       // 1 or 0 points added, depending on whether they selected a Bonus
+    //NSLog(@"Rating after Bonus: %d",newRating);
+    
+    // Killers need to be reset everyday
+    myKillers = [currentSettings.nScoreKillers integerValue];
+    //myInterval = [[NSDate date] timeIntervalSinceDate:[self.currentSettings dateTimeBuilderKiller]];
+    if (myKillers > 0)   // Needs to have happened in the past 24 hours
+        newRating -= myKillers;
+    //NSLog(@"Rating after Killers: %d",newRating);
+    
+    //***** Fun Stuff (10% of total)
+    myFun = [currentSettings.nScoreFunStuff integerValue];
+    if (myFun > 0)                  // If it is here, it happened in the past 24 hours, count it
+        newRating += 10;
+    //NSLog(@"Rating after Fun Stuff: %d",newRating);
+    
+    return newRating;
+}
 
 #pragma mark - Core Data stack
 

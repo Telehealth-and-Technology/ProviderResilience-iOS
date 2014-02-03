@@ -235,9 +235,15 @@
     // Update this array element with the new value
     // Note:  These get Semanitic warnings but it works (and I can't figure out how to tell the compiler it is ok!)
     if (bFront)
-        [myElement setObject:(id)kCFBooleanTrue forKey:kFrontKey]; 
+    {
+//        [myElement setObject:(id)kCFBooleanTrue forKey:kFrontKey];
+        [myElement setValue:(id)kCFBooleanTrue forKey:kFrontKey];
+    }
     else
-        [myElement setObject:(id)kCFBooleanFalse forKey:kFrontKey];
+    {
+//        [myElement setObject:(id)kCFBooleanFalse forKey:kFrontKey];
+        [myElement setValue:(id)kCFBooleanFalse forKey:kFrontKey];
+    }
     
     // Write back the updated value
     if (bSaveIt) {

@@ -15,12 +15,20 @@
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    
     // Research Study
     NSMutableString * txtFile = [NSMutableString string];
     NSDate *today = [NSDate date];
     NSString *participant = [defaults objectForKey:@"DEFAULTS_PARTICIPANTNUMBER"];
     float ver = [[[UIDevice currentDevice] systemVersion] floatValue];
+    
+    //Format duration
+    NSString* Duration = [self formatDuration:duration];
+    
+    //Cleanse the pass in data
+    section = [self cleanseString:section];
+    item = [self cleanseString:item];
+    activity = [self cleanseString:activity];
+    value = [self cleanseString:value];
     
     // File Name
     NSString *fileName = [NSString stringWithFormat:@"ProviderResilience_Participant_%@.csv",participant];
@@ -31,8 +39,6 @@
     {
         device = @"iPad";
     }
-    
-    
     
     //participant = Participant
     //today = Timestamp
@@ -48,9 +54,9 @@
     //value = Value
     
     // Change Hard Coded info for app version number when updating
-    NSString *appVersion = [NSString stringWithFormat:@"%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    NSString* appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     
-    NSString * logLine = [NSString stringWithFormat:@"%@,%@,%@,iOS,%f,PR,%@,%i,%@,%@,%@,%@", participant, today, device, ver, appVersion, duration, section, item, activity, value];
+    NSString * logLine = [NSString stringWithFormat:@"%@,%@,%@,iOS,%f,PR,%@,%@,%@,%@,%@,%@", participant, today, device, ver, appVersion, Duration, section, item, activity, value];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
     NSString *documentsDir = [paths objectAtIndex:0];
@@ -184,5 +190,27 @@
     
 }
 
++(NSString*)formatDuration:(long)duration
+{
+    if(duration && duration >= 1000)
+    {
+        //Convert from ms to s
+        duration = duration / 1000;
+        
+        //Get minutes and seconds
+        int minutes = duration / 60;
+        int seconds = duration % 60;
+        return [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+    }
+    else
+        return @"null";
+}
+
++(NSString*)cleanseString:(NSString*)item
+{
+    return [[[item stringByReplacingOccurrencesOfString:@"," withString:@" "]
+             stringByReplacingOccurrencesOfString:@"\n" withString:@""]
+            stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+}
 
 @end

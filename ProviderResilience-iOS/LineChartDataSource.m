@@ -169,14 +169,15 @@
     }
     
     if (series1Data != nil)
-        if ([series1Data count] > 0) {
+    {
+        if ([series1Data count] > 0)
+        {
             NSNumber *lastNumber = [series1Data objectAtIndex:[series1Data count]-1];
             lastScore = [lastNumber integerValue];
-        }  
-    
+        }
+    }
     
     return lastScore;
-    
 }
 
 - (void) dealloc {

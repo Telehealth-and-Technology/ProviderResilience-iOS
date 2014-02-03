@@ -8,8 +8,19 @@
 
 /*-------------- SECTION ------------------*/
 #define EVENT_SECTION_DASHBOARD @"Dashboard"
-#define EVENT_SECTION_CARDSVIEW @"Cards"
-#define EVENT_SECTION_TOOLSVIEW @"Tools"
+#define EVENT_SECTION_CARDSVIEW @"Virtue Cards"
+#define EVENT_SECTION_VACATIONCLOCK @"Vaction Clock"
+#define EVENT_SECTION_BURNOUT @"Burnout"
+#define EVENT_SECTION_RESILIENCEBUILDERS @"Resilience Builders"
+#define EVENT_SECTION_RESILIENCEKILLERS @"Resilience Killers"
+#define EVENT_SECTION_PROQOL @"ProQoL"
+#define EVENT_SECTION_VIDEOS @"Videos"
+#define EVENT_SECTION_PHYSICALEXERCISE @"Physical Exercise"
+#define EVENT_SECTION_REMINDMEWHYIDOTHIS @"Remind Me Why I Do This"
+#define EVENT_SECTION_INEEDALAUGH @"I Need A Laugh"
+#define EVENT_SECTION_PROQOLHELPERCARD @"ProQOL Helper Card"
+#define EVENT_SECTION_PROQOLCHART @"ProQOL Chart"
+#define EVENT_SECTION_BURNOUTCHART @"Burnout Chart"
 #define EVENT_SECTION_SETTINGSVIEW @"Settings"
 #define EVENT_SECTION_HELPVIEW @"Help"
 
@@ -21,40 +32,28 @@
 
 /*-------------- ITEM ------------------*/
 
-#define EVENT_ITEM_UPDATECLOCK @"Update Vacation Clock"
-#define EVENT_ITEM_UPDATERR @"Update Resilience Rating"
-#define EVENT_ITEM_UPDATEQUALITY @"Update QOL Rating"
-#define EVENT_ITEM_BURNOUTCHART @"Burnout Chart"
-
-#define EVENT_ITEM_VIDEOS @"Videos"
-#define EVENT_ITEM_PE @"Physical Exercise"
-#define EVENT_ITEM_REMINDME @"Remind Me Why I Do This"
-#define EVENT_ITEM_LAUGH @"I Need A Laugh"
-#define EVENT_ITEM_PROQOL @"PROQOL Graph"
-
-#define EVENT_ITEM_RESEARCHSTUDY @"Research Study Email"
-#define EVENT_ITEM_RESEARCHDISENROLL @"Research Study Disenroll"
-#define EVENT_ITEM_FEEDBACK @"Send Feedback"
-#define EVENT_ITEM_RESTSCORES @"Reset Daily Scores"
-#define EVENT_ITEM_WELCOME @"Set Welcome Message"
-#define EVENT_ITEM_DAILYREMINDERS @"Set Daily Reminders"
-#define EVENT_ITEM_DAILYREMINDERS_TIME @"Set Daily Reminder Time"
-#define EVENT_ITEM_ANONYMOUSDATA @"Set Anonymous Data"
-#define EVENT_ITEM_RESETAPPDATA @"Reset Application Data"
+#define EVENT_ITEM_NONE @""
+#define EVENT_ITEM_UPDATECLOCK @"Update Clock"
+#define EVENT_ITEM_ONVACTION @"On Vacation"
+#define EVENT_ITEM_SUBMIT @"Submit"
+#define EVENT_ITEM_NEXT @"Next"
+#define EVENT_ITEM_RESETAPP @"Reset Application"
+#define EVENT_ITEM_WELCOME @"Welcome Message"
+#define EVENT_ITEM_DAILYREMINDERS @"Daily Reminders"
+#define EVENT_ITEM_REMINDME @"Remind Me At"
+#define EVENT_ITEM_ANONYMOUSDATA @"Anonymous Data"
+#define EVENT_ITEM_DAILYSCORESRESET @"Daily Scores Reset At"
+#define EVENT_ITEM_FEEDBACK @"Feedback"
+#define EVENT_ITEM_RESEARCHSTUDY @"Send Research Data"
 
 
 /*-------------- ACTIVITY ------------------*/
 
-#define EVENT_ACTIVITY_BUTTON_CLICK @"Button Click"
-
-#define EVENT_ACTIVITY_WATCH_MOVIE @"Watch Movie"
-#define EVENT_VIEW_DURATION @"Duration"
-
-
-
-
-
-
-
-
-
+#define EVENT_ACTIVITY_OPEN @"Open"
+#define EVENT_ACTIVITY_CLOSEWITHDURATION @"Close With Duration"
+#define EVENT_ACTIVITY_CLICKED @"Clicked"
+#define EVENT_ACTIVITY_TOGGLE @"Toggle"
+#define EVENT_ACTIVITY_SELECTED @"Selected"
+#define EVENT_ACTIVITY_COMPLETED @"Completed"
+#define EVENT_ACTIVITY_ENROLLED @"Enrolled"
+#define EVENT_ACTIVITY_DISENROLLED @"Disenrolled"

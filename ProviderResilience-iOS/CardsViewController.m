@@ -97,30 +97,18 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
-    
-    
     int myDuration = 0;
     NSDate *endSession = [NSDate date];
     
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
-    [dateFormatter setDateFormat:@"mm:ss:SS"];
-    
-    NSString *startString = [dateFormatter stringFromDate :startSession];
-    NSString *endString = [dateFormatter stringFromDate:endSession];
-    
-    NSDate* firstDate = [dateFormatter dateFromString:startString];
-    NSDate* secondDate = [dateFormatter dateFromString:endString];
-    NSTimeInterval timeDifference = [secondDate timeIntervalSinceDate:firstDate];
+    NSTimeInterval timeDifference = [endSession timeIntervalSinceDate:startSession];
     NSInteger time = round(timeDifference);
     myDuration = time;
-    [Analytics logEvent:myDuration inSection:EVENT_SECTION_CARDSVIEW  withItem:EVENT_SECTION_CARDSVIEW  withActivity:EVENT_VIEW_DURATION withValue:nil];
+    [Analytics logEvent:myDuration inSection:EVENT_SECTION_CARDSVIEW  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     
     NSLog(@"timeDifference: %i seconds", myDuration);
     startSession = nil;
     [startSession release];
-    
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidUnload
@@ -152,7 +140,8 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [viewVirtueCard release];
     [labelTitle release];
     [labelCopyright release];

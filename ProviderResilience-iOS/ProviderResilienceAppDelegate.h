@@ -28,6 +28,8 @@
     BOOL connectionRequired;
     
 	BCMediaAPI *bcServices;
+    
+    NSString* previousTabNibName;
 }
 
 @property (strong, nonatomic) UIWindow *window;

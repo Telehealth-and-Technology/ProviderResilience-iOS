@@ -448,16 +448,14 @@
 #ifdef DEBUG
     NSLog(@"***** FUNCTION %s *****", __FUNCTION__);
 #endif
-    startSession = [[NSDate date] retain];
-
-    
     // Not in Assessment mode!
     bAssessmentMode = NO;
     //buttonReturnToAssessment.hidden = YES;
     //labelReturnToAssessment.hidden = YES;
     
     // Specify the view to start with
-    self.view = self.viewMainDashboard;
+//    [self switchView:viewMainDashboard];
+//    self.view = self.viewMainDashboard;
     
     // Display the clock
     [self displayCurrentClock]; 
@@ -478,40 +476,31 @@
     // Compute how many days since the user took BURNOUT Survey
     [self computeBurnoutDays];
     
+    if(comingFromDialog == NO)
+    {
+        //Initialize the start date
+        startSession = [[NSDate date] retain];
+    }
+    else
+        comingFromDialog = NO;
+    
     [super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    
-    int myDuration = 0;
-    NSDate *endSession = [NSDate date];
-    
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
-    [dateFormatter setDateFormat:@"mm:ss:SS"];
-    
-    NSString *startString = [dateFormatter stringFromDate :startSession];
-    NSString *endString = [dateFormatter stringFromDate:endSession];
-    
-    NSDate* firstDate = [dateFormatter dateFromString:startString];
-    NSDate* secondDate = [dateFormatter dateFromString:endString];
-    NSTimeInterval timeDifference = [secondDate timeIntervalSinceDate:firstDate];
-    NSInteger time = round(timeDifference);
-    myDuration = time;
-    [Analytics logEvent:myDuration inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_SECTION_DASHBOARD  withActivity:EVENT_VIEW_DURATION withValue:nil];
-    
-    NSLog(@"timeDifference: %i seconds", myDuration);
-    startSession = nil;
-    [startSession release];
-    
+    if(comingFromDialog == NO)
+    {
+        [self doExitEvent];
+        
+        startSession = nil;
+        [startSession release];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
 }
 
 - (void)computeBurnoutDays {
@@ -535,13 +524,11 @@
 
 - (void)changeViewToBurnoutChart {
     [Analytics logEvent:@"BURNOUT CHART"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_BURNOUTCHART  withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
-    self.view = self.viewBurnoutChart;
+    [self switchView:viewBurnoutChart];
+//    self.view = self.viewBurnoutChart;
     [burnoutDatasource reReadData];
     [burnoutChart reloadData];
     [burnoutChart redrawChartAndGL:YES];
-    
-
 }
 
 - (void)viewDidUnload
@@ -684,6 +671,120 @@
 
 
 #pragma mark View Transition Methods
+//Switch views
+-(void)switchView:(UIView*)view
+{
+    int myDuration = 0;
+    NSDate *endSession = [NSDate date];
+    
+    NSTimeInterval timeDifference = [endSession timeIntervalSinceDate:startSession];
+    NSInteger time = round(timeDifference);
+    myDuration = time;
+    
+    if(self.view == self.viewUpdateRRClock)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_VACATIONCLOCK  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    else if(self.view == self.viewBurnoutSurvey)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_BURNOUT  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    else if(self.view == self.viewBurnoutChart)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_BURNOUTCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    else if(self.view == self.viewMainDashboard)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    else if(self.view == self.viewSurveyQualityOfLife)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PROQOL  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    else if(self.view == self.viewBuilders)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_RESILIENCEBUILDERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    else if(self.view == self.viewKillers)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_RESILIENCEKILLERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    
+    //Restart the start date
+    startSession = [[NSDate date] retain];
+    
+    if(view == self.viewUpdateRRClock)
+    {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_VACATIONCLOCK  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+    }
+    else if(view == self.viewBurnoutSurvey)
+    {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+    }
+    else if(view == self.viewBurnoutChart)
+    {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUTCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+    }
+    else if(view == self.viewMainDashboard)
+    {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:[NSString stringWithFormat:@"%i", [self computeResilienceRating]]];
+    }
+    else if(view == self.viewSurveyQualityOfLife)
+    {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOL  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+    }
+    else if(view == self.viewBuilders)
+    {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_RESILIENCEBUILDERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+    }
+    else if(view == self.viewKillers)
+    {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_RESILIENCEKILLERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+    }
+    
+    //Finally set the view
+    self.view = view;
+}
+
+-(void)doExitEvent
+{
+    int myDuration = 0;
+    NSDate *endSession = [NSDate date];
+    
+    NSTimeInterval timeDifference = [endSession timeIntervalSinceDate:startSession];
+    NSInteger time = round(timeDifference);
+    myDuration = time;
+    
+    if(self.view == self.viewUpdateRRClock)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_VACATIONCLOCK  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    else if(self.view == self.viewBurnoutSurvey)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_BURNOUT  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    else if(self.view == self.viewBurnoutChart)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_BURNOUTCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    else if(self.view == self.viewMainDashboard)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    else if(self.view == self.viewSurveyQualityOfLife)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PROQOL  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    else if(self.view == self.viewBuilders)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_RESILIENCEBUILDERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+    else if(self.view == self.viewKillers)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_RESILIENCEKILLERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    }
+}
+
 
 // Digital Clock
 - (void)attachDigitalClockView:(UIView *)viewForClock {
@@ -849,7 +950,6 @@
 // Take us to the View to Change the Clock
 - (IBAction)updateClock_Clicked:(id)sender {
     [Analytics logEvent:@"UPDATE R&R CLOCK"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_UPDATECLOCK  withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
     [self attachDigitalClockView:self.viewUpdateRRClock];       // Update R&R Clock View
     
     // Set the current value of the On Vacation button 
@@ -860,26 +960,27 @@
     
     //[self.currentSettings release];
     //self.currentSettings = nil;
-    self.view = self.viewUpdateRRClock;
+    [self switchView:viewUpdateRRClock];
+//    self.view = self.viewUpdateRRClock;
 }
 
 
 - (IBAction)updateResilience_Clicked:(id)sender {
     [Analytics logEvent:@"UPDATE RESILIENCE RATING"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_UPDATERR  withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
     bAssessmentMode = YES;
     buttonReturnToAssessment.hidden = NO;
     labelReturnToAssessment.hidden = NO;
-    self.view = self.viewAssessments;
+    [self switchView:viewAssessments];
+//    self.view = self.viewAssessments;
 }
 
 - (IBAction)updateQuality_Clicked:(id)sender {
     [Analytics logEvent:@"UPDATE QOL RATING"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_UPDATEQUALITY withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
     // Display the current ProQOL status
     [self presentViewStatusQOL];
     [self presentResilienceRating];
-    self.view = self.viewUpdateQuality;
+    [self switchView:viewUpdateQuality];
+//    self.view = self.viewUpdateQuality;
 }
 
 #pragma mark    Actions: R&R Clock View
@@ -900,12 +1001,16 @@
     // But if there is a valid date saved...then use it
     NSTimeInterval myInterval = [[NSDate date] timeIntervalSinceDate:[self.currentSettings dateTimeLastVacation]];
     // Only display this value if it is less than 50 years!
-    if (myInterval < 60*60*24*365*50) {
+    if (myInterval < 60*60*24*365*50)
+    {
         defaultDate = [self.currentSettings dateTimeLastVacation];
     }
     
+    //Signal that we launching a dialog
+    comingFromDialog = YES;
+    
 	controller.defaultDate = defaultDate;  
-	[self presentModalViewController:controller animated:YES];
+	[self presentViewController:controller animated:YES completion:nil];
 	[controller release];
     
     //[self.currentSettings release];
@@ -936,7 +1041,10 @@
     [self displayCurrentClock];
     [self presentResilienceRating];
     
-    self.view = self.viewUpdateRRClock;
+    [Analytics logEvent:nil inSection:EVENT_SECTION_VACATIONCLOCK withItem:EVENT_ITEM_ONVACTION withActivity:EVENT_ACTIVITY_TOGGLE withValue:bCurrent ? @"On" : @"Off"];
+    
+//    [self switchView:viewUpdateRRClock];
+//    self.view = self.viewUpdateRRClock;
 }
 
 - (void)toggleVacationButton:(BOOL)bOnOff {
@@ -958,8 +1066,10 @@
     digitLabelMinute.hidden = bOnOff;
 }
 
-- (IBAction)returnToAssessment_Clicked:(id)sender {
-    self.view = self.viewAssessments;
+- (IBAction)returnToAssessment_Clicked:(id)sender
+{
+    [self switchView:viewAssessments];
+//    self.view = self.viewAssessments;
 }
 
 #pragma mark Actions: Burnout Slider
@@ -1112,7 +1222,8 @@
      */
     // Set the color of the scroll bar
     self.boScrollView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
-    self.view = self.viewBurnoutSurvey;
+    [self switchView:viewBurnoutSurvey];
+//    self.view = self.viewBurnoutSurvey;
 }
 
 
@@ -1121,7 +1232,6 @@
     // Retrieve each one manually for now (to check on each component)....get more clever later, if needed)
     
     // Save the current scores
-    
     BurnoutDetailScores *detailScores = [[BurnoutDetailScores alloc] init];
     [detailScores initPlist];
     
@@ -1163,6 +1273,18 @@
     newScore += boSliderValuable.value;
     newScore += -1*boSliderTraumatized.value;
     
+    //Record each category score
+    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Happy" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderHappy.value]];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Trapped" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderTrapped.value]];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Satisfied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderSatisfied.value]];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Preoccupied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderPreoccupied.value]];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Connected" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderConnected.value]];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Wornout" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderWornout.value]];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Caring" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderCaring.value]];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"On Edge" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderOnedge.value]];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Valuable" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderValuable.value]];
+    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Traumatized" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderTraumatized.value]];
+    
     // Average the new score
     newScore = newScore/10;
         
@@ -1171,7 +1293,8 @@
     
     // Plot it and display on the chart
     [self createBurnoutChart];
-    self.view = self.viewBurnoutChart;
+    [self switchView:viewBurnoutSurvey];
+//    self.view = self.viewBurnoutChart;
     [burnoutDatasource reReadData];
     [burnoutChart reloadData];
     [burnoutChart redrawChartAndGL:YES];
@@ -1179,9 +1302,14 @@
     
     [self presentResilienceRating];  // Update the RR score    // Navigate back to the Assessments view
     if (bAssessmentMode)
-        self.view = self.viewAssessments;
-    else {
-        self.view = self.viewMainDashboard;
+    {
+        [self switchView:viewAssessments];
+//        self.view = self.viewAssessments;
+    }
+    else
+    {
+        [self switchView:viewMainDashboard];
+//        self.view = self.viewMainDashboard;
     }
 }
 
@@ -1366,8 +1494,10 @@
 #pragma mark Actions: Quality of Life View
 
 // Begin the QOL survey
-- (IBAction)updateProQOL_Clicked:(id)sender {
-    self.view = self.viewInstructionsQualityOfLife;    
+- (IBAction)updateProQOL_Clicked:(id)sender
+{
+    [self switchView:viewInstructionsQualityOfLife];
+//    self.view = self.viewInstructionsQualityOfLife;    
 }
 
 // Present extended explanation - QOL Compassion Score
@@ -1465,7 +1595,8 @@
     NSString *newLabel = [NSString stringWithFormat:@"%@ of %d",[myElement objectAtIndex:2], [self.QOLItemArray count]];
     surveyQOLxxOfxxLabel.text = newLabel;
     surveyQolStatementLabel.text = [myElement objectAtIndex:1];
-    self.view = self.viewSurveyQualityOfLife;
+    [self switchView:viewSurveyQualityOfLife];
+//    self.view = self.viewSurveyQualityOfLife;
     
     // Clean up
     [mySQL release];
@@ -1479,6 +1610,10 @@
     
     // Accumulate the scores
     NSInteger currentScore = myButton.tag;
+    
+    //Record the selected score for the question
+    [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOL withItem:surveyQolStatementLabel.text withActivity:EVENT_ACTIVITY_SELECTED withValue:currentScore];
+    
     // But reverse the score of some of the statements
     switch (self.currentQOLelement+1) {   // <==== note we added one to the index to keep the #'s consistent with what the user sees
         case 1:
@@ -1531,6 +1666,11 @@
         [self.currentSettings writeToPlist];     // Save the changes
         
         
+        //Record the survey completion
+        [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOL withItem:@"Compassion" withActivity:EVENT_ACTIVITY_COMPLETED withValue:scoreCompassion];
+        [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOL withItem:@"Burnout" withActivity:EVENT_ACTIVITY_COMPLETED withValue:scoreBurnout];
+        [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOL withItem:@"Trauma" withActivity:EVENT_ACTIVITY_COMPLETED withValue:scoreTrauma];
+        
         // Now save this score for graphing
         [self addProQOLScore];
         
@@ -1540,9 +1680,15 @@
         
         // Now show the next view
         if (bAssessmentMode)  // If we are in assessment mode...go back to that menu
-            self.view = self.viewAssessments;
+        {
+            [self switchView:viewAssessments];
+//            self.view = self.viewAssessments;
+        }
         else
-            self.view = self.viewUpdateQuality;
+        {
+            [self viewUpdateQuality];
+//            self.view = self.viewUpdateQuality;
+        }
     }
     
 }
@@ -2055,7 +2201,8 @@
 - (IBAction)presentBurnout_Clicked:(id)sender {
     
     [self createBurnoutChart];
-    self.view = self.viewBurnoutChart;
+    [self switchView:viewBurnoutChart];
+//    self.view = self.viewBurnoutChart;
     [burnoutDatasource reReadData];
     [burnoutChart reloadData];
     [burnoutChart redrawChartAndGL:YES];
@@ -2069,7 +2216,8 @@
     
     txtBonusBuilder1.text = [self.currentSettings txtBonus1];
     
-    self.view = self.viewBuilders;
+    [self switchView:viewBuilders];
+//    self.view = self.viewBuilders;
 }
 
 #pragma mark Actions: Resilience Builders Killers
@@ -2100,12 +2248,14 @@
     // We'll count on the buttons being tagged...since it is possible the user prompts us to create one on the fly!
     for (int i=kBuilderButtonLowTag; i<kBuilderFirstCustomTag; i++) {
         UIButton *button = (UIButton *)[self.view viewWithTag:i];
+        UILabel* label = (UILabel*)[self.view viewWithTag:i*2];
         if (button != nil) {
+            [Analytics logEvent:nil inSection:EVENT_SECTION_RESILIENCEBUILDERS withItem:label.text withActivity:EVENT_ACTIVITY_SELECTED withValue:button.selected ? @"On" : @"Off"];
+            
             if (button.selected) {              // If the button is selected...increment our count
                 if (i < kBuilderFirstCustomTag) {
                     scoreBuilders += 1;         // Count the # of buttons selected
-                }                               
-                
+                }
             }
         }
     }
@@ -2116,7 +2266,10 @@
     // We'll count on the buttons being tagged...since it is possible the user prompts us to create one on the fly!
     for (int i=kBuilderFirstCustomTag; i<=kBuilderButtonHighTag; i++) {
         UIButton *button = (UIButton *)[self.view viewWithTag:i];
-        if (button != nil) {
+        UITextField* label = (UITextField*)[self.view viewWithTag:i*2];
+        if (button != nil && label != nil && label.hasText) {
+            [Analytics logEvent:nil inSection:EVENT_SECTION_RESILIENCEBUILDERS withItem:label.text withActivity:EVENT_ACTIVITY_SELECTED withValue:button.selected ? @"On" : @"Off"];
+            
             if (button.selected) {              // If the button is selected...increment our count
                 if (i >= kBuilderFirstCustomTag)
                     scoreBonus += 1;         // 1 point for a Custom Builder ... if we didn't already max out (checked when score is compiled)
@@ -2124,7 +2277,8 @@
         }
     }
     
-    self.view = self.viewKillers;
+    [self switchView:viewKillers];
+//    self.view = self.viewKillers;
 }
 
 - (IBAction)doneBuildersKillers_Clicked:(id)sender {
@@ -2135,7 +2289,9 @@
     // We'll count on the buttons being tagged...since it is possible the user prompts us to create one on the fly!
     for (int i=kKillerButtonLowTag; i<=kKillerButtonHighTag; i++) {
         UIButton *button = (UIButton *)[self.view viewWithTag:i];
+        UILabel* label = (UILabel*)[self.view viewWithTag:i*2];
         if (button != nil) {
+            [Analytics logEvent:nil inSection:EVENT_SECTION_RESILIENCEKILLERS withItem:label.text withActivity:EVENT_ACTIVITY_SELECTED withValue:button.selected ? @"On" : @"Off"];
             if (button.selected) {
                 scoreKillers += 5;        // These will be subtracted from the total!
                 if (scoreKillers >= 10)
@@ -2162,9 +2318,14 @@
     
     // Navigate back to the Assessments view
     if (bAssessmentMode)
-        self.view = self.viewAssessments;
-    else {
-        self.view = self.viewMainDashboard;
+    {
+        [self switchView:viewAssessments];
+//        self.view = self.viewAssessments;
+    }
+    else
+    {
+        [self switchView:viewMainDashboard];
+//        self.view = self.viewMainDashboard;
     }
 }
 
@@ -2191,16 +2352,24 @@
     //[self.currentSettings release];
     //self.currentSettings = nil;
     
-	[controller dismissModalViewControllerAnimated:YES];
-    self.view = self.viewUpdateRRClock;
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    
+    [Analytics logEvent:nil inSection:EVENT_SECTION_VACATIONCLOCK withItem:EVENT_ITEM_UPDATECLOCK withActivity:EVENT_ACTIVITY_CLICKED withValue:[dateFormatter stringFromDate:newDate]];
+    
+	[controller dismissViewControllerAnimated:YES completion:nil];
+//    [self switchView:viewUpdateRRClock];
+//    self.view = self.viewUpdateRRClock;
     
     [self presentResilienceRating];  // Update the Resilience Rating
 }
 
 - (void)dateTimePickerCancel:(DateTimePicker *)controller
 {
-	[controller dismissModalViewControllerAnimated:YES];
-    self.view = self.viewUpdateRRClock;
+	[controller dismissViewControllerAnimated:YES completion:nil];
+//    [self switchView:viewUpdateRRClock];
+//    self.view = self.viewUpdateRRClock;
 }
 
 #pragma mark UITextField Delegates

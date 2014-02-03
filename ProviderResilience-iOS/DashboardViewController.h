@@ -76,8 +76,7 @@
     CGRect meterFrame;
     
     NSDate *startSession;
-
-    
+    BOOL comingFromDialog;
 }
 @property (nonatomic, retain) NSDate *startSession;
 
@@ -282,6 +281,9 @@
 
 // Change the view we present
 - (void)changeViewToBurnoutChart;
+
+//Helps record view durations
+-(void)switchView:(UIView*)view;
 
 // Helper Methods
 - (void)toggleVacationButton:(BOOL)bOnOff;

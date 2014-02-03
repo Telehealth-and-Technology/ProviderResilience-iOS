@@ -167,30 +167,20 @@ BOOL isFullscreen=YES;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
-    
-    
     int myDuration = 0;
     NSDate *endSession = [NSDate date];
     
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
-    [dateFormatter setDateFormat:@"mm:ss:SS"];
-    
-    NSString *startString = [dateFormatter stringFromDate :startSession];
-    NSString *endString = [dateFormatter stringFromDate:endSession];
-    
-    NSDate* firstDate = [dateFormatter dateFromString:startString];
-    NSDate* secondDate = [dateFormatter dateFromString:endString];
-    NSTimeInterval timeDifference = [secondDate timeIntervalSinceDate:firstDate];
+    NSTimeInterval timeDifference = [endSession timeIntervalSinceDate:startSession];
     NSInteger time = round(timeDifference);
     myDuration = time;
-    [Analytics logEvent:myDuration inSection:EVENT_SECTION_BC_MOVIE  withItem:EVENT_SECTION_BC_MOVIE  withActivity:EVENT_VIEW_DURATION withValue:nil];
+    
+    [Analytics logEvent:myDuration inSection:EVENT_SECTION_BC_MOVIE withItem:self.videoDescription withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION  withValue:@"(null)"];
     
     NSLog(@"timeDifference: %i seconds", myDuration);
     startSession = nil;
     [startSession release];
     
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -198,7 +188,7 @@ BOOL isFullscreen=YES;
     if (!isFullscreen)
     {
         // Research Study
-        [Analytics logEvent:nil inSection:EVENT_SECTION_BC_MOVIE  withItem:EVENT_SECTION_BC_MOVIE  withActivity:EVENT_ACTIVITY_WATCH_MOVIE withValue:self.videoDescription];
+        [Analytics logEvent:nil inSection:EVENT_SECTION_BC_MOVIE withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:self.videoDescription];
 
         
         //[Analytics logEvent:[NSString stringWithFormat:@"MOVIE: %@", self.videoDescription]];
@@ -277,10 +267,10 @@ BOOL isFullscreen=YES;
 #pragma mark -
 #pragma mark Controller Animation Cycle
 - (void)animationHasFinished:(NSString *)animationID finished:(BOOL)finished context:(void *)context {
-	if (animationID == @"fadeOutPlayer")/* && finished*/ {  
+	if ([animationID  isEqual: @"fadeOutPlayer"])/* && finished*/ {
 	
     }
-	if (animationID == @"fadeInPlayer")/* && finished*/ {
+	if ([animationID  isEqual: @"fadeInPlayer"])/* && finished*/ {
 
 	}
 }	
@@ -396,7 +386,7 @@ BOOL isFullscreen=YES;
         [labelView setTextColor:[UIColor blackColor]];
         [labelView setFont:labelFont];
         [labelView setNumberOfLines:0];
-        [labelView setTextAlignment:UITextAlignmentLeft];
+        [labelView setTextAlignment:NSTextAlignmentLeft];
         labelView.text = NSLocalizedString(@"The video is paused as more content is downloaded.  Playback will continue when enough content is downloaded to play the entire video uninterrupted.  You may manually restart the video at anytime to play the portions currently available.", @"");
         
         [labelView  setTag:22];                             // Tag this view also for later 

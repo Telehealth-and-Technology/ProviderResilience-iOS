@@ -94,38 +94,18 @@
 - (void)viewWillAppear:(BOOL)animated  {
     
     [Analytics logEvent:@"TOOLS"];
-    self.view = self.viewToolsMenu;
-    startSession = [[NSDate date] retain];
+    [self switchView:viewToolsMenu];
+//    self.view = self.viewToolsMenu;
 
     [super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
-    
-    
-    int myDuration = 0;
-    NSDate *endSession = [NSDate date];
-    
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
-    [dateFormatter setDateFormat:@"mm:ss:SS"];
-    
-    NSString *startString = [dateFormatter stringFromDate :startSession];
-    NSString *endString = [dateFormatter stringFromDate:endSession];
-    
-    NSDate* firstDate = [dateFormatter dateFromString:startString];
-    NSDate* secondDate = [dateFormatter dateFromString:endString];
-    NSTimeInterval timeDifference = [secondDate timeIntervalSinceDate:firstDate];
-    NSInteger time = round(timeDifference);
-    myDuration = time;
-    [Analytics logEvent:myDuration inSection:EVENT_SECTION_TOOLSVIEW  withItem:EVENT_SECTION_TOOLSVIEW  withActivity:EVENT_VIEW_DURATION withValue:nil];
-    
-    NSLog(@"timeDifference: %i seconds", myDuration);
+    [self doExitEvent];
     startSession = nil;
     [startSession release];
-    
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -182,12 +162,90 @@
     [super dealloc];
 }
 
+#pragma mark View Transition Methods
+//Switch views
+-(void)switchView:(UIView*)view
+{
+    int myDuration = 0;
+    NSDate *endSession = [NSDate date];
+    
+    NSTimeInterval timeDifference = [endSession timeIntervalSinceDate:startSession];
+    NSInteger time = round(timeDifference);
+    myDuration = time;
+    
+    if(self.view == self.viewExercise)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+    }
+    else if(self.view == self.viewRSSFeed)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+    }
+    else if(self.view == self.viewProQOLHelper)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+    }
+    else if(self.view == self.viewProQOLGraph)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PROQOLCHART withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+    }
+    
+    //Restart the start date
+    startSession = [[NSDate date] retain];
+    
+    if(view == self.viewExercise)
+    {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
+    }
+    else if(view == self.viewRSSFeed)
+    {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
+    }
+    else if(view == self.viewProQOLHelper)
+    {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
+    }
+    else if(view == self.viewProQOLGraph)
+    {
+        [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOLCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
+    }
+    
+    //Finally set the view
+    self.view = view;
+}
+
+-(void)doExitEvent
+{
+    int myDuration = 0;
+    NSDate *endSession = [NSDate date];
+    
+    NSTimeInterval timeDifference = [endSession timeIntervalSinceDate:startSession];
+    NSInteger time = round(timeDifference);
+    myDuration = time;
+    
+    if(self.view == self.viewExercise)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+    }
+    else if(self.view == self.viewRSSFeed)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+    }
+    else if(self.view == self.viewProQOLHelper)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+    }
+    else if(self.view == self.viewProQOLGraph)
+    {
+        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PROQOLCHART withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+    }
+}
+
 #pragma mark Video buttons
 // Clicked when the user selects the video menu
 - (IBAction)videoButton_Clicked:(id)sender {
     
     [Analytics logEvent:@"VIDEOS"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_TOOLSVIEW  withItem:EVENT_ITEM_VIDEOS withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
 
     // First make sure the content size is set (for scrolling)
     [self.viewScrollVideos setContentSize:CGSizeMake(self.view.frame.size.width, 300.0f)]; 
@@ -195,7 +253,8 @@
     [self scoreFunStuff];           // Give the user 'credit' for doing something fun/healthy
        
     videoReturn = 0;                // Remember to come back here after displaying the video!
-    self.view = self.viewVideos;
+    [self switchView:viewVideos];
+//    self.view = self.viewVideos;
 }
 
 - (IBAction)videoSelection_Clicked:(id)sender {
@@ -268,18 +327,29 @@
     anotherController2.videoID = videoID;
     anotherController2.delegate = self;
     
-	[self presentModalViewController:anotherController2 animated:YES];
+    //Record video start
+    [Analytics logEvent:nil inSection:EVENT_SECTION_VIDEOS withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:videoName];
+    
+	[self presentViewController:anotherController2 animated:YES completion:nil];
     //[anotherController2 release];
 }
 
 #pragma mark View BC delegate
 - (void)dismissViewBC:(ViewBCVideoController *)controller {
     // The video finished...return to menu
-	[controller dismissModalViewControllerAnimated:YES];
+	[controller dismissViewControllerAnimated:YES completion:nil];
     
     // Where do we go from here...depends on who called us to begin with
-    if (videoReturn == 0) self.view = self.viewVideos;
-    else self.view = self.viewRemindVideos;
+    if (videoReturn == 0)
+    {
+        [self switchView:viewVideos];
+//        self.view = self.viewVideos;
+    }
+    else
+    {
+        [self switchView:viewRemindVideos];
+//        self.view = self.viewRemindVideos;
+    }
 }
 
 #pragma mark Scoring
@@ -301,9 +371,9 @@
 // View the Stretch cards
 - (IBAction)physicalButton_Clicked:(id)sender {
     [Analytics logEvent:@"PHYSICAL EXERCISE"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_TOOLSVIEW  withItem:EVENT_ITEM_PE withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
 
-    self.view = self.viewExercise;
+    [self switchView:viewExercise];
+//    self.view = self.viewExercise;
     
     // Handle Swipe Gestures for these Stretch/Exercise cards
     UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGesturesStretch:)];
@@ -381,7 +451,6 @@
 
 - (IBAction)remindButton_Clicked:(id)sender {
     [Analytics logEvent:@"REMIND ME"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_TOOLSVIEW  withItem:EVENT_ITEM_REMINDME withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
 
     // Give them credit for doing something fun today
     [self scoreFunStuff];
@@ -390,7 +459,8 @@
     [self.viewRemindScrollVideos setContentSize:CGSizeMake(self.view.frame.size.width, 500.0f)]; 
     
     videoReturn = 1;                        // Remember to come back here after the video!
-    self.view = self.viewRemindVideos;
+    [self switchView:viewRemindVideos];
+//    self.view = self.viewRemindVideos;
     
 
 }
@@ -399,12 +469,12 @@
 
 - (IBAction)laughButton_Clicked:(id)sender {
     [Analytics logEvent:@"I NEED A LAUGH"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_TOOLSVIEW  withItem:EVENT_ITEM_LAUGH withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
 
     // Give them credit for doing something fun today
     [self scoreFunStuff];
     
-    self.view = self.viewRSSFeed;
+    [self switchView:viewRSSFeed];
+//    self.view = self.viewRSSFeed;
     
     // Don't temp the users with the buttons until we have something for them:-)
     [self.prevButton_Dilbert setEnabled:NO];
@@ -873,17 +943,20 @@
 
 
 #pragma mark ProQOL Helper Pocket Card
-- (IBAction)proqolButton_Clicked:(id)sender {
-    self.view = self.viewProQOLHelper;
+- (IBAction)proqolButton_Clicked:(id)sender
+{
+    [self switchView:viewProQOLHelper];
+//    self.view = self.viewProQOLHelper;
 }
 
 #pragma mark ProQOL Graph
-- (IBAction) graphButton_Clicked:(id)sender {
+- (IBAction) graphButton_Clicked:(id)sender
+{
     [Analytics logEvent:@"PROQOL GRAPH"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_TOOLSVIEW  withItem:EVENT_ITEM_PROQOL withActivity:EVENT_ACTIVITY_BUTTON_CLICK withValue:nil];
 
     [self createQOLChart];
-    self.view = self.viewProQOLGraph;
+    [self switchView:viewProQOLGraph];
+//    self.view = self.viewProQOLGraph;
     [qolDatasource reReadData];
     [qolChart reloadData];
     [qolChart redrawChartAndGL:YES];
@@ -997,8 +1070,8 @@
 
 
 #pragma mark Burnout Graph
-- (IBAction)burnoutButton_Clicked:(id)sender {
-    
+- (IBAction)burnoutButton_Clicked:(id)sender
+{
     // The Burnout is in the Dashboard View Controller (which is first in our tabcontroller array)
     // ...Sooo, switch there...but also tell it to switch the view to Burnout!
     self.tabBarController.selectedIndex = 0;   // 0 means first
@@ -1011,10 +1084,12 @@
 /**
  *  alertView:clickedButtonAtIndex
  */
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
     // buttonIndex 0 is the Cancel button. buttonIndex 1 is the "Yes" button.
     // No matter which button they clicked, just send them back to the main Tools menu
-    self.view = self.viewToolsMenu;
+    [self switchView:viewToolsMenu];
+//    self.view = self.viewToolsMenu;
     
 }
 

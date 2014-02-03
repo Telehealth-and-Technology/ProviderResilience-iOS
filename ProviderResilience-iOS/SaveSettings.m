@@ -73,13 +73,15 @@ NSString *fileName;
     NSString *filePath = [self dataFilePath];
     
     // We first try to find it in our App directory (the updated version)
-    if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+    if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    {
         // Doesn't exist in our App directory...use the original one in the bundle
         filePath = [[NSBundle mainBundle] pathForResource:kFilename ofType:@"plist"];
     }
     
     // Make sure we have a file     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    {
         
         // Create a dictionary where we will load the data from the plist
         NSString *errorDesc = nil;
@@ -93,12 +95,14 @@ NSString *fileName;
                                               format:&format
                                               errorDescription:&errorDesc];
         
-        if (!temp) {
+        if (!temp)
+        {
             NSLog(@"Error reading plist: %@, format: %d", errorDesc, format);
         }
         
         // Only continue if we read the plist
-        if (temp) {
+        if (temp)
+        {
             // OK...let's process what we got
             
             // Grab the values
@@ -124,8 +128,9 @@ NSString *fileName;
                                    
         }
         
-    } else{
-        
+    }
+    else
+    {
         [self writeToPlist];            // Make sure the file does exist        
     }
 }

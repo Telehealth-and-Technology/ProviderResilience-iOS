@@ -30,9 +30,7 @@
     
     // Determine which video menu to return to
     int videoReturn;            // 0->Video Menu, 1->Remind Me..Menu
-    NSDate *startSession;
-    
-                                
+    NSDate* startSession;
 }
 
 @property (nonatomic, retain) NSDate *startSession;
@@ -92,5 +90,8 @@
 
 // Select a video to play (based on the tag value)
 - (IBAction)videoSelection_Clicked:(id)sender;
+
+//Helps record view durations
+-(void)switchView:(UIView*)view;
 
 @end
