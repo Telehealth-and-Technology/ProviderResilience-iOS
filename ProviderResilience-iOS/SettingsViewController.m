@@ -7,10 +7,9 @@
 //
 
 #import "SettingsViewController.h"
-#import "Analytics.h"
-#import "FlurryUtility.h"
 #import <QuartzCore/QuartzCore.h>
 #import "PRAnalytics.h"
+#import "ResearchUtility.h"
 
 // Tag values to distinguish UIAlertViews
 #define kTagResetApplication        1
@@ -34,15 +33,12 @@
 @synthesize buttonReminder;
 @synthesize labelRemindAt;
 @synthesize buttonRemindAt;
-@synthesize labelAnonymous;
-@synthesize buttonAnonymous;
 @synthesize labelResetScores;
 @synthesize buttonResetScores;
 @synthesize buttonDisenrollFromStudy;
 @synthesize buttonSendResearchData;
 @synthesize labelFeedback;
 @synthesize buttonFeedback;
-@synthesize img_anonymousOnOff;
 @synthesize img_reminderOnOff;
 @synthesize img_welcomeOnOff;
 @synthesize currentSettings;
@@ -70,7 +66,6 @@
     // Set up the On/Off buttons 
     [self setUpWelcomeButton:[self.currentSettings boolFromNumber:[self.currentSettings bWelcomeMessage]]];
     [self setUpReminderButton:[self.currentSettings boolFromNumber:[self.currentSettings bDailyReminders]]];
-    [self setUpAnonymousButton:[self.currentSettings boolFromNumber:[self.currentSettings bAnonymousData]]];
     
     //[self.currentSettings release];
     //self.currentSettings = nil;
@@ -80,14 +75,12 @@
     self.buttonWelcome.layer.cornerRadius = 8;
     self.buttonReminder.layer.cornerRadius = 8;
     self.buttonRemindAt.layer.cornerRadius = 8;
-    self.buttonAnonymous.layer.cornerRadius = 8;
     self.buttonResetScores.layer.cornerRadius = 8;
     self.buttonFeedback.layer.cornerRadius = 8;
     self.labelReset.layer.cornerRadius = 8;
     self.labelWelcome.layer.cornerRadius = 8;
     self.labelReminder.layer.cornerRadius = 8;
     self.labelRemindAt.layer.cornerRadius = 8;
-    self.labelAnonymous.layer.cornerRadius = 8;
     self.labelResetScores.layer.cornerRadius = 8;
     self.labelFeedback.layer.cornerRadius = 8;
     
@@ -97,7 +90,6 @@
 {
     [self setButtonWelcome:nil];
     [self setButtonReminder:nil];
-    [self setButtonAnonymous:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -130,10 +122,8 @@
 {
     [img_welcomeOnOff release];
     [img_reminderOnOff release];
-    [img_anonymousOnOff release];
     [buttonWelcome release];
     [buttonReminder release];
-    [buttonAnonymous release];
     [currentSettings release];
     self.currentSettings = nil;
     
@@ -209,7 +199,7 @@
  */
 - (void)resetUserData
 {
-    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESETAPP withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESETAPP withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
     dispatch_async(queue, ^{
@@ -255,9 +245,9 @@
     [self.currentSettings writeToPlist];     // Save the changes
     
     if (bCurrent)
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_WELCOME withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"On"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_WELCOME withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"On"];
     else
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_WELCOME withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"Off"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_WELCOME withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"Off"];
     
     [self setUpWelcomeButton:bCurrent];  
     
@@ -279,7 +269,7 @@
 #pragma mark Reset Daily Scores
 - (IBAction)resetScores_clicked:(id)sender {
     
-    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYSCORESRESET withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYSCORESRESET withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
     
     // Present dialog to allow user to enter the time of day to reset the daily scores
 	DateTimePicker *controller = [[DateTimePicker alloc] init];
@@ -311,9 +301,9 @@
     [self.currentSettings writeToPlist];     // Save the changes
     
     if (bCurrent)
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYREMINDERS withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"On"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYREMINDERS withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"On"];
     else
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYREMINDERS withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"Off"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYREMINDERS withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"Off"];
     
     [self setUpReminderButton:bCurrent];
     
@@ -336,7 +326,7 @@
 
 // Remind me at:
 - (IBAction)remindAt_Clicked:(id)sender {
-    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_REMINDME withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_REMINDME withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
     
     // Present dialog to allow user to enter the time of day to send the notification reminder
 	DateTimePicker *controller = [[DateTimePicker alloc] init];
@@ -398,8 +388,7 @@
     NSString *participantID = [[NSUserDefaults standardUserDefaults] stringForKey:@"DEFAULTS_PARTICIPANTNUMBER"];
     NSString *subjectLine = [NSString stringWithFormat:@"ProviderResilience Study Log - Participant:%@", participantID];
 	[picker setSubject:subjectLine];
-    [Analytics logEvent:@"RESEARCH STUDY EMAIL"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESEARCHSTUDY withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESEARCHSTUDY withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
 
 	
 	// Set up recipient
@@ -454,9 +443,7 @@
 
 - (void)disEnrolled
 {
-    
-    [Analytics logEvent:@"RESEARCH_STUDY_DISENROLL"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_DISENROLLED withValue:@"null"];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_DISENROLLED withValue:@"null"];
     // Disenroll from the study....delete all remnants
     
     NSLog(@"Delete Log");
@@ -520,39 +507,6 @@
     
 }
 
-#pragma mark Anonymous Data
-// Anonymous Data
-- (IBAction)anonymous_Clicked:(id)sender {
-    
-
-    // Toggle the status of the Anonymous Data
-    [self.currentSettings initPlist];
-    BOOL bCurrent = ![currentSettings boolFromNumber:[self.currentSettings bAnonymousData]]; 
-    //[self.currentSettings boolToNumber:bCurrent :[self.currentSettings bAnonymousData]];
-    
-    [self.currentSettings uAnonymous:bCurrent];
-    [self.currentSettings writeToPlist];     // Save the changes
-    
-    if (bCurrent)
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_ANONYMOUSDATA withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"On"];
-    else
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_ANONYMOUSDATA withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"Off"];
-
-    [self setUpAnonymousButton:bCurrent];
-}
-
-- (void)setUpAnonymousButton:(BOOL)bOnOff {
-    // Set the button image and title based on the status
-    if (bOnOff) {
-        img_anonymousOnOff.image = [UIImage imageNamed:@"exercise.png"];
-        [buttonAnonymous setTitle:@"On" forState:UIControlStateNormal];
-        
-    } else {
-        img_anonymousOnOff.image = [UIImage imageNamed:@"bg-on-1pxl.png"]; 
-        [buttonAnonymous setTitle:@"Off" forState:UIControlStateNormal];
-    }
-}
-
 // Send Feedback
 - (IBAction)feedback_Clicked:(id)sender {	
     // Launch Email so the user can send feedback
@@ -602,7 +556,7 @@
     [dateFormatter setDateFormat:@"HH:mm"];
     
     if (controller.view.tag == kTagRemindAt) {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_REMINDME withActivity:EVENT_ACTIVITY_CLICKED withValue:[dateFormatter stringFromDate:date]];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_REMINDME withActivity:EVENT_ACTIVITY_CLICKED withValue:[dateFormatter stringFromDate:date]];
         // Reset the time to remind the user to update their scores
         [self.currentSettings uDateTimeDailyReminders:date];
         [self.currentSettings writeToPlist];     // Save the changes
@@ -613,7 +567,7 @@
     }
     
     if (controller.view.tag == kTagResetScores) {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYSCORESRESET withActivity:EVENT_ACTIVITY_CLICKED withValue:[dateFormatter stringFromDate:date]];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYSCORESRESET withActivity:EVENT_ACTIVITY_CLICKED withValue:[dateFormatter stringFromDate:date]];
         // Reset the time that the daily scores will be reset
         [self.currentSettings uDateTimeScoresReset:date];
         [self.currentSettings uDateTimeLastReset:[NSDate date]];    // And remember when we did this!
@@ -645,8 +599,7 @@
 	picker.mailComposeDelegate = self;
 	
 	[picker setSubject:NSLocalizedString(@"Provider Resilience Feedback", @"")];
-    [Analytics logEvent:@"EMAIL FEEDBACK"];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_FEEDBACK withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_FEEDBACK withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
     
 	// Set up recipients
 	NSArray *toRecipients = [NSArray arrayWithObject:@"mobileapplications@t2health.org"]; 
@@ -688,23 +641,18 @@
 	{
 		case MFMailComposeResultCancelled:
             NSLog(@"Mail compose:  Cancelled");
-            //[Analytics logEvent:[NSString stringWithFormat:@"EMAIL COMPOSE: %@",@"Canceled"]];
 			break;
 		case MFMailComposeResultSaved:
             NSLog(@"Mail compose:  Saved");
-            //[Analytics logEvent:[NSString stringWithFormat:@"EMAIL COMPOSE: %@",@"Saved"]];
 			break;
 		case MFMailComposeResultSent:
             NSLog(@"Mail compose:  Sent");
-            //[Analytics logEvent:[NSString stringWithFormat:@"EMAIL COMPOSE: %@",@"Sent"]];
 			break;
 		case MFMailComposeResultFailed:
             NSLog(@"Mail compose:  Failed");
-            //[Analytics logEvent:[NSString stringWithFormat:@"EMAIL COMPOSE: %@",@"Failed"]];
 			break;
 		default:
             NSLog(@"Mail compose:  Other?");
-            //[Analytics logEvent:[NSString stringWithFormat:@"EMAIL COMPOSE: %@",@"Not Sent (?)"]];
 			break;
 	}
 	[controller dismissViewControllerAnimated:YES completion:nil];

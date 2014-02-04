@@ -10,6 +10,7 @@
 #import "ProviderResilienceAppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 
+#import "ResearchUtility.h"
 #import "PRAnalytics.h"
 
 @interface CardsViewController ()
@@ -103,7 +104,7 @@
     NSTimeInterval timeDifference = [endSession timeIntervalSinceDate:startSession];
     NSInteger time = round(timeDifference);
     myDuration = time;
-    [Analytics logEvent:myDuration inSection:EVENT_SECTION_CARDSVIEW  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_CARDSVIEW  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     
     NSLog(@"timeDifference: %i seconds", myDuration);
     startSession = nil;

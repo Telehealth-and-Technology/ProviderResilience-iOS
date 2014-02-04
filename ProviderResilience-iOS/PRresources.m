@@ -23,7 +23,7 @@ NSString *fileName2;
 
 - (NSString *)QOLstringForKey:(NSString *)key {  
     // Here's where the return string will go
-    NSString *myString;
+    NSString *myString = @"";
     
     
     // Read our data from the plist
@@ -60,8 +60,7 @@ NSString *fileName2;
             myString = [temp objectForKey:key];       
                       
         }
-        
-    } 
+    }
     
     return myString; 
 }

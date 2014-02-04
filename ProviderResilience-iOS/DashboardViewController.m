@@ -9,7 +9,7 @@
 #import "DashboardViewController.h"
 #import "PRdatabaseSQL.h"
 #import "PRresources.h"
-#import "Analytics.h"
+#import "ResearchUtility.h"
 #import "QuartzCore/QuartzCore.h"
 #import "PRAnalytics.h"
 
@@ -522,8 +522,8 @@
 }
 
 
-- (void)changeViewToBurnoutChart {
-    [Analytics logEvent:@"BURNOUT CHART"];
+- (void)changeViewToBurnoutChart
+{
     [self switchView:viewBurnoutChart];
 //    self.view = self.viewBurnoutChart;
     [burnoutDatasource reReadData];
@@ -683,31 +683,31 @@
     
     if(self.view == self.viewUpdateRRClock)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_VACATIONCLOCK  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_VACATIONCLOCK  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewBurnoutSurvey)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_BURNOUT  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_BURNOUT  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewBurnoutChart)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_BURNOUTCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_BURNOUTCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewMainDashboard)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewSurveyQualityOfLife)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PROQOL  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOL  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewBuilders)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_RESILIENCEBUILDERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_RESILIENCEBUILDERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewKillers)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_RESILIENCEKILLERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_RESILIENCEKILLERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     
     //Restart the start date
@@ -715,31 +715,31 @@
     
     if(view == self.viewUpdateRRClock)
     {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_VACATIONCLOCK  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_VACATIONCLOCK  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     }
     else if(view == self.viewBurnoutSurvey)
     {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     }
     else if(view == self.viewBurnoutChart)
     {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUTCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUTCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     }
     else if(view == self.viewMainDashboard)
     {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:[NSString stringWithFormat:@"%i", [self computeResilienceRating]]];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:[NSString stringWithFormat:@"%i", [self computeResilienceRating]]];
     }
     else if(view == self.viewSurveyQualityOfLife)
     {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOL  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PROQOL  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     }
     else if(view == self.viewBuilders)
     {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_RESILIENCEBUILDERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_RESILIENCEBUILDERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     }
     else if(view == self.viewKillers)
     {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_RESILIENCEKILLERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_RESILIENCEKILLERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     }
     
     //Finally set the view
@@ -757,31 +757,31 @@
     
     if(self.view == self.viewUpdateRRClock)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_VACATIONCLOCK  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_VACATIONCLOCK  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewBurnoutSurvey)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_BURNOUT  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_BURNOUT  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewBurnoutChart)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_BURNOUTCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_BURNOUTCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewMainDashboard)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewSurveyQualityOfLife)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PROQOL  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOL  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewBuilders)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_RESILIENCEBUILDERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_RESILIENCEBUILDERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewKillers)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_RESILIENCEKILLERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_RESILIENCEKILLERS  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
 }
 
@@ -948,8 +948,8 @@
 
 #pragma mark    Actions: Main Dashboard View
 // Take us to the View to Change the Clock
-- (IBAction)updateClock_Clicked:(id)sender {
-    [Analytics logEvent:@"UPDATE R&R CLOCK"];
+- (IBAction)updateClock_Clicked:(id)sender
+{
     [self attachDigitalClockView:self.viewUpdateRRClock];       // Update R&R Clock View
     
     // Set the current value of the On Vacation button 
@@ -965,8 +965,8 @@
 }
 
 
-- (IBAction)updateResilience_Clicked:(id)sender {
-    [Analytics logEvent:@"UPDATE RESILIENCE RATING"];
+- (IBAction)updateResilience_Clicked:(id)sender
+{
     bAssessmentMode = YES;
     buttonReturnToAssessment.hidden = NO;
     labelReturnToAssessment.hidden = NO;
@@ -974,8 +974,8 @@
 //    self.view = self.viewAssessments;
 }
 
-- (IBAction)updateQuality_Clicked:(id)sender {
-    [Analytics logEvent:@"UPDATE QOL RATING"];
+- (IBAction)updateQuality_Clicked:(id)sender
+{
     // Display the current ProQOL status
     [self presentViewStatusQOL];
     [self presentResilienceRating];
@@ -1041,7 +1041,7 @@
     [self displayCurrentClock];
     [self presentResilienceRating];
     
-    [Analytics logEvent:nil inSection:EVENT_SECTION_VACATIONCLOCK withItem:EVENT_ITEM_ONVACTION withActivity:EVENT_ACTIVITY_TOGGLE withValue:bCurrent ? @"On" : @"Off"];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_VACATIONCLOCK withItem:EVENT_ITEM_ONVACTION withActivity:EVENT_ACTIVITY_TOGGLE withValue:bCurrent ? @"On" : @"Off"];
     
 //    [self switchView:viewUpdateRRClock];
 //    self.view = self.viewUpdateRRClock;
@@ -1274,16 +1274,16 @@
     newScore += -1*boSliderTraumatized.value;
     
     //Record each category score
-    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Happy" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderHappy.value]];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Trapped" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderTrapped.value]];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Satisfied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderSatisfied.value]];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Preoccupied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderPreoccupied.value]];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Connected" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderConnected.value]];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Wornout" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderWornout.value]];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Caring" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderCaring.value]];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"On Edge" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderOnedge.value]];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Valuable" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderValuable.value]];
-    [Analytics logEvent:nil inSection:EVENT_SECTION_BURNOUT withItem:@"Traumatized" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderTraumatized.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Happy" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderHappy.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Trapped" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderTrapped.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Satisfied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderSatisfied.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Preoccupied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderPreoccupied.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Connected" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderConnected.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Wornout" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderWornout.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Caring" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderCaring.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"On Edge" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderOnedge.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Valuable" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderValuable.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Traumatized" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderTraumatized.value]];
     
     // Average the new score
     newScore = newScore/10;
@@ -1612,7 +1612,7 @@
     NSInteger currentScore = myButton.tag;
     
     //Record the selected score for the question
-    [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOL withItem:surveyQolStatementLabel.text withActivity:EVENT_ACTIVITY_SELECTED withValue:currentScore];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PROQOL withItem:surveyQolStatementLabel.text withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%i",currentScore]];
     
     // But reverse the score of some of the statements
     switch (self.currentQOLelement+1) {   // <==== note we added one to the index to keep the #'s consistent with what the user sees
@@ -1667,9 +1667,9 @@
         
         
         //Record the survey completion
-        [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOL withItem:@"Compassion" withActivity:EVENT_ACTIVITY_COMPLETED withValue:scoreCompassion];
-        [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOL withItem:@"Burnout" withActivity:EVENT_ACTIVITY_COMPLETED withValue:scoreBurnout];
-        [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOL withItem:@"Trauma" withActivity:EVENT_ACTIVITY_COMPLETED withValue:scoreTrauma];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PROQOL withItem:@"Compassion" withActivity:EVENT_ACTIVITY_COMPLETED withValue:[NSString stringWithFormat:@"%i",scoreCompassion]];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PROQOL withItem:@"Burnout" withActivity:EVENT_ACTIVITY_COMPLETED withValue:[NSString stringWithFormat:@"%i",scoreBurnout]];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PROQOL withItem:@"Trauma" withActivity:EVENT_ACTIVITY_COMPLETED withValue:[NSString stringWithFormat:@"%i",scoreTrauma]];
         
         // Now save this score for graphing
         [self addProQOLScore];
@@ -2250,7 +2250,7 @@
         UIButton *button = (UIButton *)[self.view viewWithTag:i];
         UILabel* label = (UILabel*)[self.view viewWithTag:i*2];
         if (button != nil) {
-            [Analytics logEvent:nil inSection:EVENT_SECTION_RESILIENCEBUILDERS withItem:label.text withActivity:EVENT_ACTIVITY_SELECTED withValue:button.selected ? @"On" : @"Off"];
+            [ResearchUtility logEvent:0 inSection:EVENT_SECTION_RESILIENCEBUILDERS withItem:label.text withActivity:EVENT_ACTIVITY_SELECTED withValue:button.selected ? @"On" : @"Off"];
             
             if (button.selected) {              // If the button is selected...increment our count
                 if (i < kBuilderFirstCustomTag) {
@@ -2268,7 +2268,7 @@
         UIButton *button = (UIButton *)[self.view viewWithTag:i];
         UITextField* label = (UITextField*)[self.view viewWithTag:i*2];
         if (button != nil && label != nil && label.hasText) {
-            [Analytics logEvent:nil inSection:EVENT_SECTION_RESILIENCEBUILDERS withItem:label.text withActivity:EVENT_ACTIVITY_SELECTED withValue:button.selected ? @"On" : @"Off"];
+            [ResearchUtility logEvent:0 inSection:EVENT_SECTION_RESILIENCEBUILDERS withItem:label.text withActivity:EVENT_ACTIVITY_SELECTED withValue:button.selected ? @"On" : @"Off"];
             
             if (button.selected) {              // If the button is selected...increment our count
                 if (i >= kBuilderFirstCustomTag)
@@ -2291,7 +2291,7 @@
         UIButton *button = (UIButton *)[self.view viewWithTag:i];
         UILabel* label = (UILabel*)[self.view viewWithTag:i*2];
         if (button != nil) {
-            [Analytics logEvent:nil inSection:EVENT_SECTION_RESILIENCEKILLERS withItem:label.text withActivity:EVENT_ACTIVITY_SELECTED withValue:button.selected ? @"On" : @"Off"];
+            [ResearchUtility logEvent:0 inSection:EVENT_SECTION_RESILIENCEKILLERS withItem:label.text withActivity:EVENT_ACTIVITY_SELECTED withValue:button.selected ? @"On" : @"Off"];
             if (button.selected) {
                 scoreKillers += 5;        // These will be subtracted from the total!
                 if (scoreKillers >= 10)
@@ -2356,7 +2356,7 @@
     [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     
-    [Analytics logEvent:nil inSection:EVENT_SECTION_VACATIONCLOCK withItem:EVENT_ITEM_UPDATECLOCK withActivity:EVENT_ACTIVITY_CLICKED withValue:[dateFormatter stringFromDate:newDate]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_VACATIONCLOCK withItem:EVENT_ITEM_UPDATECLOCK withActivity:EVENT_ACTIVITY_CLICKED withValue:[dateFormatter stringFromDate:newDate]];
     
 	[controller dismissViewControllerAnimated:YES completion:nil];
 //    [self switchView:viewUpdateRRClock];

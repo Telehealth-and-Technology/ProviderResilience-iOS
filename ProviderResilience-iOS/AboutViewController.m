@@ -10,6 +10,7 @@
 #import "ProviderResilienceAppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 #import "PRAnalytics.h"
+#import "ResearchUtility.h"
 
 @interface AboutViewController ()
 
@@ -128,13 +129,11 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewWillAppear:(BOOL)animated  {
-    
-    [Analytics logEvent:@"ABOUT VIEW"];
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     
     startSession = [[NSDate date] retain];
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -145,7 +144,7 @@
     NSTimeInterval timeDifference = [endSession timeIntervalSinceDate:startSession];
     NSInteger time = round(timeDifference);
     myDuration = time;
-    [Analytics logEvent:myDuration inSection:EVENT_SECTION_HELPVIEW  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
+    [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_HELPVIEW  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     
     NSLog(@"timeDifference: %i seconds", myDuration);
     startSession = nil;

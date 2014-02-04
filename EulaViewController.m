@@ -8,7 +8,7 @@
 
 #import "EulaViewController.h"
 #import "ProviderResilienceAppDelegate.h"
-#import "Analytics.h"
+#import "ResearchUtility.h"
 
 @implementation EulaViewController
 
@@ -52,16 +52,16 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
+
 - (void)viewWillAppear:(BOOL)animated  {
     
     [super viewWillAppear:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [Analytics logEvent:@"EULA VIEW"];
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
 }
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -77,7 +77,8 @@
 /**
  *  dealloc
  */
-- (void)dealloc {
+- (void)dealloc
+{
     [textView_ release];
     
     [super dealloc];
@@ -102,9 +103,8 @@
 /**
  *  handleAcceptedButtonTapped
  */
-- (IBAction)handleAcceptedButtonTapped:(id)sender {
-    [Analytics logEvent:@"EULA ACCEPTED"];
-    
+- (IBAction)handleAcceptedButtonTapped:(id)sender
+{
     // Application preference keys
     NSString *kEULAdone					= @"eulaDONE";
     // Indicate the user has agreed to the EULA
@@ -121,7 +121,8 @@
 /**
  *  handleDeclinedButtonTapped
  */
-- (IBAction)handleDeclinedButtonTapped:(id)sender {
+- (IBAction)handleDeclinedButtonTapped:(id)sender
+{
     /*
     NSString *alertTitle = NSLocalizedString(@"Quit Provider Resilience App?", @"");
     NSString *alertMessage = NSLocalizedString(@"Are you sure you want to quit Provider Resilience Application?", @"");
@@ -136,7 +137,6 @@
     [alertView show];
     [alertView release];
      */
-    
 }
 
 #pragma mark - UIAlertViewDelegate Methods
@@ -144,13 +144,13 @@
 /**
  *  alertView:clickedButtonAtIndex
  */
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
     // buttonIndex 0 is the Cancel button. buttonIndex 1 is the "Yes" button.
-    if (buttonIndex == 1) {
+    if (buttonIndex == 1)
+    {
         // Quit the application. Note that per Apple's own documentation, we aren't supposed to quit. 
         // http://developer.apple.com/library/ios/#qa/qa1561/_index.html
-        
-        [Analytics logEvent:@"EULA DECLINED"];
         
         // Exiting the main thread will quit the app, but it might cause App Store rejection.
         //exit(0);

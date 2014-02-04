@@ -12,7 +12,7 @@
 #import "BCMoviePlayerController.h"
 #import <QuartzCore/QuartzCore.h>
 
-#import "Analytics.h"
+#import "ResearchUtility.h"
 #import "PRAnalytics.h"
 
 @implementation ViewBCVideoController
@@ -64,10 +64,9 @@ BOOL isFullscreen=YES;
     if (appDelegate.networkStatus == ReachableViaWiFi) {
         [bcPlayer searchForRenditionsBetweenLowBitRate:[NSNumber numberWithInt:800000] 
                                         andHighBitRate:[NSNumber numberWithInt:2000000]];
-        
-        [Analytics logEvent:@"USE WI-FI"];
-    } else {
-        [Analytics logEvent:@"USE 3G"];
+    }
+    else
+    {
         [bcPlayer searchForRenditionsBetweenLowBitRate:[NSNumber numberWithInt:200000] 
                                         andHighBitRate:[NSNumber numberWithInt:500000]];
     }
@@ -174,7 +173,7 @@ BOOL isFullscreen=YES;
     NSInteger time = round(timeDifference);
     myDuration = time;
     
-    [Analytics logEvent:myDuration inSection:EVENT_SECTION_BC_MOVIE withItem:self.videoDescription withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION  withValue:@"(null)"];
+    [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_VIDEOS withItem:self.videoDescription withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION  withValue:@"null"];
     
     NSLog(@"timeDifference: %i seconds", myDuration);
     startSession = nil;
@@ -188,24 +187,27 @@ BOOL isFullscreen=YES;
     if (!isFullscreen)
     {
         // Research Study
-        [Analytics logEvent:nil inSection:EVENT_SECTION_BC_MOVIE withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:self.videoDescription];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_VIDEOS withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:self.videoDescription];
 
-        
         //[Analytics logEvent:[NSString stringWithFormat:@"MOVIE: %@", self.videoDescription]];
         ProviderResilienceAppDelegate *appDelegate = (ProviderResilienceAppDelegate *)[UIApplication sharedApplication].delegate;
         NSError *err;
         if (self.videoID) {
 
             BCVideo *vid = (BCVideo *)[appDelegate.bcServices findVideoById:self.videoID error:&err];
-            if (vid) {
+            if (vid)
+            {
                 [self.bcPlayer setContentURL:vid];
                 [self.bcPlayer prepareToPlay];
                 [self.bcPlayer play];
-                if (![self.activityIndicator isAnimating]) {
+                if (![self.activityIndicator isAnimating])
+                {
                     [self.activityIndicator startAnimating];
                 }
-            } else {
-                NSString *errStr = [appDelegate.bcServices getErrorsAsString:err];
+            }
+            else
+            {
+                //NSString *errStr = [appDelegate.bcServices getErrorsAsString:err];
                 //[Analytics logEvent:[NSString stringWithFormat:@"VIDEO PLAYBACK ERROR: %@",errStr]];
                 //NSLog(@"BC Error: %@",errStr);
                 //NSLog(@"NSError: %@",err);
@@ -674,10 +676,5 @@ BOOL isFullscreen=YES;
 	{
 		[delegate dismissViewBC:self];
 	}
-    
 }
-
-
-
-
 @end

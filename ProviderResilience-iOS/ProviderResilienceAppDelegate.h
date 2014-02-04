@@ -7,11 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Analytics.h"
 #import "Reachability.h"
 #import "BCMediaAPI.h"
 #import "SaveSettings.h"
-#import "FlurryUtility.h"
 #import "NSData+Base64.h"
 
 @class ProviderResilienceViewController;
@@ -48,8 +46,6 @@
 - (NSURL *)applicationDocumentsDirectory;
 - (void)normalStartUp;
 - (void)eulaStartUp;
-
--(void) FlurryAnalyticsPageView:(NSString *)PageViewed;
 
 -(BOOL)checkInternet;
 -(void)reachabilityChanged:(NSNotification* )note;

@@ -14,6 +14,7 @@
 #import "EulaViewController.h"
 #import "AboutViewController.h"
 #import "PRAnalytics.h"
+#import "ResearchUtility.h"
 
 @implementation ProviderResilienceAppDelegate
 
@@ -27,8 +28,9 @@
 @synthesize connectionRequired;
 @synthesize bcServices;
 
-void uncaughtExceptionHandler(NSException *exception) {
-    [Flurry logError:@"Uncaught" message:@"Crash!" exception:exception];
+void uncaughtExceptionHandler(NSException *exception)
+{
+    NSLog(@"Error Logged: %@", exception.description);
 }
 
 - (void)dealloc
@@ -75,19 +77,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[internetReach startNotifier];
     
     wifiReach = [[Reachability reachabilityForLocalWiFi] retain];
-	[wifiReach startNotifier]; 
-    
-    // Production time! (7/30/2012)
-    //#ifdef DEBUG
-    //  NSString *analyticsKey = [self getAppSetting:@"Analytics" withKey:@"debugKey"];
-    //#else
-    NSString *analyticsKey = [self getAppSetting:@"Analytics" withKey:@"appKey"];
-    //#endif
-    
-    // Enable/Disable Analytics
-    BOOL bAnonymousData = [currentSettings boolFromNumber:[currentSettings bAnonymousData]];
-    
-    [Analytics init:analyticsKey isEnabled:bAnonymousData];        // Enable/Disable Analytics 
+	[wifiReach startNotifier];
 
     // Make sure we have a database before we go too far
     PRdatabaseSQL *mySQL = [PRdatabaseSQL alloc];
@@ -157,7 +147,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (void)normalStartUp {
     //Record dashboard startup
-    [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:[NSString stringWithFormat:@"%i", [self computeResilienceRating]]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:[NSString stringWithFormat:@"%i", [self computeResilienceRating]]];
     
     //Assign DashboardViewController to previousTabNibName
     previousTabNibName = @"DashboardViewController";
@@ -262,21 +252,21 @@ application.applicationIconBadgeNumber = 0;
         if([previousTabNibName isEqualToString:viewController.nibName])
             return;
         
-        [Analytics logEvent:nil inSection:EVENT_SECTION_HELPVIEW withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_HELPVIEW withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     }
     else if([viewController.nibName isEqualToString:@"DashboardViewController"])
     {
         if([previousTabNibName isEqualToString:viewController.nibName])
             [viewController viewWillDisappear:NO];
         
-        [Analytics logEvent:nil inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:[NSString stringWithFormat:@"%i", [self computeResilienceRating]]];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:[NSString stringWithFormat:@"%i", [self computeResilienceRating]]];
     }
     else if([viewController.nibName isEqualToString:@"CardsViewController"])
     {
         if([previousTabNibName isEqualToString:viewController.nibName])
             return;
         
-        [Analytics logEvent:nil inSection:EVENT_SECTION_CARDSVIEW withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_CARDSVIEW withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     }
     
     //NSLog(@"tabBarController delegate called: %@",viewController.nibName);
@@ -349,8 +339,7 @@ application.applicationIconBadgeNumber = 0;
         
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        [Analytics logEvent:@"RESEARCH_STUDY_ENROLL"];
-        [Analytics logEvent:nil inSection:EVENT_SECTION_SETTINGSVIEW withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_ENROLLED withValue:@"(null)"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_ENROLLED withValue:@"(null)"];
     }
     return YES;
     
@@ -560,12 +549,6 @@ application.applicationIconBadgeNumber = 0;
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-}
-#pragma mark -
-#pragma mark FlurryAnalytics Functions
--(void) FlurryAnalyticsPageView:(NSString *)PageViewed {
-	[Analytics logEvent:PageViewed];
-	[Analytics countPageView];
 }
 
 #pragma mark -

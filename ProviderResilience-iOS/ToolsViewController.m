@@ -15,6 +15,7 @@
 #import "ViewBCVideoController.h"
 #import "ProviderResilienceAppDelegate.h"
 #import "PRAnalytics.h"
+#import "ResearchUtility.h"
 
 @interface ToolsViewController ()
 
@@ -91,9 +92,8 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-- (void)viewWillAppear:(BOOL)animated  {
-    
-    [Analytics logEvent:@"TOOLS"];
+- (void)viewWillAppear:(BOOL)animated
+{
     [self switchView:viewToolsMenu];
 //    self.view = self.viewToolsMenu;
 
@@ -175,19 +175,19 @@
     
     if(self.view == self.viewExercise)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
     }
     else if(self.view == self.viewRSSFeed)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
     }
     else if(self.view == self.viewProQOLHelper)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
     }
     else if(self.view == self.viewProQOLGraph)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PROQOLCHART withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOLCHART withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
     }
     
     //Restart the start date
@@ -195,19 +195,19 @@
     
     if(view == self.viewExercise)
     {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
     }
     else if(view == self.viewRSSFeed)
     {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
     }
     else if(view == self.viewProQOLHelper)
     {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
     }
     else if(view == self.viewProQOLGraph)
     {
-        [Analytics logEvent:nil inSection:EVENT_SECTION_PROQOLCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PROQOLCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
     }
     
     //Finally set the view
@@ -225,28 +225,26 @@
     
     if(self.view == self.viewExercise)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
     }
     else if(self.view == self.viewRSSFeed)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
     }
     else if(self.view == self.viewProQOLHelper)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
     }
     else if(self.view == self.viewProQOLGraph)
     {
-        [Analytics logEvent:myDuration inSection:EVENT_SECTION_PROQOLCHART withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOLCHART withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
     }
 }
 
 #pragma mark Video buttons
 // Clicked when the user selects the video menu
-- (IBAction)videoButton_Clicked:(id)sender {
-    
-    [Analytics logEvent:@"VIDEOS"];
-
+- (IBAction)videoButton_Clicked:(id)sender
+{
     // First make sure the content size is set (for scrolling)
     [self.viewScrollVideos setContentSize:CGSizeMake(self.view.frame.size.width, 300.0f)]; 
     
@@ -266,43 +264,36 @@
     
     switch (ourButton.tag) {
         case 1:
-            [Analytics logEvent:@"VIDEO ALCOHOL"];
             videoName = [NSString stringWithFormat:@"alcohol"];
             videoKey = [NSString stringWithFormat:@"apikey2"];
             break;
             
         case 2:
-            [Analytics logEvent:@"VIDEO ANGER"];
             videoName = [NSString stringWithFormat:@"anger"];
             videoKey = [NSString stringWithFormat:@"apikey1"];
             break;
             
         case 3:
-            [Analytics logEvent:@"VIDEO COMPASSION"];
             videoName = [NSString stringWithFormat:@"compassion"];
             videoKey = [NSString stringWithFormat:@"apikey1"];
             break;
             
         case 4:
-            [Analytics logEvent:@"VIDEO DEPRESSION"];
             videoName = [NSString stringWithFormat:@"depression"];
             videoKey = [NSString stringWithFormat:@"apikey2"];
             break;
             
         case 5:
-            [Analytics logEvent:@"VIDEO STIGMA"];
             videoName = [NSString stringWithFormat:@"stigma"];
             videoKey = [NSString stringWithFormat:@"apikey2"];
             break;
             
         case 6:
-            [Analytics logEvent:@"VIDEO TRAUMA"];
             videoName = [NSString stringWithFormat:@"trauma"];
             videoKey = [NSString stringWithFormat:@"apikey1"];
             break;
             
         case 7:
-            [Analytics logEvent:@"VIDEO DEPRESSION SUPPORT"];
             videoName = [NSString stringWithFormat:@"depression2"];
             videoKey = [NSString stringWithFormat:@"apikey2"];
             break;
@@ -328,7 +319,7 @@
     anotherController2.delegate = self;
     
     //Record video start
-    [Analytics logEvent:nil inSection:EVENT_SECTION_VIDEOS withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:videoName];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_VIDEOS withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:videoName];
     
 	[self presentViewController:anotherController2 animated:YES completion:nil];
     //[anotherController2 release];
@@ -369,9 +360,8 @@
 
 #pragma mark Physical Exercise
 // View the Stretch cards
-- (IBAction)physicalButton_Clicked:(id)sender {
-    [Analytics logEvent:@"PHYSICAL EXERCISE"];
-
+- (IBAction)physicalButton_Clicked:(id)sender
+{
     [self switchView:viewExercise];
 //    self.view = self.viewExercise;
     
@@ -449,9 +439,8 @@
     [viewStretchCard.layer addAnimation:transition forKey:nil];
 }
 
-- (IBAction)remindButton_Clicked:(id)sender {
-    [Analytics logEvent:@"REMIND ME"];
-
+- (IBAction)remindButton_Clicked:(id)sender
+{
     // Give them credit for doing something fun today
     [self scoreFunStuff];
     
@@ -467,9 +456,8 @@
 
 #pragma mark Dilbert RSS Feed
 
-- (IBAction)laughButton_Clicked:(id)sender {
-    [Analytics logEvent:@"I NEED A LAUGH"];
-
+- (IBAction)laughButton_Clicked:(id)sender
+{
     // Give them credit for doing something fun today
     [self scoreFunStuff];
     
@@ -952,8 +940,6 @@
 #pragma mark ProQOL Graph
 - (IBAction) graphButton_Clicked:(id)sender
 {
-    [Analytics logEvent:@"PROQOL GRAPH"];
-
     [self createQOLChart];
     [self switchView:viewProQOLGraph];
 //    self.view = self.viewProQOLGraph;

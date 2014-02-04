@@ -25,11 +25,6 @@
 #define EVENT_SECTION_HELPVIEW @"Help"
 
 
-// Movie Player
-#define EVENT_SECTION_BC_MOVIE @"Brightcove Movie Player"
-#define EVENT_SECTION_YOUTUBE_MOVIE @"YouTube Movie Player"
-
-
 /*-------------- ITEM ------------------*/
 
 #define EVENT_ITEM_NONE @""
@@ -41,7 +36,6 @@
 #define EVENT_ITEM_WELCOME @"Welcome Message"
 #define EVENT_ITEM_DAILYREMINDERS @"Daily Reminders"
 #define EVENT_ITEM_REMINDME @"Remind Me At"
-#define EVENT_ITEM_ANONYMOUSDATA @"Anonymous Data"
 #define EVENT_ITEM_DAILYSCORESRESET @"Daily Scores Reset At"
 #define EVENT_ITEM_FEEDBACK @"Feedback"
 #define EVENT_ITEM_RESEARCHSTUDY @"Send Research Data"

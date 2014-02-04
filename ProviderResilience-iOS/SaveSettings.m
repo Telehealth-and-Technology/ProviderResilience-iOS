@@ -11,7 +11,6 @@
 @implementation SaveSettings 
 @synthesize bWelcomeMessage;
 @synthesize bDailyReminders;
-@synthesize bAnonymousData;
 @synthesize bVacationOnOff;
 @synthesize dateTimeLastReset;
 @synthesize dateTimeScoresReset;
@@ -31,7 +30,8 @@
 
 NSString *fileName;
 
-- (NSString *)dataFilePath {
+- (NSString *)dataFilePath
+{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(
                                                          NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -40,12 +40,12 @@ NSString *fileName;
     return [documentsDirectory stringByAppendingPathComponent:fileName];
 }
 
-- (void)initPlist {   
+- (void)initPlist
+{
     // First, set default values in case the file does not exist yet
     // If the file doesn't exist yet,  set default values
     bWelcomeMessage = [[NSNumber numberWithBool:NO] retain];
     bDailyReminders = [[NSNumber numberWithBool:NO] retain];
-    bAnonymousData = [[NSNumber numberWithBool:NO] retain];
     bVacationOnOff = [[NSNumber numberWithBool:NO] retain];
     
     NSDateFormatter *dateFormat = [[[NSDateFormatter alloc] init] autorelease];
@@ -107,8 +107,7 @@ NSString *fileName;
             
             // Grab the values
             bWelcomeMessage = [[temp objectForKey:kWelcomeMessage] retain] ; 
-            bDailyReminders = [[temp objectForKey:kDailyReminders] retain]; 
-            bAnonymousData = [[temp objectForKey:kAnonymousData] retain];   
+            bDailyReminders = [[temp objectForKey:kDailyReminders] retain];
             bVacationOnOff = [[temp objectForKey:kVacationOnOff] retain];
             dateTimeLastReset = [[temp objectForKey:kLastResetDateTime] retain];
             dateTimeScoresReset = [[temp objectForKey:kDailyScoresResetTime] retain];
@@ -145,14 +144,14 @@ NSString *fileName;
 }
 
 // Helper method to set BOOL into an NSNumber
-- (void)boolToNumber: (BOOL)bYesNo: (NSNumber *)numItem {
+- (void)boolToNumber:(BOOL)YesNo numItem:(NSNumber *)numItem {
     
     // We will be changing this
     [numItem release];
     numItem = nil;
     
     // Set the value
-    if (bYesNo) 
+    if (YesNo)
     {
         numItem = [[NSNumber alloc] initWithInteger:1];
     } else {
@@ -173,6 +172,7 @@ NSString *fileName;
         bWelcomeMessage = [[NSNumber alloc] initWithInteger:0];
     }
 }
+
 - (void)uDaily: (BOOL)bYesNo{
     [bDailyReminders release];
     bDailyReminders = nil;
@@ -186,20 +186,6 @@ NSString *fileName;
     }
     
 }
-- (void)uAnonymous: (BOOL)bYesNo{
-    [bAnonymousData release];
-    bAnonymousData = nil;
-    
-    // Set the value
-    if (bYesNo) 
-    {
-        bAnonymousData = [[NSNumber alloc] initWithInteger:1];
-    } else {
-        bAnonymousData = [[NSNumber alloc] initWithInteger:0];
-    }
-    
-}
-
 
 - (void)uScoreCompassion:(NSInteger *)myNewScoreCompassion {
     
@@ -353,7 +339,6 @@ else
     // Set the values for each attribute
     [data setObject:bWelcomeMessage    forKey:kWelcomeMessage];
     [data setObject:bDailyReminders    forKey:kDailyReminders];
-    [data setObject:bAnonymousData    forKey:kAnonymousData];
     [data setObject:bVacationOnOff    forKey:kVacationOnOff];
     [data setObject:dateTimeScoresReset forKey:kDailyScoresResetTime];
     [data setObject:dateTimeDailyReminders forKey:kDailyReminderTime];
@@ -377,8 +362,8 @@ else
 }
 
 
-- (void)dealloc {;
-    [bAnonymousData release];
+- (void)dealloc
+{
     [bWelcomeMessage release];
     [bDailyReminders release];
     [bVacationOnOff release];

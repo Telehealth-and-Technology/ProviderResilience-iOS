@@ -18,7 +18,7 @@
 //
 
 #import "VirtueCardDeck.h"
-#import "Analytics.h"
+#import "ResearchUtility.h"
 
 
 @implementation VirtueCardDeck
@@ -39,9 +39,8 @@
 }
 
 // Initialize this object
-- (void)initPlist{
-    [Analytics logEvent:@"VIRTUE CARD"];
-    
+- (void)initPlist
+{    
     // Read our data from the plist
     NSString *filePath = [self dataFilePath];
     

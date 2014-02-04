@@ -16,7 +16,6 @@
     // Persistent data that we will store in Settings.plist  
     BOOL bWelcomeMsg;
     BOOL bDailyReminders;
-    BOOL bAnonymousData;
     
     SaveSettings *currentSettings;
 }
@@ -47,12 +46,6 @@
 @property (retain, nonatomic) IBOutlet UILabel *labelRemindAt;
 @property (retain, nonatomic) IBOutlet UIButton *buttonRemindAt;
 
-// Anonymous Data (yes/no)
-- (IBAction)anonymous_Clicked:(id)sender;
-@property (retain, nonatomic) IBOutlet UILabel *labelAnonymous;
-@property (retain, nonatomic) IBOutlet UIButton *buttonAnonymous;
-@property (retain, nonatomic) IBOutlet UIImageView *img_anonymousOnOff;
-
 // Reset Scores Time
 - (IBAction)resetScores_clicked:(id)sender;
 @property (retain, nonatomic) IBOutlet UILabel *labelResetScores;
@@ -77,6 +70,5 @@
 // Helper Methods
 - (void)setUpWelcomeButton:(BOOL)bOnOff;
 - (void)setUpReminderButton:(BOOL)bOnOff;
-- (void)setUpAnonymousButton:(BOOL)bOnOff;
 
 @end

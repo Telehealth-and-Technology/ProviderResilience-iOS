@@ -17,7 +17,6 @@
 
 #define kWelcomeMessage @"keyWelcomeMessage"
 #define kDailyReminders @"keyDailyReminders"
-#define kAnonymousData  @"keyAnonymousData"
 #define kVacationOnOff  @"keyVacationOnOff"
 #define kLastResetDateTime  @"keyLastResetDateTime"
 #define kDailyScoresResetTime  @"keyDailyScoresResetTime"
@@ -43,7 +42,6 @@
     // Settings
     NSNumber *bWelcomeMessage;
     NSNumber *bDailyReminders;
-    NSNumber *bAnonymousData;
     NSNumber *bVacationOnOff;
     NSDate   *dateTimeLastReset;
     NSDate   *dateTimeScoresReset;
@@ -64,7 +62,6 @@
 
 @property (copy, nonatomic) NSNumber *bWelcomeMessage;
 @property (copy, nonatomic) NSNumber *bDailyReminders;
-@property (copy, nonatomic) NSNumber *bAnonymousData;
 @property (copy, nonatomic) NSNumber *bVacationOnOff;
 @property (nonatomic, copy) NSDate *dateTimeLastReset;
 @property (nonatomic, copy) NSDate *dateTimeScoresReset;
@@ -86,10 +83,9 @@
 - (void)initPlist;
 - (void)writeToPlist;
 - (BOOL)boolFromNumber: (NSNumber *)numItem;
-- (void)boolToNumber: (BOOL)bYesNo: (NSNumber *)numItem;
+- (void)boolToNumber: (BOOL)YesNo numItem:(NSNumber *)numItem;
 - (void)uWelcome: (BOOL)bYesNo;
 - (void)uDaily: (BOOL)bYesNo;
-- (void)uAnonymous: (BOOL)bYesNo;
 - (void)uVacation: (BOOL)bYesNo;
 - (void)uDateTimeLastReset:(NSDate *)myNewDateTime;
 - (void)uDateTimeScoresReset:(NSDate *)myNewDateTime;

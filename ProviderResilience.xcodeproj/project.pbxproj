@@ -288,7 +288,6 @@
 		0867B124156D8255001A9124 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867B123156D8255001A9124 /* libsqlite3.dylib */; };
 		0867B12B156D83C3001A9124 /* PRdatabaseSQL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0867B12A156D83C3001A9124 /* PRdatabaseSQL.m */; };
 		086C912D1561BD040087D125 /* VirtueCardDeck.m in Sources */ = {isa = PBXBuildFile; fileRef = 086C912C1561BCE70087D125 /* VirtueCardDeck.m */; };
-		0871559415C6F2B700723BF8 /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 084446A115B0EB7000187A93 /* Analytics.m */; };
 		0871559615C6F44D00723BF8 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0844469D15B0EAC000187A93 /* Reachability.m */; };
 		0871559A15C6F6A100723BF8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0871559915C6F6A100723BF8 /* SystemConfiguration.framework */; };
 		0876329015D077E700DCD24D /* MainWindow~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0876328F15D077E700DCD24D /* MainWindow~ipad.xib */; };
@@ -317,7 +316,6 @@
 		08854E89156312AB0042AAF5 /* StretchCards.xml in Resources */ = {isa = PBXBuildFile; fileRef = 08854E88156312AB0042AAF5 /* StretchCards.xml */; };
 		088973DE1559D67A00713381 /* background_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 088973DD1559D67A00713381 /* background_01.png */; };
 		0893D84816A0D34F00A40CFE /* ResearchUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0893D84216A0D31A00A40CFE /* ResearchUtility.m */; };
-		0893D84916A0D34F00A40CFE /* FlurryUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0893D84416A0D31A00A40CFE /* FlurryUtility.m */; };
 		0893D84A16A0D34F00A40CFE /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0893D84716A0D31A00A40CFE /* NSData+Base64.m */; };
 		0899B19F15D2E89300AB27BF /* ball-green~was~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 0899B19E15D2E89300AB27BF /* ball-green~was~ipad.png */; };
 		089F1F4F15D4339B00E730C3 /* downArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 089F1F4B15D4339B00E730C3 /* downArrow.png */; };
@@ -386,7 +384,6 @@
 		08DBD4C0169C852F00DC38EB /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DBD4BE169C852F00DC38EB /* arrow.png */; };
 		08DBD4C9169CCC2800DC38EB /* clockbackground-Stretch.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DBD4C8169CCC2800DC38EB /* clockbackground-Stretch.png */; };
 		08EB5B3615CAE6310023AED1 /* ball-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 08EB5B3515CAE6310023AED1 /* ball-green.png */; };
-		FB5833F917CD1AFC00671CD8 /* libFlurry_4.2.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833F817CD1AFC00671CD8 /* libFlurry_4.2.3.a */; };
 		FB5833FB17CD1B3600671CD8 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833FA17CD1B3600671CD8 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FB5833FD17CD1B3D00671CD8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833FC17CD1B3D00671CD8 /* Security.framework */; };
 		FB58343217D7A11200671CD8 /* ShinobiCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833F417CD1A9100671CD8 /* ShinobiCharts.framework */; };
@@ -650,8 +647,6 @@
 		0844469C15B0EA6500187A93 /* SBJsonWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		0844469D15B0EAC000187A93 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		0844469E15B0EAC000187A93 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		084446A115B0EB7000187A93 /* Analytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Analytics.m; path = ../Analytics.m; sourceTree = "<group>"; };
-		084446A215B0EB7000187A93 /* Analytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Analytics.h; path = ../Analytics.h; sourceTree = "<group>"; };
 		0851CD191594C71C007B9F04 /* EULA.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EULA.txt; sourceTree = "<group>"; };
 		0851CD2315950E9B007B9F04 /* DateTimePicker~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "DateTimePicker~iphone.xib"; sourceTree = "<group>"; };
 		0851CD2515950EAC007B9F04 /* DateTimePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateTimePicker.h; sourceTree = "<group>"; };
@@ -731,8 +726,6 @@
 		088973DD1559D67A00713381 /* background_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background_01.png; sourceTree = "<group>"; };
 		0893D84216A0D31A00A40CFE /* ResearchUtility.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResearchUtility.m; sourceTree = "<group>"; };
 		0893D84316A0D31A00A40CFE /* ResearchUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResearchUtility.h; sourceTree = "<group>"; };
-		0893D84416A0D31A00A40CFE /* FlurryUtility.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlurryUtility.m; sourceTree = "<group>"; };
-		0893D84516A0D31A00A40CFE /* FlurryUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlurryUtility.h; sourceTree = "<group>"; };
 		0893D84616A0D31A00A40CFE /* NSData+Base64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		0893D84716A0D31A00A40CFE /* NSData+Base64.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		0899B19E15D2E89300AB27BF /* ball-green~was~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ball-green~was~ipad.png"; sourceTree = "<group>"; };
@@ -815,8 +808,6 @@
 		08DBD4C8169CCC2800DC38EB /* clockbackground-Stretch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clockbackground-Stretch.png"; sourceTree = "<group>"; };
 		08EB5B3515CAE6310023AED1 /* ball-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ball-green.png"; sourceTree = "<group>"; };
 		FB5833F417CD1A9100671CD8 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShinobiCharts.framework; path = ../B2R/Classes/ViewControllers/ShinobiCharts.framework; sourceTree = "<group>"; };
-		FB5833F717CD1AFC00671CD8 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
-		FB5833F817CD1AFC00671CD8 /* libFlurry_4.2.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_4.2.3.a; sourceTree = "<group>"; };
 		FB5833FA17CD1B3600671CD8 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		FB5833FC17CD1B3D00671CD8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		FB7CFFC11818259700D397DD /* PRAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRAnalytics.h; sourceTree = "<group>"; };
@@ -842,7 +833,6 @@
 				081D986A1559894500424E28 /* CoreData.framework in Frameworks */,
 				08DBD4BA169B917B00DC38EB /* libBrightcoveMediaAPI.a in Frameworks */,
 				08DBD4BC169B91F000DC38EB /* libBrightcovePlayerKit.a in Frameworks */,
-				FB5833F917CD1AFC00671CD8 /* libFlurry_4.2.3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -898,7 +888,6 @@
 		081D98541559894500424E28 = {
 			isa = PBXGroup;
 			children = (
-				FB5833F617CD1AFC00671CD8 /* Flurry */,
 				0844468F15B0EA0D00187A93 /* BrightCove */,
 				08DBD4BB169B91F000DC38EB /* libBrightcovePlayerKit.a */,
 				08DBD4B9169B917B00DC38EB /* libBrightcoveMediaAPI.a */,
@@ -1406,8 +1395,6 @@
 			children = (
 				0893D84216A0D31A00A40CFE /* ResearchUtility.m */,
 				0893D84316A0D31A00A40CFE /* ResearchUtility.h */,
-				0893D84416A0D31A00A40CFE /* FlurryUtility.m */,
-				0893D84516A0D31A00A40CFE /* FlurryUtility.h */,
 				0893D84616A0D31A00A40CFE /* NSData+Base64.h */,
 				0893D84716A0D31A00A40CFE /* NSData+Base64.m */,
 				FB7CFFC11818259700D397DD /* PRAnalytics.h */,
@@ -1529,17 +1516,6 @@
 			name = GDataXML;
 			sourceTree = "<group>";
 		};
-		FB5833F617CD1AFC00671CD8 /* Flurry */ = {
-			isa = PBXGroup;
-			children = (
-				084446A115B0EB7000187A93 /* Analytics.m */,
-				084446A215B0EB7000187A93 /* Analytics.h */,
-				FB5833F717CD1AFC00671CD8 /* Flurry.h */,
-				FB5833F817CD1AFC00671CD8 /* libFlurry_4.2.3.a */,
-			);
-			path = Flurry;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1567,7 +1543,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ProviderResilience;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0500;
 				TargetAttributes = {
 					081D985E1559894500424E28 = {
 						DevelopmentTeam = LM8B99RWJA;
@@ -1949,10 +1925,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0893D84816A0D34F00A40CFE /* ResearchUtility.m in Sources */,
-				0893D84916A0D34F00A40CFE /* FlurryUtility.m in Sources */,
 				0893D84A16A0D34F00A40CFE /* NSData+Base64.m in Sources */,
 				0871559615C6F44D00723BF8 /* Reachability.m in Sources */,
-				0871559415C6F2B700723BF8 /* Analytics.m in Sources */,
 				0844468115B0D4E400187A93 /* ViewBCVideoController.m in Sources */,
 				080DC03315AC868F00C47A26 /* LineChartDataSource.m in Sources */,
 				0851CD2715950FA0007B9F04 /* DateTimePicker.m in Sources */,
@@ -1994,7 +1968,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = armv7;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2006,15 +1985,18 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"/Developer/Brightcove/bc-pad-iphone-kit-2/lib/**",
 					"/Developer/Brightcove/bc-media-api-2/lib/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = ProviderResilience;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2025,14 +2007,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = armv7;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"/Developer/Brightcove/bc-pad-iphone-kit-2/lib/**",
@@ -2052,7 +2042,6 @@
 		081D987D1559894500424E28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2086,7 +2075,6 @@
 		081D987E1559894500424E28 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: The Informatics Applications Group, Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
