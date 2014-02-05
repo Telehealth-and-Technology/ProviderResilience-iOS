@@ -19,24 +19,24 @@
     
 }
 
-@property (nonatomic, retain) NSDate *startSession;
+@property (nonatomic, strong) NSDate *startSession;
 
-@property (retain, nonatomic) IBOutlet UIView *viewAbout;
-@property (retain, nonatomic) IBOutlet UIButton *buttonAboutNext;
+@property (strong, nonatomic) IBOutlet UIView *viewAbout;
+@property (strong, nonatomic) IBOutlet UIButton *buttonAboutNext;
 
-@property (retain, nonatomic) IBOutlet UIView *viewHintDash;
-@property (retain, nonatomic) IBOutlet UIImageView *viewImageDash;
-@property (retain, nonatomic) IBOutlet UIButton *buttonDashPrev;
-@property (retain, nonatomic) IBOutlet UIButton *buttonDashNext;
+@property (strong, nonatomic) IBOutlet UIView *viewHintDash;
+@property (strong, nonatomic) IBOutlet UIImageView *viewImageDash;
+@property (strong, nonatomic) IBOutlet UIButton *buttonDashPrev;
+@property (strong, nonatomic) IBOutlet UIButton *buttonDashNext;
 
-@property (retain, nonatomic) IBOutlet UIView *viewHintCards;
-@property (retain, nonatomic) IBOutlet UIImageView *viewImageCard;
-@property (retain, nonatomic) IBOutlet UIButton *buttonCardPrev;
-@property (retain, nonatomic) IBOutlet UIButton *buttonCardNext;
+@property (strong, nonatomic) IBOutlet UIView *viewHintCards;
+@property (strong, nonatomic) IBOutlet UIImageView *viewImageCard;
+@property (strong, nonatomic) IBOutlet UIButton *buttonCardPrev;
+@property (strong, nonatomic) IBOutlet UIButton *buttonCardNext;
 
 
-@property (nonatomic, retain) UIWebView *myWebView;
-@property (retain, nonatomic) UIButton *buttonProceed;
+@property (nonatomic, strong) UIWebView *myWebView;
+@property (strong, nonatomic) UIButton *buttonProceed;
 
 - (void)loadHTML:(NSString *)fileName;
 - (void)adjustPosition;

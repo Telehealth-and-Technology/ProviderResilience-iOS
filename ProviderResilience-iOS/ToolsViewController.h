@@ -33,51 +33,51 @@
     NSDate* startSession;
 }
 
-@property (nonatomic, retain) NSDate *startSession;
+@property (nonatomic, strong) NSDate *startSession;
 
 
 // This is the default view (menu items)
-@property (retain, nonatomic) IBOutlet UIView *viewToolsMenu;
+@property (strong, nonatomic) IBOutlet UIView *viewToolsMenu;
 
 // These are the buttons that take us to the other (non-default) views
 // Videos
-@property (retain, nonatomic) IBOutlet UIButton *videoButton;
-@property (retain, nonatomic) IBOutlet UIView *viewVideos;
-@property (retain, nonatomic) IBOutlet UIScrollView *viewScrollVideos;
+@property (strong, nonatomic) IBOutlet UIButton *videoButton;
+@property (strong, nonatomic) IBOutlet UIView *viewVideos;
+@property (strong, nonatomic) IBOutlet UIScrollView *viewScrollVideos;
 
 // Physical Exercise (Stretching)
-@property (retain, nonatomic) IBOutlet UIButton *physicalButton;
-@property (retain, nonatomic) IBOutlet UIView *viewExercise;
+@property (strong, nonatomic) IBOutlet UIButton *physicalButton;
+@property (strong, nonatomic) IBOutlet UIView *viewExercise;
 @property (copy, nonatomic) VirtueCardDeck *stretchCards;
 
 // Remind (videos)
-@property (retain, nonatomic) IBOutlet UIButton *remindButton;
-@property (retain, nonatomic) IBOutlet UIView *viewRemindVideos;
-@property (retain, nonatomic) IBOutlet UIScrollView *viewRemindScrollVideos;
+@property (strong, nonatomic) IBOutlet UIButton *remindButton;
+@property (strong, nonatomic) IBOutlet UIView *viewRemindVideos;
+@property (strong, nonatomic) IBOutlet UIScrollView *viewRemindScrollVideos;
 
 // Laugh (Dilbert RSS)
-@property (retain, nonatomic) IBOutlet UIButton *laughButton;
-@property (retain, nonatomic) IBOutlet UIView *viewRSSFeed;
-@property (retain, nonatomic) IBOutlet UIWebView *webView;
-@property (retain) NSMutableArray *allEntries;
-@property (retain) NSMutableData *receivedData;
-@property (retain, nonatomic) IBOutlet UIButton *prevButton_Dilbert;
-@property (retain, nonatomic) IBOutlet UIButton *nextButton_Dilbert;
-@property (retain, nonatomic) IBOutlet UILabel *nameDateDiblert;
-@property (retain, nonatomic) IBOutlet UIActivityIndicatorView *dilbertActivityIndicator;
+@property (strong, nonatomic) IBOutlet UIButton *laughButton;
+@property (strong, nonatomic) IBOutlet UIView *viewRSSFeed;
+@property (strong, nonatomic) IBOutlet UIWebView *webView;
+@property (strong) NSMutableArray *allEntries;
+@property (strong) NSMutableData *receivedData;
+@property (strong, nonatomic) IBOutlet UIButton *prevButton_Dilbert;
+@property (strong, nonatomic) IBOutlet UIButton *nextButton_Dilbert;
+@property (strong, nonatomic) IBOutlet UILabel *nameDateDiblert;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *dilbertActivityIndicator;
 - (IBAction)prevDilbert:(id)sender;
 - (IBAction)nextDilbert:(id)sender;
 
 // ProQOL Pocket Helper Card
-@property (retain, nonatomic) IBOutlet UIButton *proqolButton;
-@property (retain, nonatomic) IBOutlet UIView *viewProQOLHelper;
+@property (strong, nonatomic) IBOutlet UIButton *proqolButton;
+@property (strong, nonatomic) IBOutlet UIView *viewProQOLHelper;
 
 // ProQOL Graph
-@property (retain, nonatomic) IBOutlet UIButton *graphButton;
-@property (retain, nonatomic) IBOutlet UIView *viewProQOLGraph;
+@property (strong, nonatomic) IBOutlet UIButton *graphButton;
+@property (strong, nonatomic) IBOutlet UIView *viewProQOLGraph;
 
 // Burnout Graph
-@property (retain, nonatomic) IBOutlet UIButton *burnoutButton;
+@property (strong, nonatomic) IBOutlet UIButton *burnoutButton;
 
 // ...and the Actions that initiate the above
 - (IBAction)videoButton_Clicked:(id)sender;

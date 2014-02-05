@@ -19,48 +19,48 @@
     
     SaveSettings *currentSettings;
 }
-@property (nonatomic, retain) NSDate *startSession;
+@property (nonatomic, strong) NSDate *startSession;
 
 
-@property (retain, nonatomic) SaveSettings *currentSettings;
+@property (strong, nonatomic) SaveSettings *currentSettings;
 
 // Reset Application
 - (IBAction)reset_Clicked:(id)sender;
-@property (retain, nonatomic) IBOutlet UILabel *labelReset;
-@property (retain, nonatomic) IBOutlet UIButton *buttonReset;
+@property (strong, nonatomic) IBOutlet UILabel *labelReset;
+@property (strong, nonatomic) IBOutlet UIButton *buttonReset;
 
 // Welcome Message (display or not display)
 - (IBAction)welcome_Clicked:(id)sender;
-@property (retain, nonatomic) IBOutlet UILabel *labelWelcome;
-@property (retain, nonatomic) IBOutlet UIButton *buttonWelcome;
-@property (retain, nonatomic) IBOutlet UIImageView *img_welcomeOnOff;
+@property (strong, nonatomic) IBOutlet UILabel *labelWelcome;
+@property (strong, nonatomic) IBOutlet UIButton *buttonWelcome;
+@property (strong, nonatomic) IBOutlet UIImageView *img_welcomeOnOff;
 
 // Daily Reminders (yes/no)
 - (IBAction)reminder_Clicked:(id)sender;
-@property (retain, nonatomic) IBOutlet UILabel *labelReminder;
-@property (retain, nonatomic) IBOutlet UIButton *buttonReminder;
-@property (retain, nonatomic) IBOutlet UIImageView *img_reminderOnOff;
+@property (strong, nonatomic) IBOutlet UILabel *labelReminder;
+@property (strong, nonatomic) IBOutlet UIButton *buttonReminder;
+@property (strong, nonatomic) IBOutlet UIImageView *img_reminderOnOff;
 
 // Remind me at:
 - (IBAction)remindAt_Clicked:(id)sender;
-@property (retain, nonatomic) IBOutlet UILabel *labelRemindAt;
-@property (retain, nonatomic) IBOutlet UIButton *buttonRemindAt;
+@property (strong, nonatomic) IBOutlet UILabel *labelRemindAt;
+@property (strong, nonatomic) IBOutlet UIButton *buttonRemindAt;
 
 // Reset Scores Time
 - (IBAction)resetScores_clicked:(id)sender;
-@property (retain, nonatomic) IBOutlet UILabel *labelResetScores;
-@property (retain, nonatomic) IBOutlet UIButton *buttonResetScores;
+@property (strong, nonatomic) IBOutlet UILabel *labelResetScores;
+@property (strong, nonatomic) IBOutlet UIButton *buttonResetScores;
 
 // Send Feedback
 - (IBAction)feedback_Clicked:(id)sender;
-@property (retain, nonatomic) IBOutlet UILabel *labelFeedback;
-@property (retain, nonatomic) IBOutlet UIButton *buttonFeedback;
+@property (strong, nonatomic) IBOutlet UILabel *labelFeedback;
+@property (strong, nonatomic) IBOutlet UIButton *buttonFeedback;
 
 // Study Enrollment
 - (IBAction)sendResearchData_Clicked:(id)sender;
 - (IBAction)disenrollFromStudy_Clicked:(id)sender;
-@property (retain, nonatomic) IBOutlet UIButton *buttonSendResearchData;
-@property (retain, nonatomic) IBOutlet UIButton *buttonDisenrollFromStudy;
+@property (strong, nonatomic) IBOutlet UIButton *buttonSendResearchData;
+@property (strong, nonatomic) IBOutlet UIButton *buttonDisenrollFromStudy;
 
 // Email methods
 -(void)displayComposerSheet;

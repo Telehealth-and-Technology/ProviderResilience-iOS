@@ -52,12 +52,5 @@
     [super viewDidUnload];
 }
 
-- (void)dealloc 
-{
-	[datePicker release];
-	[defaultDate release];
-	
-    [super dealloc];
-}
 
 @end

@@ -28,7 +28,7 @@ NSString *fileName;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(
                                                          NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    fileName = [[[NSString alloc] initWithString:kFilename2] autorelease];
+    fileName = kFilename2;
     fileName  = [fileName stringByAppendingString:@".plist"];
     return [documentsDirectory stringByAppendingPathComponent:fileName];
 }
@@ -68,16 +68,16 @@ NSString *fileName;
             // OK...let's process what we got
             
             // Grab the values
-            nScoreHappy = [[temp objectForKey:kHappyScore] retain];
-            nScoreTrapped = [[temp objectForKey:kTrappedScore] retain];
-            nScoreSatisfied = [[temp objectForKey:kSatisfiedScore] retain];
-            nScorePreoccupied = [[temp objectForKey:kPreoccupiedScore] retain];
-            nScoreConnected = [[temp objectForKey:kConnectedScore] retain];
-            nScoreWornout = [[temp objectForKey:kWornoutScore] retain];
-            nScoreCaring = [[temp objectForKey:kCaringScore] retain];
-            nScoreOnedge = [[temp objectForKey:kOnedgeScore] retain];
-            nScoreValuable = [[temp objectForKey:kValuableScore] retain];
-            nScoreTraumatized = [[temp objectForKey:kTraumatizedScore] retain];
+            nScoreHappy = [temp objectForKey:kHappyScore];
+            nScoreTrapped = [temp objectForKey:kTrappedScore];
+            nScoreSatisfied = [temp objectForKey:kSatisfiedScore];
+            nScorePreoccupied = [temp objectForKey:kPreoccupiedScore];
+            nScoreConnected = [temp objectForKey:kConnectedScore];
+            nScoreWornout = [temp objectForKey:kWornoutScore];
+            nScoreCaring = [temp objectForKey:kCaringScore];
+            nScoreOnedge = [temp objectForKey:kOnedgeScore];
+            nScoreValuable = [temp objectForKey:kValuableScore];
+            nScoreTraumatized = [temp objectForKey:kTraumatizedScore];
             
         }
         
@@ -102,22 +102,10 @@ NSString *fileName;
     [data setObject:nScoreTraumatized forKey:kTraumatizedScore];
     
     [data writeToFile:[self dataFilePath] atomically:YES];
-    [data release];   
 }
 
 
 - (void)dealloc {;
-    [nScoreHappy release];
-    [nScoreTrapped release];
-    [nScoreSatisfied release];
-    [nScorePreoccupied release];
-    [nScoreConnected release];
-    [nScoreWornout release];
-    [nScoreCaring release];
-    [nScoreOnedge release];
-    [nScoreValuable release];
-    [nScoreTraumatized release];
-    [super dealloc];
 }
 
 

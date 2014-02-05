@@ -35,7 +35,7 @@
 @property (copy, nonatomic) NSString *pListFileName;
 @property (copy, nonatomic) NSString *VirtueFileName;
 @property (copy, nonatomic) NSNumber *CurrentVirtue;
-@property (nonatomic, retain) NSMutableArray *Virtues;
+@property (nonatomic, strong) NSMutableArray *Virtues;
 
 
 - (NSString *)dataFilePath;         // Path to the Virtue plist (in the user's document folder)

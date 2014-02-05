@@ -56,9 +56,6 @@
     UISwipeGestureRecognizer *swipeLeft3 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGestures:)];
     [swipeLeft3 setDirection:(UISwipeGestureRecognizerDirectionLeft )];
     [self.viewHintCards addGestureRecognizer:swipeLeft3];
-    [swipeLeft1 release];
-    [swipeLeft2 release];
-    [swipeLeft3 release];
     
     UISwipeGestureRecognizer *swipeRight1 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGestures:)];
     [swipeRight1 setDirection:(UISwipeGestureRecognizerDirectionRight )];
@@ -69,9 +66,6 @@
     UISwipeGestureRecognizer *swipeRight3 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGestures:)];
     [swipeRight3 setDirection:(UISwipeGestureRecognizerDirectionRight )];
     [self.viewHintCards addGestureRecognizer:swipeRight3];
-    [swipeRight1 release];
-    [swipeRight2 release];
-    [swipeRight3 release];
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -133,7 +127,7 @@
 {
     [super viewWillAppear:animated];
     
-    startSession = [[NSDate date] retain];
+    startSession = [NSDate date];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -148,7 +142,6 @@
     
     NSLog(@"timeDifference: %i seconds", myDuration);
     startSession = nil;
-    [startSession release];
     
     [super viewWillDisappear:animated];
 }
@@ -171,7 +164,6 @@
 - (void)dealloc
 {
     myWebView.delegate = nil;
-    [super dealloc];
 }
 #pragma mark Startup Mode
 // Indicate that we are in Startup Mode

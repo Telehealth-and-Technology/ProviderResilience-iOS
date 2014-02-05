@@ -16,15 +16,15 @@
 @interface DateTimePicker : UIViewController 
 {
     IBOutlet UIDatePicker *datePicker;
-    id < DateTimePickerDelegate > delegate;
+    id < DateTimePickerDelegate > __weak delegate;
 	NSDate *defaultDate;
     
     UIDatePickerMode ourMode;
 }
 
-@property (nonatomic, retain) UIDatePicker *datePicker;
-@property (nonatomic, assign) id < DateTimePickerDelegate > delegate;
-@property (nonatomic, retain) NSDate *defaultDate;
+@property (nonatomic, strong) UIDatePicker *datePicker;
+@property (nonatomic, weak) id < DateTimePickerDelegate > delegate;
+@property (nonatomic, strong) NSDate *defaultDate;
 
 - (IBAction)savePressed:(id)sender;
 - (IBAction)cancelPressed:(id)sender;

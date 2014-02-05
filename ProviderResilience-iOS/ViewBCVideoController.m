@@ -24,6 +24,8 @@
 @synthesize videoDescription;
 @synthesize delegate;
 @synthesize startSession;
+@synthesize duration;
+@synthesize wasCancelledOrError;
 
 BOOL bPlayBackStopped=YES;
 BOOL isFullscreen=YES;
@@ -117,7 +119,6 @@ BOOL isFullscreen=YES;
 
 - (void)dealloc
 {
-    [super dealloc];
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self 
                   name:MPMoviePlayerPlaybackStateDidChangeNotification 
@@ -156,29 +157,14 @@ BOOL isFullscreen=YES;
     
     // Release any cached data, images, etc that aren't in use.
 }
-- (void)viewWillAppear:(BOOL)animated  {
-    
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
-    
-    startSession = [[NSDate date] retain];
-
+    wasCancelledOrError = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    int myDuration = 0;
-    NSDate *endSession = [NSDate date];
-    
-    NSTimeInterval timeDifference = [endSession timeIntervalSinceDate:startSession];
-    NSInteger time = round(timeDifference);
-    myDuration = time;
-    
-    [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_VIDEOS withItem:self.videoDescription withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION  withValue:@"null"];
-    
-    NSLog(@"timeDifference: %i seconds", myDuration);
-    startSession = nil;
-    [startSession release];
-    
     [super viewWillDisappear:animated];
 }
 
@@ -186,17 +172,19 @@ BOOL isFullscreen=YES;
     
     if (!isFullscreen)
     {
-        // Research Study
-        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_VIDEOS withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:self.videoDescription];
-
         //[Analytics logEvent:[NSString stringWithFormat:@"MOVIE: %@", self.videoDescription]];
         ProviderResilienceAppDelegate *appDelegate = (ProviderResilienceAppDelegate *)[UIApplication sharedApplication].delegate;
         NSError *err;
-        if (self.videoID) {
-
+        if (self.videoID)
+        {
             BCVideo *vid = (BCVideo *)[appDelegate.bcServices findVideoById:self.videoID error:&err];
             if (vid)
             {
+                //Start duration start time
+                startSession = [NSDate date];
+                
+                // Research Study
+                [ResearchUtility logEvent:0 inSection:EVENT_SECTION_VIDEOS withItem:self.videoDescription withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
                 [self.bcPlayer setContentURL:vid];
                 [self.bcPlayer prepareToPlay];
                 [self.bcPlayer play];
@@ -207,16 +195,13 @@ BOOL isFullscreen=YES;
             }
             else
             {
-                //NSString *errStr = [appDelegate.bcServices getErrorsAsString:err];
-                //[Analytics logEvent:[NSString stringWithFormat:@"VIDEO PLAYBACK ERROR: %@",errStr]];
-                //NSLog(@"BC Error: %@",errStr);
-                //NSLog(@"NSError: %@",err);
+                NSString *errStr = [appDelegate.bcServices getErrorsAsString:err];
+                NSLog(@"BC Error: %@",errStr);
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection Error"
                                                                 message:@"A Connection to the Internet is needed and could not be found"
                                                                delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 
                 [alert show];
-                [alert release];
             }
         }
     }
@@ -235,7 +220,6 @@ BOOL isFullscreen=YES;
         
         if (self.bcPlayer) {
             [self.bcPlayer stop];
-            [self.bcPlayer release];
             self.bcPlayer = nil;
         }
     }
@@ -365,7 +349,6 @@ BOOL isFullscreen=YES;
         backgroundView.layer.cornerRadius = 10.0;
         [backgroundView setTag:20];
         [view addSubview:backgroundView];
-        [backgroundView release];
         
         
         // Create an activity indicator to show whenever we are waiting for the video
@@ -377,7 +360,6 @@ BOOL isFullscreen=YES;
         [activityView setTag:21];           // Tag this view so we can find it later
         
         [view addSubview:activityView];                     // Add it to the view
-        [activityView release];
         
         // Let's create a label also (to tell the user what is going on)
         UIFont *labelFont = [UIFont boldSystemFontOfSize:10.0];
@@ -393,7 +375,6 @@ BOOL isFullscreen=YES;
         
         [labelView  setTag:22];                             // Tag this view also for later 
         [view addSubview:labelView];               // And add it to our view as well
-        [labelView release];
    
     } 
         
@@ -592,9 +573,7 @@ BOOL isFullscreen=YES;
                                                        delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
         [alert show];
-        [alert release];   
     }
-
     
     bPlayBackStopped=YES;
     isFullscreen = FALSE;
@@ -603,8 +582,8 @@ BOOL isFullscreen=YES;
     [self showWaitingOnDownload:NO];                // Make sure we aren't shown a progress indicator
     
     //[self.navigationController popViewControllerAnimated:YES];
-    if (delegate && [delegate respondsToSelector:@selector(dismissViewBC:)]) 
-	{
+    if (delegate && [delegate respondsToSelector:@selector(dismissViewBC:)])
+    {
 		[delegate dismissViewBC:self];
 	}
 
@@ -624,6 +603,16 @@ BOOL isFullscreen=YES;
     //[self.navigationController popViewControllerAnimated:YES];
     if (delegate && [delegate respondsToSelector:@selector(dismissViewBC:)]) 
 	{
+        NSDate *endSession = [NSDate date];
+        
+        NSTimeInterval timeDifference = [endSession timeIntervalSinceDate:startSession];
+        duration = round(timeDifference);
+        
+        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+        [nc removeObserver:self
+                      name:MPMoviePlayerPlaybackDidFinishNotification
+                    object:bcPlayer];
+        
 		[delegate dismissViewBC:self];
 	}
     
@@ -674,6 +663,7 @@ BOOL isFullscreen=YES;
     // No matter which button they clicked, dismiss this view
     if (delegate && [delegate respondsToSelector:@selector(dismissViewBC:)]) 
 	{
+        wasCancelledOrError = YES;
 		[delegate dismissViewBC:self];
 	}
 }

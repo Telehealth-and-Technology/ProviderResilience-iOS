@@ -23,15 +23,15 @@
     NSDate *startSession;
 }
 
-@property (nonatomic, retain) NSDate *startSession;
+@property (nonatomic, strong) NSDate *startSession;
 
 
 @property (copy, nonatomic) VirtueCardDeck *virtueCards;
-@property (retain, nonatomic) UIImageView *viewVirtueCard;
-@property (retain, nonatomic) UILabel *labelTitle;
-@property (retain, nonatomic) UILabel *labelCopyright;
-@property (retain, nonatomic) UIButton *buttonProceed;
-@property (retain, nonatomic) UILabel *labelSwipeHorz;
+@property (strong, nonatomic) UIImageView *viewVirtueCard;
+@property (strong, nonatomic) UILabel *labelTitle;
+@property (strong, nonatomic) UILabel *labelCopyright;
+@property (strong, nonatomic) UIButton *buttonProceed;
+@property (strong, nonatomic) UILabel *labelSwipeHorz;
 
 - (IBAction)buttonProceed_Clicked:(id)sender;
 - (void)StartupMode;

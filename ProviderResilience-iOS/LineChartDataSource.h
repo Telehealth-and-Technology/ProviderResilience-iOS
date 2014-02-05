@@ -22,8 +22,8 @@
     NSInteger numSeriesInChart;
 }
 
-@property (nonatomic, retain) NSMutableArray *series1Data, *series1Dates;
-@property (nonatomic, retain) NSString *dataFileName;
+@property (nonatomic, strong) NSMutableArray *series1Data, *series1Dates;
+@property (nonatomic, strong) NSString *dataFileName;
 
 -(void)toggleSeriesType;
 - (NSString *)dataFilePath:(NSString *)plistFileName;

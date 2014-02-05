@@ -77,12 +77,6 @@
 /**
  *  dealloc
  */
-- (void)dealloc
-{
-    [textView_ release];
-    
-    [super dealloc];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

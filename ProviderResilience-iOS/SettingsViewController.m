@@ -118,17 +118,6 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)dealloc
-{
-    [img_welcomeOnOff release];
-    [img_reminderOnOff release];
-    [buttonWelcome release];
-    [buttonReminder release];
-    [currentSettings release];
-    self.currentSettings = nil;
-    
-    [super dealloc];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -158,7 +147,6 @@
     
     alert.tag = kTagResetApplication;
     [alert show];
-    [alert release];
 }
 
 // Reset Application
@@ -211,7 +199,6 @@
             [fileManager removeItemAtPath:[applicationDocumentsPath stringByAppendingPathComponent:filename] error:&error];
         }  
         
-        [fileManager release];
         
         // Reset the user defaults
         
@@ -229,7 +216,6 @@
                                                       cancelButtonTitle:NSLocalizedString(@"OK", nil) 
                                                       otherButtonTitles:nil];
             [alertView show];
-            [alertView release];
         });
     });
 }
@@ -282,7 +268,6 @@
     controller.view.tag = kTagResetScores;
     
 	[self presentViewController:controller animated:YES completion:nil];
-	[controller release];    
 }
 
 
@@ -339,7 +324,6 @@
     controller.view.tag = kTagRemindAt;
     
 	[self presentViewController:controller animated:YES completion:nil];
-	[controller release];
     
 }
 
@@ -371,7 +355,6 @@
             notif.userInfo = userDict;
             
             [[UIApplication sharedApplication] scheduleLocalNotification:notif];
-            [notif release];
         }
     }
      
@@ -421,7 +404,6 @@
     picker.navigationBarHidden = NO;
 	
 	[self presentViewController:picker animated:YES completion:nil];
-    [picker release];
     
 }
 
@@ -542,7 +524,6 @@
     
     alert.tag = kTagSendFeedback;
     [alert show];
-    [alert release];
 }
 #pragma mark Date Time Delegate
 - (void)dateTimePickerOK:(DateTimePicker *)controller didPickDate:(NSDate *)date
@@ -629,7 +610,6 @@
     picker.navigationBarHidden = NO;
 	
 	[self presentViewController:picker animated:YES completion:nil];
-    [picker release];
 }
 
 #pragma mark Email delegate

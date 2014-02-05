@@ -16,7 +16,7 @@ NSString *fileName2;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(
                                                          NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    fileName2 = [[[NSString alloc] initWithString:kFilenamePR] autorelease];
+    fileName2 = kFilenamePR;
     fileName2  = [fileName2 stringByAppendingString:@".plist"];
     return [documentsDirectory stringByAppendingPathComponent:fileName2];
 }

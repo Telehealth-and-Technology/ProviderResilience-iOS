@@ -78,52 +78,52 @@
     NSDate *startSession;
     BOOL comingFromDialog;
 }
-@property (nonatomic, retain) NSDate *startSession;
+@property (nonatomic, strong) NSDate *startSession;
 
 
-@property (retain, nonatomic) SaveSettings *currentSettings;
-@property (retain, nonatomic) NSMutableArray *QOLItemArray;
-@property (retain, nonatomic) NSEnumerator *QOLItemEnumerator;
+@property (strong, nonatomic) SaveSettings *currentSettings;
+@property (strong, nonatomic) NSMutableArray *QOLItemArray;
+@property (strong, nonatomic) NSEnumerator *QOLItemEnumerator;
 @property NSUInteger currentQOLelement;
 
-@property (nonatomic, retain) NSTimer *updateClockTimer;
+@property (nonatomic, strong) NSTimer *updateClockTimer;
 
 
 // Dashboard Views (and subviews!)
-@property (retain, nonatomic) IBOutlet UIView *viewMainDashboard;
-@property (retain, nonatomic) IBOutlet UIView *viewUpdateRRClock;
-@property (retain, nonatomic) IBOutlet UIView *viewDigitalClock;
-@property (retain, nonatomic) IBOutlet UIView *viewUpdateQuality;
-@property (retain, nonatomic) IBOutlet UIView *viewSurveyQualityOfLife;
-@property (retain, nonatomic) IBOutlet UIView *viewInstructionsQualityOfLife;
-@property (retain, nonatomic) IBOutlet UIView *viewAssessments;
-@property (retain, nonatomic) IBOutlet UIView *viewBurnoutChart;
-@property (retain, nonatomic) IBOutlet UIView *viewBurnoutSurvey;
-@property (retain, nonatomic) IBOutlet UIView *viewBuilders;
-@property (retain, nonatomic) IBOutlet UIView *viewBuildersBonus;
-@property (retain, nonatomic) IBOutlet UIView *viewKillers;
+@property (strong, nonatomic) IBOutlet UIView *viewMainDashboard;
+@property (strong, nonatomic) IBOutlet UIView *viewUpdateRRClock;
+@property (strong, nonatomic) IBOutlet UIView *viewDigitalClock;
+@property (strong, nonatomic) IBOutlet UIView *viewUpdateQuality;
+@property (strong, nonatomic) IBOutlet UIView *viewSurveyQualityOfLife;
+@property (strong, nonatomic) IBOutlet UIView *viewInstructionsQualityOfLife;
+@property (strong, nonatomic) IBOutlet UIView *viewAssessments;
+@property (strong, nonatomic) IBOutlet UIView *viewBurnoutChart;
+@property (strong, nonatomic) IBOutlet UIView *viewBurnoutSurvey;
+@property (strong, nonatomic) IBOutlet UIView *viewBuilders;
+@property (strong, nonatomic) IBOutlet UIView *viewBuildersBonus;
+@property (strong, nonatomic) IBOutlet UIView *viewKillers;
 
 // R&R Clock Elements
-@property (retain, nonatomic) IBOutlet UIImageView *imageClockBackground;
-@property (retain, nonatomic) IBOutlet UILabel *digitLabelYear;
-@property (retain, nonatomic) IBOutlet UILabel *digitLabelMonth;
-@property (retain, nonatomic) IBOutlet UILabel *digitLabelDay;
-@property (retain, nonatomic) IBOutlet UILabel *digitLabelHour;
-@property (retain, nonatomic) IBOutlet UILabel *digitLabelMinute;
-@property (retain, nonatomic) IBOutlet UILabel *charLabelYear;
-@property (retain, nonatomic) IBOutlet UILabel *charLabelMonth;
-@property (retain, nonatomic) IBOutlet UILabel *charLabelDay;
-@property (retain, nonatomic) IBOutlet UILabel *charLabelHour;
-@property (retain, nonatomic) IBOutlet UILabel *charLabelMinute;
-@property (retain, nonatomic) IBOutlet UILabel *digitLabelVacation;
+@property (strong, nonatomic) IBOutlet UIImageView *imageClockBackground;
+@property (strong, nonatomic) IBOutlet UILabel *digitLabelYear;
+@property (strong, nonatomic) IBOutlet UILabel *digitLabelMonth;
+@property (strong, nonatomic) IBOutlet UILabel *digitLabelDay;
+@property (strong, nonatomic) IBOutlet UILabel *digitLabelHour;
+@property (strong, nonatomic) IBOutlet UILabel *digitLabelMinute;
+@property (strong, nonatomic) IBOutlet UILabel *charLabelYear;
+@property (strong, nonatomic) IBOutlet UILabel *charLabelMonth;
+@property (strong, nonatomic) IBOutlet UILabel *charLabelDay;
+@property (strong, nonatomic) IBOutlet UILabel *charLabelHour;
+@property (strong, nonatomic) IBOutlet UILabel *charLabelMinute;
+@property (strong, nonatomic) IBOutlet UILabel *digitLabelVacation;
 
 // Assessments Actions
 - (IBAction)presentBurnout_Clicked:(id)sender;
 - (IBAction)presentBuildersKillers_Clicked:(id)sender;
 
 // Resilience (res) Elements
-@property (retain, nonatomic) IBOutlet UILabel *lblBonusBuilder;
-@property (retain, nonatomic) IBOutlet UITextField *txtBonusBuilder1;
+@property (strong, nonatomic) IBOutlet UILabel *lblBonusBuilder;
+@property (strong, nonatomic) IBOutlet UITextField *txtBonusBuilder1;
 
 // Turn off Assessment mode everytime this view is selected
 // Assessment must be proactively selected by the user
@@ -146,70 +146,70 @@
 //@property (retain, nonatomic) IBOutlet UIImageView *mdRateTraumaImage;
 
 // Main Dashboard (bo) Burnout Elements
-@property (retain, nonatomic) IBOutlet UILabel *boLabelScore;
-@property (retain, nonatomic) IBOutlet UIImageView *boImageGauge;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelGauge;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelScore;
+@property (strong, nonatomic) IBOutlet UIImageView *boImageGauge;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelGauge;
 
 // Main Dashboard (res) Resiliency Elements
-@property (retain, nonatomic) IBOutlet UILabel *resLabelScore;
-@property (retain, nonatomic) IBOutlet UIImageView *resMeterPointer;
-@property (retain, nonatomic) IBOutlet UIStepper *testScoreStepper;
+@property (strong, nonatomic) IBOutlet UILabel *resLabelScore;
+@property (strong, nonatomic) IBOutlet UIImageView *resMeterPointer;
+@property (strong, nonatomic) IBOutlet UIStepper *testScoreStepper;
 //@property (retain, nonatomic) IBOutlet UIImageView *resImageGauge;
 //@property (retain, nonatomic) IBOutlet UILabel *resLabelGauge;
 
 // Burnout Survey Elements
-@property (retain, nonatomic) IBOutlet UIScrollView *boScrollView;
+@property (strong, nonatomic) IBOutlet UIScrollView *boScrollView;
 
-@property (retain, nonatomic) IBOutlet UISlider *boSliderHappy;
-@property (retain, nonatomic) IBOutlet UISlider *boSliderTrapped;
-@property (retain, nonatomic) IBOutlet UISlider *boSliderSatisfied;
-@property (retain, nonatomic) IBOutlet UISlider *boSliderPreoccupied;
-@property (retain, nonatomic) IBOutlet UISlider *boSliderConnected;
-@property (retain, nonatomic) IBOutlet UISlider *boSliderWornout;
-@property (retain, nonatomic) IBOutlet UISlider *boSliderCaring;
-@property (retain, nonatomic) IBOutlet UISlider *boSliderOnedge;
-@property (retain, nonatomic) IBOutlet UISlider *boSliderValuable;
-@property (retain, nonatomic) IBOutlet UISlider *boSliderTraumatized;
+@property (strong, nonatomic) IBOutlet UISlider *boSliderHappy;
+@property (strong, nonatomic) IBOutlet UISlider *boSliderTrapped;
+@property (strong, nonatomic) IBOutlet UISlider *boSliderSatisfied;
+@property (strong, nonatomic) IBOutlet UISlider *boSliderPreoccupied;
+@property (strong, nonatomic) IBOutlet UISlider *boSliderConnected;
+@property (strong, nonatomic) IBOutlet UISlider *boSliderWornout;
+@property (strong, nonatomic) IBOutlet UISlider *boSliderCaring;
+@property (strong, nonatomic) IBOutlet UISlider *boSliderOnedge;
+@property (strong, nonatomic) IBOutlet UISlider *boSliderValuable;
+@property (strong, nonatomic) IBOutlet UISlider *boSliderTraumatized;
 
 // Action method to track the slider movement
 - (void)boSliderAction:(id)sender;
 
 // Burnout item Labels
-@property (retain, nonatomic) IBOutlet UILabel *boLabelHappy;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelTrapped;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelSatisfied;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelPreoccupied;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelConnected;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelWornout;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelCaring;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelOnedge;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelValuable;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelTraumatized;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelHappy;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelTrapped;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelSatisfied;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelPreoccupied;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelConnected;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelWornout;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelCaring;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelOnedge;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelValuable;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelTraumatized;
 
 // Labels to describe the status of each one of the above
-@property (retain, nonatomic) IBOutlet UILabel *boLabelHappyNot;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelHappyMuch;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelTrappedNot;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelTrappedMuch;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelSatisfiedNot;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelSatisfiedMuch;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelPreoccupiedNot;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelPreoccupiedMuch;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelConnectedNot;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelConnectedMuch;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelWornoutNot;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelWornoutMuch;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelCaringNot;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelCaringMuch;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelOnedgeNot;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelOnedgeMuch;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelValuableNot;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelValuableMuch;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelTraumatizedNot;
-@property (retain, nonatomic) IBOutlet UILabel *boLabelTraumatizedMuch;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelHappyNot;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelHappyMuch;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelTrappedNot;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelTrappedMuch;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelSatisfiedNot;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelSatisfiedMuch;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelPreoccupiedNot;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelPreoccupiedMuch;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelConnectedNot;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelConnectedMuch;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelWornoutNot;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelWornoutMuch;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelCaringNot;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelCaringMuch;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelOnedgeNot;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelOnedgeMuch;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelValuableNot;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelValuableMuch;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelTraumatizedNot;
+@property (strong, nonatomic) IBOutlet UILabel *boLabelTraumatizedMuch;
 
 // Burnout (bo) Buttons
-@property (retain, nonatomic) IBOutlet UIButton *boButtonSubmit;
+@property (strong, nonatomic) IBOutlet UIButton *boButtonSubmit;
 
 // Burnout (bo) Chart Actions
 - (IBAction)updateBurnoutScore:(id)sender;
@@ -221,10 +221,10 @@
 - (IBAction)updateQuality_Clicked:(id)sender;
 
 // Update R&R Clock Elements
-@property (retain, nonatomic) IBOutlet UIButton *buttonToggleRR;
-@property (retain, nonatomic) IBOutlet UIImageView *img_toggleRR;
-@property (retain, nonatomic) IBOutlet UIButton *buttonReturnToAssessment;
-@property (retain, nonatomic) IBOutlet UILabel *labelReturnToAssessment;
+@property (strong, nonatomic) IBOutlet UIButton *buttonToggleRR;
+@property (strong, nonatomic) IBOutlet UIImageView *img_toggleRR;
+@property (strong, nonatomic) IBOutlet UIButton *buttonReturnToAssessment;
+@property (strong, nonatomic) IBOutlet UILabel *labelReturnToAssessment;
 
 // Update R&R Clock Actions
 - (IBAction)changeClock_Clicked:(id)sender;
@@ -234,31 +234,31 @@
 - (void)attachDigitalClockView:(UIView *)viewForClock;
 
 // Update Quality of Life Elements  (Shows Updated Status)
-@property (retain, nonatomic) IBOutlet UILabel *qlDaysSinceLabel;
-@property (retain, nonatomic) IBOutlet UILabel *qlDaysTilNextUpdateLabel;
-@property (retain, nonatomic) IBOutlet UILabel *boDaysTilNextUpdateLabel;
+@property (strong, nonatomic) IBOutlet UILabel *qlDaysSinceLabel;
+@property (strong, nonatomic) IBOutlet UILabel *qlDaysTilNextUpdateLabel;
+@property (strong, nonatomic) IBOutlet UILabel *boDaysTilNextUpdateLabel;
 
-@property (retain, nonatomic) IBOutlet UILabel *rateCompassionLabel;
-@property (retain, nonatomic) IBOutlet UIImageView *rateCompassionImage;
-@property (retain, nonatomic) IBOutlet UILabel *rateCompassionExplainLabel;
-@property (retain, nonatomic) IBOutlet UILabel *rateCompassionScoreDescLabel;
+@property (strong, nonatomic) IBOutlet UILabel *rateCompassionLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *rateCompassionImage;
+@property (strong, nonatomic) IBOutlet UILabel *rateCompassionExplainLabel;
+@property (strong, nonatomic) IBOutlet UILabel *rateCompassionScoreDescLabel;
 
-@property (retain, nonatomic) IBOutlet UILabel *rateBurnoutLabel;
-@property (retain, nonatomic) IBOutlet UIImageView *rateBurnoutImage;
-@property (retain, nonatomic) IBOutlet UILabel *rateBurnoutExplainLabel;
-@property (retain, nonatomic) IBOutlet UILabel *rateBurnoutScoreDescLabel;
+@property (strong, nonatomic) IBOutlet UILabel *rateBurnoutLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *rateBurnoutImage;
+@property (strong, nonatomic) IBOutlet UILabel *rateBurnoutExplainLabel;
+@property (strong, nonatomic) IBOutlet UILabel *rateBurnoutScoreDescLabel;
 
-@property (retain, nonatomic) IBOutlet UILabel *rateTraumaLabel;
-@property (retain, nonatomic) IBOutlet UIImageView *rateTraumaImage;
-@property (retain, nonatomic) IBOutlet UILabel *rateTraumaExplainLabel;
-@property (retain, nonatomic) IBOutlet UILabel *rateTraumaScoreDescLabel;
+@property (strong, nonatomic) IBOutlet UILabel *rateTraumaLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *rateTraumaImage;
+@property (strong, nonatomic) IBOutlet UILabel *rateTraumaExplainLabel;
+@property (strong, nonatomic) IBOutlet UILabel *rateTraumaScoreDescLabel;
 
-@property (retain, nonatomic) IBOutlet UIButton *continueQOLButton;
-@property (retain, nonatomic) IBOutlet UIButton *surveyQOLButton1;
-@property (retain, nonatomic) IBOutlet UIButton *surveyQOLButton2;
-@property (retain, nonatomic) IBOutlet UIButton *surveyQOLButton3;
-@property (retain, nonatomic) IBOutlet UIButton *surveyQOLButton4;
-@property (retain, nonatomic) IBOutlet UIButton *surveyQOLButton5;
+@property (strong, nonatomic) IBOutlet UIButton *continueQOLButton;
+@property (strong, nonatomic) IBOutlet UIButton *surveyQOLButton1;
+@property (strong, nonatomic) IBOutlet UIButton *surveyQOLButton2;
+@property (strong, nonatomic) IBOutlet UIButton *surveyQOLButton3;
+@property (strong, nonatomic) IBOutlet UIButton *surveyQOLButton4;
+@property (strong, nonatomic) IBOutlet UIButton *surveyQOLButton5;
 
 
 
@@ -273,8 +273,8 @@
 
 
 // Survey Quality of Life Elements   (Survey to change Status)
-@property (retain, nonatomic) IBOutlet UILabel *surveyQOLxxOfxxLabel;
-@property (retain, nonatomic) IBOutlet UILabel *surveyQolStatementLabel;
+@property (strong, nonatomic) IBOutlet UILabel *surveyQOLxxOfxxLabel;
+@property (strong, nonatomic) IBOutlet UILabel *surveyQolStatementLabel;
 
 // Survey Quality of Life Actions   (Survey to change Status)
 - (IBAction)surveyAnswerButton_Clicked:(id)sender;

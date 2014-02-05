@@ -31,21 +31,24 @@
     NSString *videoDescription;
     
     // Delegate
-    id < ViewBCDelegate > delegate;
+    id < ViewBCDelegate > __weak delegate;
     
     NSDate *startSession;
-
+    int duration;
+    BOOL wasCancelledOrError;
 }
 
-@property (nonatomic, retain) NSDate *startSession;
+@property (nonatomic, strong) NSDate *startSession;
 
-@property (nonatomic, retain) BCMoviePlayerController *bcPlayer;
-@property (nonatomic, retain) BCVideo *video;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) BCMoviePlayerController *bcPlayer;
+@property (nonatomic, strong) BCVideo *video;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic) long long videoID;
-@property (nonatomic, retain) NSString *videoDescription;
-@property (nonatomic, retain) 	IBOutlet UILabel *lblLoading;
-@property (nonatomic, assign) id < ViewBCDelegate > delegate;
+@property (nonatomic, strong) NSString *videoDescription;
+@property (nonatomic) int duration;
+@property (nonatomic) BOOL wasCancelledOrError;
+@property (nonatomic, strong) 	IBOutlet UILabel *lblLoading;
+@property (nonatomic, weak) id < ViewBCDelegate > delegate;
 
 - (void)updateLayout:(CGRect)frame;
 

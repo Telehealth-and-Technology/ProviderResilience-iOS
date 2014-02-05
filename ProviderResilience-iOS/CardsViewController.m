@@ -44,22 +44,18 @@
     UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGestures:)];
     [swipeLeft setDirection:(UISwipeGestureRecognizerDirectionLeft )];
     [self.view addGestureRecognizer:swipeLeft];
-    [swipeLeft release];
     
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGestures:)];
     [swipeRight setDirection:(UISwipeGestureRecognizerDirectionRight )];
     [self.view addGestureRecognizer:swipeRight];
-    [swipeRight release];
     
     UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGestures:)];
     [swipeUp setDirection:(UISwipeGestureRecognizerDirectionUp )];
     [self.view addGestureRecognizer:swipeUp];
-    [swipeUp release];
     
     UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGestures:)];
     [swipeDown setDirection:( UISwipeGestureRecognizerDirectionDown )];
     [self.view addGestureRecognizer:swipeDown];
-    [swipeDown release];
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -92,7 +88,7 @@
     
     [super viewWillAppear:animated];
     
-    startSession = [[NSDate date] retain];
+    startSession = [NSDate date];
 
 }
 
@@ -108,23 +104,16 @@
     
     NSLog(@"timeDifference: %i seconds", myDuration);
     startSession = nil;
-    [startSession release];
     [super viewWillDisappear:animated];
 }
 
 - (void)viewDidUnload
 {
-    [viewVirtueCard release];
     viewVirtueCard = nil;
-    [labelTitle release];
     labelTitle = nil;
-    [labelCopyright release];
     labelCopyright = nil;
-    [virtueCards release];
     virtueCards = nil;
-    [buttonProceed release];
     buttonProceed = nil;
-    [labelSwipeHorz release];
     labelSwipeHorz = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -141,16 +130,6 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)dealloc
-{
-    [viewVirtueCard release];
-    [labelTitle release];
-    [labelCopyright release];
-    [virtueCards release];
-    [buttonProceed release];
-    [labelSwipeHorz release];
-    [super dealloc];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

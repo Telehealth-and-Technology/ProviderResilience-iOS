@@ -27,27 +27,13 @@
 @synthesize networkStatus;
 @synthesize connectionRequired;
 @synthesize bcServices;
+@synthesize previousTabNibName;
 
 void uncaughtExceptionHandler(NSException *exception)
 {
     NSLog(@"Error Logged: %@", exception.description);
 }
 
-- (void)dealloc
-{
-    [_window release];
-    [__managedObjectContext release];
-    [__managedObjectModel release];
-    [__persistentStoreCoordinator release];
-    [__rootController release];
-    
-    
-    [hostReach release];
-    [wifiReach release];
-    [internetReach release];
-    
-    [super dealloc];
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -70,13 +56,13 @@ void uncaughtExceptionHandler(NSException *exception)
     [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
     
     
-    hostReach = [[Reachability reachabilityWithHostName: reachablityURL] retain];
+    hostReach = [Reachability reachabilityWithHostName: reachablityURL];
 	[hostReach startNotifier];
 	
-    internetReach = [[Reachability reachabilityForInternetConnection] retain];
+    internetReach = [Reachability reachabilityForInternetConnection];
 	[internetReach startNotifier];
     
-    wifiReach = [[Reachability reachabilityForLocalWiFi] retain];
+    wifiReach = [Reachability reachabilityForLocalWiFi];
 	[wifiReach startNotifier];
 
     // Make sure we have a database before we go too far
@@ -99,7 +85,6 @@ void uncaughtExceptionHandler(NSException *exception)
         // User needs to agree to the EULA before continuing...
         EulaViewController *viewController = [EulaViewController alloc];
         self.window.rootViewController = viewController;
-        [viewController release];
     } else {        
         // Check if they want the welcome screen
         
@@ -110,7 +95,6 @@ void uncaughtExceptionHandler(NSException *exception)
             AboutViewController *viewController = [AboutViewController alloc];
             [viewController StartupMode];
             self.window.rootViewController = viewController;
-            [viewController release];
                         
         } else {
             // Show a random card
@@ -126,7 +110,6 @@ void uncaughtExceptionHandler(NSException *exception)
         
     }
     
-    [currentSettings release];
     return YES;
 }
 
@@ -136,7 +119,6 @@ void uncaughtExceptionHandler(NSException *exception)
     AboutViewController *viewController = [AboutViewController alloc];
     [viewController StartupMode];
     self.window.rootViewController = viewController;
-    [viewController release];
     
     // Grab the current settings
     SaveSettings *currentSettings = [SaveSettings alloc];
@@ -233,7 +215,6 @@ application.applicationIconBadgeNumber = 0;
                                                   cancelButtonTitle:NSLocalizedString(@"OK", nil) 
                                                   otherButtonTitles:nil];
         [alertView show];
-        [alertView release];
     }
 }
 
@@ -272,12 +253,17 @@ application.applicationIconBadgeNumber = 0;
     //NSLog(@"tabBarController delegate called: %@",viewController.nibName);
     // The user has tapped a Tab Bar item
     // Return this controller to its default view (well, the ones that have more than one view)
-    if ([viewController.nibName isEqualToString:@"ToolsViewController"]) {
+    if ([viewController.nibName isEqualToString:@"ToolsViewController"])
+    {
+        if([previousTabNibName isEqualToString:viewController.nibName])
+            [viewController viewWillDisappear:NO];
+        
         ToolsViewController *ourView = (ToolsViewController *)viewController;
         viewController.view = ourView.viewToolsMenu;
     }
     
-    if ([viewController.nibName isEqualToString:@"DashboardViewController"]) {
+    if ([viewController.nibName isEqualToString:@"DashboardViewController"])
+    {
         DashboardViewController *ourView = (DashboardViewController *)viewController;
         [ourView NoAssessment];         // Turn off Assessment mode
         viewController.view = ourView.viewMainDashboard;
@@ -339,7 +325,7 @@ application.applicationIconBadgeNumber = 0;
         
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_ENROLLED withValue:@"(null)"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_ENROLLED withValue:@"null"];
     }
     return YES;
     
@@ -361,7 +347,7 @@ application.applicationIconBadgeNumber = 0;
     
     //***** Leave Clock (20% of total score)
     // How many days has it been since the last Leave
-    NSDateFormatter *dateFormat = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"MM/dd/yy hh:mma"];
     
     // Score based on how long it has been since the last vacation
@@ -605,28 +591,24 @@ application.applicationIconBadgeNumber = 0;
 }
 
 
-- (void)checkBCConnection {
+- (void)checkBCConnection
+{
     // init Brightcove Media API
     NSString *apiKey = [self getAppSetting:@"Brightcove" withKey:@"apikey1"];
-    BCMediaAPI *bcServ = [[[BCMediaAPI alloc] initWithReadToken:apiKey] retain];
+    BCMediaAPI *bcServ = [[BCMediaAPI alloc] initWithReadToken:apiKey];
     [bcServ setMediaDeliveryType:BCMediaDeliveryTypeHTTP];
     
     bcServices = bcServ;
-    [bcServ release];
 }
 
-- (void)resetBCConnection:(NSString *)key {
-    
+- (void)resetBCConnection:(NSString *)key
+{
     // init Brightcove Media API
-    if (self.bcServices) {
-        [self.bcServices release];
-    }
     NSString *apiKey = [self getAppSetting:@"Brightcove" withKey:key];
-    BCMediaAPI *bcServ = [[[BCMediaAPI alloc] initWithReadToken:apiKey] retain];
+    BCMediaAPI *bcServ = [[BCMediaAPI alloc] initWithReadToken:apiKey];
     [bcServ setMediaDeliveryType:BCMediaDeliveryTypeHTTP];
     
     bcServices = bcServ;
-    [bcServ release];
 }
 
 #pragma mark -

@@ -76,9 +76,7 @@
     [self setBurnoutButton:nil];
     [self setViewToolsMenu:nil];
     [self setViewExercise:nil];
-    [viewStretchCard release];
     viewStretchCard = nil;
-    [stretchCards release];
     stretchCards = nil;
     
     [self setViewProQOLHelper:nil];
@@ -104,7 +102,6 @@
 {
     [self doExitEvent];
     startSession = nil;
-    [startSession release];
     [super viewWillDisappear:animated];
 }
 
@@ -137,35 +134,14 @@
 }
 
 
-- (void)dealloc {
-    [videoButton release];
-    [physicalButton release];
-    [remindButton release];
-    [laughButton release];
-    [proqolButton release];
-    [graphButton release];
-    [burnoutButton release];
-    [viewToolsMenu release];
-    [viewExercise release];
-    [viewStretchCard release];
-    [stretchCards release];
-    [viewProQOLHelper release];
-    [webView release];
-    [viewRSSFeed release];
-    [prevButton_Dilbert release];
-    [nextButton_Dilbert release];
-    [nameDateDiblert release];
-    [dilbertActivityIndicator release];
-    
-    [qolDatasource release];
-
-    [super dealloc];
-}
 
 #pragma mark View Transition Methods
 //Switch views
 -(void)switchView:(UIView*)view
 {
+    if(view == self.view)
+        return;
+    
     int myDuration = 0;
     NSDate *endSession = [NSDate date];
     
@@ -175,39 +151,39 @@
     
     if(self.view == self.viewExercise)
     {
-        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewRSSFeed)
     {
-        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewProQOLHelper)
     {
-        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewProQOLGraph)
     {
-        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOLCHART withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOLCHART withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     
     //Restart the start date
-    startSession = [[NSDate date] retain];
+    startSession = [NSDate date];
     
     if(view == self.viewExercise)
     {
-        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     }
     else if(view == self.viewRSSFeed)
     {
-        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     }
     else if(view == self.viewProQOLHelper)
     {
-        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     }
     else if(view == self.viewProQOLGraph)
     {
-        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PROQOLCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"(null)"];
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_PROQOLCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     }
     
     //Finally set the view
@@ -225,19 +201,19 @@
     
     if(self.view == self.viewExercise)
     {
-        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PHYSICALEXERCISE  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewRSSFeed)
     {
-        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_INEEDALAUGH  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewProQOLHelper)
     {
-        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOLHELPERCARD  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
     else if(self.view == self.viewProQOLGraph)
     {
-        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOLCHART withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"(null)"];
+        [ResearchUtility logEvent:myDuration inSection:EVENT_SECTION_PROQOLCHART withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION withValue:@"null"];
     }
 }
 
@@ -318,17 +294,23 @@
     anotherController2.videoID = videoID;
     anotherController2.delegate = self;
     
-    //Record video start
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_VIDEOS withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:videoName];
+    //Restart the start date
+    startSession = [NSDate date];
     
 	[self presentViewController:anotherController2 animated:YES completion:nil];
     //[anotherController2 release];
 }
 
 #pragma mark View BC delegate
-- (void)dismissViewBC:(ViewBCVideoController *)controller {
+- (void)dismissViewBC:(ViewBCVideoController *)controller
+{
     // The video finished...return to menu
-	[controller dismissViewControllerAnimated:YES completion:nil];
+    if(controller.wasCancelledOrError == NO)
+    {
+        [ResearchUtility logEvent:controller.duration inSection:EVENT_SECTION_VIDEOS withItem:controller.videoDescription withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION  withValue:@"null"];
+    }
+    
+    [controller dismissViewControllerAnimated:YES completion:nil];
     
     // Where do we go from here...depends on who called us to begin with
     if (videoReturn == 0)
@@ -354,7 +336,6 @@
     [currentSettings uScoreFunStuff:&myScore];
      
     [currentSettings writeToPlist];
-    [currentSettings release];
 }
 
 
@@ -369,12 +350,10 @@
     UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGesturesStretch:)];
     [swipeLeft setDirection:(UISwipeGestureRecognizerDirectionLeft )];
     [self.view addGestureRecognizer:swipeLeft];
-    [swipeLeft release];
     
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeGesturesStretch:)];
     [swipeRight setDirection:(UISwipeGestureRecognizerDirectionRight )];
     [self.view addGestureRecognizer:swipeRight];
-    [swipeRight release];
     
     // Get the cards
     stretchCards = [VirtueCardDeck alloc];
@@ -512,12 +491,12 @@
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
-    NSURLConnection *myConnection = [[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];
+    NSURLConnection *myConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
     if (myConnection) {
         //NSLog(@"Connection established to: %@",url);
         // Allocate the buffer to collect the data here as it arrives
-        receivedData = [[NSMutableData data] retain];
+        receivedData = [NSMutableData data];
     } else {
         NSLog(@"Connection Error...provide a way to gracefully exit from here!");
         //
@@ -549,7 +528,7 @@
     
     // Answer the challenge
     //NSLog(@"Answer the Authentication Challenge");
-    NSURLCredential *cred = [[[NSURLCredential alloc] initWithUser:@"nct_feeds" password:@"!nctele" persistence:NSURLCredentialPersistenceForSession] autorelease];
+    NSURLCredential *cred = [[NSURLCredential alloc] initWithUser:@"nct_feeds" password:@"!nctele" persistence:NSURLCredentialPersistenceForSession];
     //NSLog(@"cred u: %@ pw: %@",[cred user],[cred password]);
     [[challenge sender] useCredential:cred forAuthenticationChallenge:challenge];
     
@@ -595,13 +574,12 @@
                                                        delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
         [alert show];
-        [alert release];
     }
     else 
     {
         // Answer the challenge
         //NSLog(@"Answer the Authentication Challenge");
-       NSURLCredential *cred = [[[NSURLCredential alloc] initWithUser:@"nct_feeds" password:@"!nctele" persistence:NSURLCredentialPersistenceForSession] autorelease];
+       NSURLCredential *cred = [[NSURLCredential alloc] initWithUser:@"nct_feeds" password:@"!nctele" persistence:NSURLCredentialPersistenceForSession];
         //NSLog(@"cred u: %@ pw: %@",[cred user],[cred password]);
         [[challenge sender] useCredential:cred forAuthenticationChallenge:challenge];
     }
@@ -668,7 +646,6 @@
                                                    delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     
     [alert show];
-    [alert release];
     
     // We are done...clean up
     //[connection release];
@@ -737,7 +714,6 @@
             [self.nextButton_Dilbert setEnabled:NO];
         }
     } 
-    [doc release];
     
     // Stop the activity indicator
     [dilbertActivityIndicator stopAnimating];
@@ -865,10 +841,10 @@
             
             //NSLog(@"Title: %@ Date: %@ URL: %@",articleTitle,articleDateString,articleURL);
             
-            RSSEntry *entry = [[[RSSEntry alloc] initWithBlogTitle:blogTitle 
+            RSSEntry *entry = [[RSSEntry alloc] initWithBlogTitle:blogTitle 
                                                       articleTitle:articleTitle 
                                                         articleUrl:articleURL 
-                                                       articleDate:articleDateString] autorelease];
+                                                       articleDate:articleDateString];
             [entries addObject:entry];
             
         }      
@@ -897,10 +873,10 @@
         
         NSString *articleDateString = [item valueForChild:@"updated"];   
         
-        RSSEntry *entry = [[[RSSEntry alloc] initWithBlogTitle:blogTitle 
+        RSSEntry *entry = [[RSSEntry alloc] initWithBlogTitle:blogTitle 
                                                   articleTitle:articleTitle 
                                                     articleUrl:articleUrl 
-                                                   articleDate:articleDateString] autorelease];
+                                                   articleDate:articleDateString];
         [entries addObject:entry];
         
     }      
@@ -909,19 +885,19 @@
 // Add the RSS Feed to our array
 
 - (void)addRows {    
-    RSSEntry *entry1 = [[[RSSEntry alloc] initWithBlogTitle:@"1" 
+    RSSEntry *entry1 = [[RSSEntry alloc] initWithBlogTitle:@"1" 
                                                articleTitle:@"1" 
                                                  articleUrl:@"1" 
-                                                articleDate:[NSDate date]] autorelease];
+                                                articleDate:[NSDate date]];
     /*
     RSSEntry *entry2 = [[[RSSEntry alloc] initWithBlogTitle:@"2" 
                                                articleTitle:@"2" 
                                                  articleUrl:@"2" 
-                                                articleDate:[NSDate date]] autorelease];
+                                                articleDate:[NSDate date]];
     RSSEntry *entry3 = [[[RSSEntry alloc] initWithBlogTitle:@"3" 
                                                articleTitle:@"3" 
                                                  articleUrl:@"3" 
-                                                articleDate:[NSDate date]] autorelease];    
+                                                articleDate:[NSDate date]];    
     */
     
     [self.allEntries insertObject:entry1 atIndex:0];
@@ -960,7 +936,6 @@
         // Set a different theme on the chart
         SChartMidnightTheme *midnight = [[SChartMidnightTheme alloc] init];
         [qolChart setTheme:midnight];
-        [midnight release];
         
         //As the chart is a UIView, set its resizing mask to allow it to automatically resize when screen orientation changes.
         qolChart.autoresizingMask = ~UIViewAutoresizingNone;
@@ -990,7 +965,6 @@
         xAxis.majorTickFrequency = freq;
         
         qolChart.xAxis = xAxis;
-        [xAxis release];
         
         //Create a number axis to use as the y axis.
         NSNumber *lowRange = [[NSNumber alloc] initWithInteger:0];
@@ -1008,10 +982,6 @@
         //[yAxis setRangeWithMinimum:[NSNumber numberWithDouble: 0.0] andMaximum:[NSNumber numberWithDouble: 100.0] withAnimation:NO];
         
         qolChart.yAxis = yAxis;
-        [lowRange release];
-        [highRange release];
-        [yRange release];
-        [yAxis release];
         
         //Show the legend
         qolChart.legend.hidden = NO;
@@ -1061,6 +1031,8 @@
     // The Burnout is in the Dashboard View Controller (which is first in our tabcontroller array)
     // ...Sooo, switch there...but also tell it to switch the view to Burnout!
     self.tabBarController.selectedIndex = 0;   // 0 means first
+    ProviderResilienceAppDelegate* delegate = (ProviderResilienceAppDelegate*)[[UIApplication sharedApplication] delegate];
+    delegate.previousTabNibName = @"DashboardViewController";
     [(DashboardViewController *)self.tabBarController.selectedViewController changeViewToBurnoutChart];
     
 }

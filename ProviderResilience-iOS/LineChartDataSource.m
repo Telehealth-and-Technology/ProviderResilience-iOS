@@ -19,7 +19,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(
                                                          NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString * fileName = [[[NSString alloc] initWithString:plistFileName] autorelease];
+    NSString * fileName = [[NSString alloc] initWithString:plistFileName];
     fileName  = [fileName stringByAppendingString:@".plist"];
     return [documentsDirectory stringByAppendingPathComponent:fileName];
 }
@@ -72,8 +72,6 @@
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDate *date = [gregorian dateFromComponents:components];
     
-    [components release];
-    [gregorian release];
     
     return date;
 }
@@ -82,7 +80,7 @@
     self = [super init];
     if (self) {
         // Initialize the calendar
-        cal = [[NSCalendar currentCalendar] retain];
+        cal = [NSCalendar currentCalendar];
         stepLineMode = NO;
         
         [self setDataFileName:fileName];
@@ -101,7 +99,7 @@
     self = [super init];
     if (self) {
         // Initialize the calendar
-        cal = [[NSCalendar currentCalendar] retain];
+        cal = [NSCalendar currentCalendar];
         stepLineMode = NO;
         
         // Grab the data
@@ -121,11 +119,9 @@
     
     // Catch and release (if we have been here before)
     if (series1Data != nil)  {
-        [series1Data release];
         series1Data = nil;
     }
     if (series1Dates != nil)   {
-        [series1Dates release];
         series1Dates = nil;
     }
     
@@ -164,7 +160,6 @@
             
         }
         
-        [rawData release];
         rawData = nil;
     }
     
@@ -180,12 +175,6 @@
     return lastScore;
 }
 
-- (void) dealloc {
-	[cal release];
-    [series1Dates release];
-    [series1Data release];
-	[super dealloc];
-}
 
 -(void)toggleSeriesType {
     stepLineMode = !stepLineMode;
@@ -207,8 +196,8 @@
     
     // Our series are either of type SChartLineSeries or SChartStepLineSeries depending on stepLineMode.
     SChartLineSeries *lineSeries = stepLineMode? 
-                                    [[[SChartStepLineSeries alloc] init] autorelease]:
-                                    [[[SChartLineSeries alloc] init] autorelease];
+                                    [[SChartStepLineSeries alloc] init]:
+                                    [[SChartLineSeries alloc] init];
     
     //SChartScatterSeries *lineSeries = [[[SChartScatterSeries alloc] init] autorelease];
     
@@ -293,7 +282,7 @@
 - (id<SChartData>)sChart:(ShinobiChart *)chart dataPointAtIndex:(int)dataIndex forSeriesAtIndex:(int)seriesIndex {
     
     // Construct a data point to return
-    SChartDataPoint *datapoint = [[[SChartDataPoint alloc] init] autorelease];
+    SChartDataPoint *datapoint = [[SChartDataPoint alloc] init];
     
     // We simply move one day forward for each dataIndex
     datapoint.xValue = [series1Dates objectAtIndex:dataIndex];

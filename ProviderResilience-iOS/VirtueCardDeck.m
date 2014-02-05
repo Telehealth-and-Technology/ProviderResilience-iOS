@@ -33,7 +33,7 @@
 - (NSString *)dataFilePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *fileName = [[[NSString alloc] initWithString:pListFileName] autorelease];
+    NSString *fileName = [[NSString alloc] initWithString:pListFileName];
     fileName  = [fileName stringByAppendingString:@".xml"];
     return [documentsDirectory stringByAppendingPathComponent:fileName]; 
 }
@@ -77,9 +77,7 @@
             self.CurrentVirtue = [temp objectForKey:kCurrentVirtue];   
                         
             // Get a copy of all of the virtues
-            Virtues = [NSMutableArray arrayWithArray:[temp objectForKey:kVirtueArray ]]; 
-            [self.Virtues retain];
-
+            Virtues = [NSMutableArray arrayWithArray:[temp objectForKey:kVirtueArray ]];
         }
     }
     
@@ -103,8 +101,8 @@
     
     // Build the fully qualified file name
     // eg; card_acceptance_front.jpg   // 08/21/12 Leave off the extension
-    NSString* buf=[[[NSString alloc] initWithFormat:@"card_%@_%@", [myElement objectForKey:kVirtueNameKey],
-                                                                                    (bFront?@"front":@"reverse")] autorelease];
+    NSString* buf=[[NSString alloc] initWithFormat:@"card_%@_%@", [myElement objectForKey:kVirtueNameKey],
+                                                                                    (bFront?@"front":@"reverse")];
     
     return buf;
     
@@ -115,7 +113,7 @@
         
     // Build the fully qualified file name
     // eg; card_acceptance_front.jpg
-    NSString* buf=[[[NSString alloc] initWithFormat:@"%@", [myElement objectForKey:kVirtueNameKey]] autorelease];
+    NSString* buf=[[NSString alloc] initWithFormat:@"%@", [myElement objectForKey:kVirtueNameKey]];
     
     return buf;
     
@@ -144,7 +142,6 @@
     
     // We will be changing this...but save the current value
     NSInteger curVal = [CurrentVirtue intValue];
-    [CurrentVirtue release];
     CurrentVirtue = nil;
     
     // Make sure we have a previous virtue before we go load it
@@ -169,7 +166,6 @@
     // We will be changing this...but save the current value
     NSInteger curVal = [CurrentVirtue intValue];
     int nCount = [Virtues count];
-    [CurrentVirtue release];
     CurrentVirtue = nil;
     
     // Make sure we have a next virtue before we go load it
@@ -194,7 +190,6 @@
     // We will be changing the current card...but we won't save our new value
     // This is a temporary selection only for startup
     int nCount = [Virtues count];
-    [CurrentVirtue release];
     CurrentVirtue = nil;
     
     // Get a random card
@@ -210,7 +205,6 @@
 
 - (NSInteger)changeCurrentVirtue :(NSInteger)newVirtueIndex{
     // Set the new Current Virtue
-    [CurrentVirtue release];
     CurrentVirtue = nil;
     CurrentVirtue = [[NSNumber alloc] initWithInteger:newVirtueIndex];
     
@@ -264,13 +258,8 @@
     [data setObject:Virtues  forKey:kVirtueArray];   // Kinda overkill...write everything in the virtue array
         
     [data writeToFile:[self dataFilePath] atomically:YES];
-    [data release];    
 }
 
 - (void)dealloc {;
-    [pListFileName release];
-    [Virtues release];
-    [CurrentVirtue release];
-    [super dealloc];
 }
 @end

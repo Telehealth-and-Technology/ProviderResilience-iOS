@@ -35,7 +35,7 @@ NSString *fileName;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(
                                                          NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    fileName = [[[NSString alloc] initWithString:kFilename] autorelease];
+    fileName = kFilename;
     fileName  = [fileName stringByAppendingString:@".plist"];
     return [documentsDirectory stringByAppendingPathComponent:fileName];
 }
@@ -44,28 +44,28 @@ NSString *fileName;
 {
     // First, set default values in case the file does not exist yet
     // If the file doesn't exist yet,  set default values
-    bWelcomeMessage = [[NSNumber numberWithBool:NO] retain];
-    bDailyReminders = [[NSNumber numberWithBool:NO] retain];
-    bVacationOnOff = [[NSNumber numberWithBool:NO] retain];
+    bWelcomeMessage = [NSNumber numberWithBool:NO];
+    bDailyReminders = [NSNumber numberWithBool:NO];
+    bVacationOnOff = [NSNumber numberWithBool:NO];
     
-    NSDateFormatter *dateFormat = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"MM/dd/yyyy hh:mma"];
     
-    dateTimeLastReset = [[dateFormat dateFromString:@"07/11/2000 12:00"] retain];
-    dateTimeLastProQOL = [[dateFormat dateFromString:@"07/11/2000 12:00"] retain];
-    dateTimeLastBurnout = [[dateFormat dateFromString:@"07/11/2000 12:00"] retain];
-    dateTimeBuilderKiller = [[dateFormat dateFromString:@"07/11/2000 12:00"] retain];
-    dateTimeLastVacation = [[dateFormat dateFromString:@"07/11/1962 12:00"] retain];    // Needs to be at least 50 years ago
-    dateTimeDailyReminders = [[dateFormat dateFromString:@"07/11/2012 08:00"] retain];
-    dateTimeScoresReset = [[dateFormat dateFromString:@"07/11/2012 02:00"] retain];
+    dateTimeLastReset = [dateFormat dateFromString:@"07/11/2000 12:00"];
+    dateTimeLastProQOL = [dateFormat dateFromString:@"07/11/2000 12:00"];
+    dateTimeLastBurnout = [dateFormat dateFromString:@"07/11/2000 12:00"];
+    dateTimeBuilderKiller = [dateFormat dateFromString:@"07/11/2000 12:00"];
+    dateTimeLastVacation = [dateFormat dateFromString:@"07/11/1962 12:00"];    // Needs to be at least 50 years ago
+    dateTimeDailyReminders = [dateFormat dateFromString:@"07/11/2012 08:00"];
+    dateTimeScoresReset = [dateFormat dateFromString:@"07/11/2012 02:00"];
     
-    nScoreCompassion = [[NSNumber numberWithInteger:0] retain];
-    nScoreBurnout = [[NSNumber numberWithInteger:0] retain];
-    nScoreTrauma = [[NSNumber numberWithInteger:0] retain];
-    nScoreBuilders = [[NSNumber numberWithInteger:0] retain];
-    nScoreBonus = [[NSNumber numberWithInteger:0] retain];
-    nScoreKillers = [[NSNumber numberWithInteger:0] retain];
-    nScoreFunStuff = [[NSNumber numberWithInteger:0] retain];
+    nScoreCompassion = [NSNumber numberWithInteger:0];
+    nScoreBurnout = [NSNumber numberWithInteger:0];
+    nScoreTrauma = [NSNumber numberWithInteger:0];
+    nScoreBuilders = [NSNumber numberWithInteger:0];
+    nScoreBonus = [NSNumber numberWithInteger:0];
+    nScoreKillers = [NSNumber numberWithInteger:0];
+    nScoreFunStuff = [NSNumber numberWithInteger:0];
     
     txtBonus1 = [NSString stringWithFormat:@""];
     
@@ -106,24 +106,24 @@ NSString *fileName;
             // OK...let's process what we got
             
             // Grab the values
-            bWelcomeMessage = [[temp objectForKey:kWelcomeMessage] retain] ; 
-            bDailyReminders = [[temp objectForKey:kDailyReminders] retain];
-            bVacationOnOff = [[temp objectForKey:kVacationOnOff] retain];
-            dateTimeLastReset = [[temp objectForKey:kLastResetDateTime] retain];
-            dateTimeScoresReset = [[temp objectForKey:kDailyScoresResetTime] retain];
-            dateTimeDailyReminders = [[temp objectForKey:kDailyReminderTime] retain];
-            dateTimeLastVacation = [[temp objectForKey:kLastVacationDateTime] retain];
-            dateTimeLastProQOL = [[temp objectForKey:kLastProQOLDateTime] retain];
-            dateTimeLastBurnout = [[temp objectForKey:kLastBurnoutDateTime] retain];
-            dateTimeBuilderKiller = [[temp objectForKey:kBuilderKillerDateTime] retain];
-            nScoreCompassion = [[temp objectForKey:kLastProQOLScoreCompasson] retain];
-            nScoreBurnout = [[temp objectForKey:kLastProQOLScoreBurnout] retain];
-            nScoreTrauma = [[temp objectForKey:kLastProQOLScoreTrauma] retain];
-            nScoreBuilders = [[temp objectForKey:kLastProQOLScoreBuilders] retain];
-            nScoreBonus = [[temp objectForKey:kLastProQOLScoreBonus] retain];
-            nScoreKillers = [[temp objectForKey:kLastProQOLScoreKillers] retain];
-            nScoreFunStuff = [[temp objectForKey:kLastScoreFunStuff] retain];
-            txtBonus1 = [[temp objectForKey:kTextBonus1] retain];
+            bWelcomeMessage = [temp objectForKey:kWelcomeMessage] ; 
+            bDailyReminders = [temp objectForKey:kDailyReminders];
+            bVacationOnOff = [temp objectForKey:kVacationOnOff];
+            dateTimeLastReset = [temp objectForKey:kLastResetDateTime];
+            dateTimeScoresReset = [temp objectForKey:kDailyScoresResetTime];
+            dateTimeDailyReminders = [temp objectForKey:kDailyReminderTime];
+            dateTimeLastVacation = [temp objectForKey:kLastVacationDateTime];
+            dateTimeLastProQOL = [temp objectForKey:kLastProQOLDateTime];
+            dateTimeLastBurnout = [temp objectForKey:kLastBurnoutDateTime];
+            dateTimeBuilderKiller = [temp objectForKey:kBuilderKillerDateTime];
+            nScoreCompassion = [temp objectForKey:kLastProQOLScoreCompasson];
+            nScoreBurnout = [temp objectForKey:kLastProQOLScoreBurnout];
+            nScoreTrauma = [temp objectForKey:kLastProQOLScoreTrauma];
+            nScoreBuilders = [temp objectForKey:kLastProQOLScoreBuilders];
+            nScoreBonus = [temp objectForKey:kLastProQOLScoreBonus];
+            nScoreKillers = [temp objectForKey:kLastProQOLScoreKillers];
+            nScoreFunStuff = [temp objectForKey:kLastScoreFunStuff];
+            txtBonus1 = [temp objectForKey:kTextBonus1];
                                    
         }
         
@@ -147,7 +147,6 @@ NSString *fileName;
 - (void)boolToNumber:(BOOL)YesNo numItem:(NSNumber *)numItem {
     
     // We will be changing this
-    [numItem release];
     numItem = nil;
     
     // Set the value
@@ -161,7 +160,6 @@ NSString *fileName;
 }
 
 - (void)uWelcome: (BOOL)bYesNo{
-    [bWelcomeMessage release];
     bWelcomeMessage = nil;
     
     // Set the value
@@ -174,7 +172,6 @@ NSString *fileName;
 }
 
 - (void)uDaily: (BOOL)bYesNo{
-    [bDailyReminders release];
     bDailyReminders = nil;
     
     // Set the value
@@ -189,7 +186,6 @@ NSString *fileName;
 
 - (void)uScoreCompassion:(NSInteger *)myNewScoreCompassion {
     
-    [nScoreCompassion release];
     nScoreCompassion = nil;
     
     // Set the value
@@ -198,7 +194,6 @@ NSString *fileName;
 
 - (void)uScoreBurnout:(NSInteger *)myNewScoreBurnout {
     
-    [nScoreBurnout release];
     nScoreBurnout = nil;
     
     // Set the value
@@ -207,7 +202,6 @@ NSString *fileName;
 
 - (void)uScoreTrauma:(NSInteger *)myNewScoreTrauma {
     
-    [nScoreTrauma release];
     nScoreTrauma = nil;
     
     // Set the value
@@ -216,7 +210,6 @@ NSString *fileName;
 
 - (void)uScoreBuilders:(NSInteger *)myNewScoreBuilders {
     
-    [nScoreBuilders release];
     nScoreBuilders = nil;
     
     // Set the value
@@ -225,7 +218,6 @@ NSString *fileName;
 
 - (void)uScoreBonus:(NSInteger *)myNewScoreBonus {
     
-    [nScoreBonus release];
     nScoreBonus = nil;
     
     // Set the value
@@ -234,7 +226,6 @@ NSString *fileName;
 
 - (void)uScoreKillers:(NSInteger *)myNewScoreKillers {
     
-    [nScoreKillers release];
     nScoreKillers = nil;
     
     // Set the value
@@ -243,7 +234,6 @@ NSString *fileName;
 
 - (void)uScoreFunStuff:(NSInteger *)myNewScoreFunStuff {
     
-    [nScoreFunStuff release];
     nScoreFunStuff = nil;
     
     // Set the value
@@ -253,7 +243,6 @@ NSString *fileName;
 
 - (void)uTextBonus1:(NSString *)myNewTextBonus1 {
     if (myNewTextBonus1 != nil) {
-        [txtBonus1 release];
         txtBonus1 = nil;
         
         txtBonus1 = [[NSString alloc] initWithString:myNewTextBonus1];
@@ -261,7 +250,6 @@ NSString *fileName;
 }
 
 - (void)uVacation:(BOOL)bYesNo{
-    [bVacationOnOff release];
     bVacationOnOff = nil;
     
     // Set the value
@@ -276,53 +264,46 @@ NSString *fileName;
 
 
 - (void)uDateTimeLastReset:(NSDate *)myNewDateTime {
-    [dateTimeLastReset release];
     dateTimeLastReset = nil;
     
-    dateTimeLastReset = [myNewDateTime retain];
+    dateTimeLastReset = myNewDateTime;
 }
 
 - (void)uDateTimeScoresReset:(NSDate *)myNewDateTime {
-    [dateTimeScoresReset release];
     dateTimeScoresReset = nil;
     
-    dateTimeScoresReset = [myNewDateTime retain];
+    dateTimeScoresReset = myNewDateTime;
 }
 
 - (void)uDateTimeDailyReminders:(NSDate *)myNewDateTime {
-    [dateTimeDailyReminders release];
     dateTimeDailyReminders = nil;
     
-    dateTimeDailyReminders = [myNewDateTime retain];
+    dateTimeDailyReminders = myNewDateTime;
 }
 
 
 - (void)uDateTimeLastVacation:(NSDate *)myNewDateTime {
-    [dateTimeLastVacation release];
     dateTimeLastVacation = nil;
     
-    dateTimeLastVacation = [myNewDateTime retain];
+    dateTimeLastVacation = myNewDateTime;
 }
 
 - (void)uDateTimeLastProQOL:(NSDate *)myNewDateTime {
-    [dateTimeLastProQOL release];
     dateTimeLastProQOL = nil;
     
-    dateTimeLastProQOL = [myNewDateTime retain];
+    dateTimeLastProQOL = myNewDateTime;
 }
 
 - (void)uDateTimeLastBurnout:(NSDate *)myNewDateTime {
-    [dateTimeLastBurnout release];
     dateTimeLastBurnout = nil;
     
-    dateTimeLastBurnout = [myNewDateTime retain];
+    dateTimeLastBurnout = myNewDateTime;
 }
 
 - (void)uDateTimeBuilderKiller:(NSDate *)myNewDateTime {
-    [dateTimeBuilderKiller release];
     dateTimeBuilderKiller = nil;
     
-    dateTimeBuilderKiller = [myNewDateTime retain];
+    dateTimeBuilderKiller = myNewDateTime;
 }
 
 /*
@@ -358,28 +339,7 @@ else
     
     
     [data writeToFile:[self dataFilePath] atomically:YES];
-    [data release];   
 }
 
 
-- (void)dealloc
-{
-    [bWelcomeMessage release];
-    [bDailyReminders release];
-    [bVacationOnOff release];
-    [dateTimeDailyReminders release];
-    [dateTimeLastVacation release];
-    [dateTimeLastBurnout release];
-    [dateTimeLastProQOL release];
-    [dateTimeBuilderKiller release];
-    [nScoreBurnout release];
-    [nScoreCompassion release];
-    [nScoreTrauma release];
-    [nScoreBuilders release];
-    [nScoreBonus release];
-    [nScoreKillers release];
-    [nScoreFunStuff release];
-    [txtBonus1 release];
-    [super dealloc];
-}
 @end

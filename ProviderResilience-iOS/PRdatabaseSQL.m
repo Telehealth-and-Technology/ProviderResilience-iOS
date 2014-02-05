@@ -24,7 +24,7 @@
 // Retrieve all rows
 - (NSMutableArray *)getProQOLdata {
     // Allocate the array
-    NSMutableArray *arrayRows = [[[NSMutableArray alloc] init] retain];
+    NSMutableArray *arrayRows = [[NSMutableArray alloc] init];
     
     
     sqlite3 *database;
@@ -53,7 +53,6 @@
             [arrayRows addObject:rowArray];
             
             // Clean up
-            [rowArray release];
         }
         sqlite3_finalize(stmt);
     } else {

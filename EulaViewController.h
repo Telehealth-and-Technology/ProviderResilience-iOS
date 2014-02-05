@@ -13,7 +13,7 @@
 }
 
 // Properties
-@property(nonatomic, retain) IBOutlet UITextView *textView;
+@property(nonatomic, strong) IBOutlet UITextView *textView;
 
 // IBActions
 - (IBAction)handleAcceptedButtonTapped:(id)sender;

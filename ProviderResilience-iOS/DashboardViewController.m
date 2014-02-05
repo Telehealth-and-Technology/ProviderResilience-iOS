@@ -432,7 +432,6 @@
     boSliderValuable.value = [detailScores.nScoreValuable integerValue]; [self boSliderAction:(id)boSliderValuable];
     boSliderTraumatized.value = [detailScores.nScoreTraumatized integerValue]; [self boSliderAction:(id)boSliderTraumatized];
     
-    [detailScores release];
     detailScores = nil;
     
     // And we are not in Assessment Mode now
@@ -479,7 +478,7 @@
     if(comingFromDialog == NO)
     {
         //Initialize the start date
-        startSession = [[NSDate date] retain];
+        startSession = [NSDate date];
     }
     else
         comingFromDialog = NO;
@@ -495,7 +494,6 @@
         [self doExitEvent];
         
         startSession = nil;
-        [startSession release];
     }
 }
 
@@ -524,8 +522,9 @@
 
 - (void)changeViewToBurnoutChart
 {
-    [self switchView:viewBurnoutChart];
-//    self.view = self.viewBurnoutChart;
+    //    [self switchView:viewBurnoutChart];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUTCHART  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+    self.view = self.viewBurnoutChart;
     [burnoutDatasource reReadData];
     [burnoutChart reloadData];
     [burnoutChart redrawChartAndGL:YES];
@@ -613,58 +612,13 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)dealloc {
-    [imageClockBackground release];
-    [digitLabelYear release];
-    [digitLabelMonth release];
-    [digitLabelDay release];
-    [digitLabelHour release];
-    [digitLabelMinute release];
-    [charLabelYear release];
-    [charLabelMonth release];
-    [charLabelDay release];
-    [charLabelHour release];
-    [charLabelMinute release];
-    [digitLabelVacation release];
-    [viewMainDashboard release];
-    [viewUpdateRRClock release];
-    [viewDigitalClock release];
-    [buttonToggleRR release];
-    [img_toggleRR release];
-    [viewUpdateQuality release];
-    [qlDaysSinceLabel release];
-    [qlDaysTilNextUpdateLabel release];
-    [rateCompassionLabel release];
-    [rateCompassionImage release];
-    [rateCompassionExplainLabel release];
-    [rateBurnoutLabel release];
-    [rateBurnoutImage release];
-    [rateBurnoutExplainLabel release];
-    [rateTraumaLabel release];
-    [rateTraumaImage release];
-    [rateTraumaExplainLabel release];
-    [viewSurveyQualityOfLife release];
-    [surveyQOLxxOfxxLabel release];
-    [surveyQolStatementLabel release];
-    [viewInstructionsQualityOfLife release];
-    [currentSettings release];
-    [QOLItemArray release];
-    [QOLItemEnumerator release];
-    [rateCompassionScoreDescLabel release];
-    [rateBurnoutScoreDescLabel release];
-    [rateTraumaScoreDescLabel release];
-    
-    [burnoutDatasource release];
-
-    [super dealloc];
-}
 
 #pragma mark File methods
 - (NSString *)dataFilePath:(NSString *)plistFileName {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(
                                                          NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString * fileName = [[[NSString alloc] initWithString:plistFileName] autorelease];
+    NSString * fileName = [[NSString alloc] initWithString:plistFileName];
     fileName  = [fileName stringByAppendingString:@".plist"];
     return [documentsDirectory stringByAppendingPathComponent:fileName];
 }
@@ -711,7 +665,7 @@
     }
     
     //Restart the start date
-    startSession = [[NSDate date] retain];
+    startSession = [NSDate date];
     
     if(view == self.viewUpdateRRClock)
     {
@@ -868,7 +822,6 @@
     }
     
     
-    [gregorian release];
     
     // Display the clock
     [self displayCurrentClock]; 
@@ -878,7 +831,7 @@
 // Display the clock
 - (void)displayCurrentClock {
     // Set the clock values
-    NSDateFormatter *dateFormat = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"MM/dd/yy hh:mma"];
     
     // Grab the current settings
@@ -1009,9 +962,8 @@
     //Signal that we launching a dialog
     comingFromDialog = YES;
     
-	controller.defaultDate = defaultDate;  
+	controller.defaultDate = defaultDate;
 	[self presentViewController:controller animated:YES completion:nil];
-	[controller release];
     
     //[self.currentSettings release];
     //self.currentSettings = nil;
@@ -1247,7 +1199,6 @@
     [detailScores setNScoreTraumatized:[NSNumber numberWithInteger:boSliderTraumatized.value]];
     
     [detailScores writeToPlist];
-    [detailScores release];
     detailScores = nil;
     
     // And save the time this Burnout survey was done
@@ -1274,16 +1225,16 @@
     newScore += -1*boSliderTraumatized.value;
     
     //Record each category score
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Happy" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderHappy.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Trapped" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderTrapped.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Satisfied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderSatisfied.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Preoccupied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderPreoccupied.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Connected" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderConnected.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Wornout" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderWornout.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Caring" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderCaring.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"On Edge" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderOnedge.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Valuable" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", boSliderValuable.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Traumatized" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%f", -1*boSliderTraumatized.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Happy" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", boSliderHappy.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Trapped" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", -1*boSliderTrapped.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Satisfied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", boSliderSatisfied.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Preoccupied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", -1*boSliderPreoccupied.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Connected" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", boSliderConnected.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Wornout" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", -1*boSliderWornout.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Caring" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", boSliderCaring.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"On Edge" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", -1*boSliderOnedge.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Valuable" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", boSliderValuable.value]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Traumatized" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", -1*boSliderTraumatized.value]];
     
     // Average the new score
     newScore = newScore/10;
@@ -1293,11 +1244,15 @@
     
     // Plot it and display on the chart
     [self createBurnoutChart];
-    [self switchView:viewBurnoutSurvey];
+    
+    //This is commented out because we are immediately going to go to either assessment view or dashboard after these calls
+    //ALSO createBurnoutChart already has calls to reReadData, reloadData, and redrawChartAndGL inside of it at the end of the function
+    
+//    [self switchView:viewBurnoutChart];
 //    self.view = self.viewBurnoutChart;
-    [burnoutDatasource reReadData];
-    [burnoutChart reloadData];
-    [burnoutChart redrawChartAndGL:YES];
+//    [burnoutDatasource reReadData];
+//    [burnoutChart reloadData];
+//    [burnoutChart redrawChartAndGL:YES];
 
     
     [self presentResilienceRating];  // Update the RR score    // Navigate back to the Assessments view
@@ -1373,7 +1328,6 @@
         // Set a different theme on the chart
         SChartMidnightTheme *midnight = [[SChartMidnightTheme alloc] init];
         [burnoutChart setTheme:midnight];
-        [midnight release];
         
         //As the chart is a UIView, set its resizing mask to allow it to automatically resize when screen orientation changes.
         burnoutChart.autoresizingMask = ~UIViewAutoresizingNone;
@@ -1403,7 +1357,6 @@
         xAxis.majorTickFrequency = freq;
         
         burnoutChart.xAxis = xAxis;
-        [xAxis release];
         
         //Create a number axis to use as the y axis.
         NSNumber *lowRange = [[NSNumber alloc] initWithInteger:0];
@@ -1421,10 +1374,6 @@
         //[yAxis setRangeWithMinimum:[NSNumber numberWithDouble: 0.0] andMaximum:[NSNumber numberWithDouble: 100.0] withAnimation:NO];
         
         burnoutChart.yAxis = yAxis;
-        [lowRange release];
-        [highRange release];
-        [yRange release];
-        [yAxis release];
         
         //Set the chart title
 
@@ -1453,9 +1402,6 @@
     
     //***** Important for resetting visible portion..if I ever get it towork
     //[burnoutChart.xAxis resetZoomLevel];
-    
-
-    
 }
 
 #pragma mark Helper Methods: VAS Burnout Rating
@@ -1520,7 +1466,6 @@
     
     //alert.tag = kTagResetApplication;
     [alert show];
-    [alert release];
     
     
 }
@@ -1545,7 +1490,6 @@
     
     //alert.tag = kTagResetApplication;
     [alert show];
-    [alert release];
     
     
     
@@ -1571,7 +1515,6 @@
     
     //alert.tag = kTagResetApplication;
     [alert show];
-    [alert release];
 }
 
 
@@ -1599,7 +1542,6 @@
 //    self.view = self.viewSurveyQualityOfLife;
     
     // Clean up
-    [mySQL release];
 }
 
 #pragma mark Actions: Survey Quality of Life View
@@ -1686,7 +1628,7 @@
         }
         else
         {
-            [self viewUpdateQuality];
+            [self switchView:viewUpdateQuality];
 //            self.view = self.viewUpdateQuality;
         }
     }
@@ -1784,7 +1726,7 @@
     
     //***** Leave Clock (20% of total score)
     // How many days has it been since the last Leave   
-    NSDateFormatter *dateFormat = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"MM/dd/yy hh:mma"];
     
     // Score based on how long it has been since the last vacation
@@ -2122,7 +2064,6 @@
             else
                 scoreDetail = [prResources QOLstringForKey:kQOLPreviewCompassion];
     
-    [prResources release];
     
     return scoreDetail;
 }
@@ -2144,7 +2085,6 @@
             else
                 scoreDetail = [prResources QOLstringForKey:kQOLPreviewBurnout];
     
-    [prResources release];
     
     return scoreDetail;
 }
@@ -2166,7 +2106,6 @@
             else
                 scoreDetail = [prResources QOLstringForKey:kQOLPreviewTrauma];
     
-    [prResources release];
     
     return scoreDetail;
 }

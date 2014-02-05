@@ -25,18 +25,19 @@
     NetworkStatus networkStatus;
     BOOL connectionRequired;
     
-	BCMediaAPI *bcServices;
+	BCMediaAPI * bcServices;
     
     NSString* previousTabNibName;
 }
 
 @property (strong, nonatomic) UIWindow *window;
-@property (nonatomic, retain) UITabBarController *rootController;
+@property (nonatomic, strong) UITabBarController *rootController;
 
 
 @property (nonatomic) BOOL connectionRequired;
+@property (nonatomic) NSString* previousTabNibName;
 @property (nonatomic) NetworkStatus networkStatus;
-@property (nonatomic, readonly) BCMediaAPI *bcServices;
+@property (nonatomic) BCMediaAPI *bcServices;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
