@@ -2226,18 +2226,38 @@
     
     // Look at each button to see what they checked...
     // We'll count on the buttons being tagged...since it is possible the user prompts us to create one on the fly!
-    for (int i=kKillerButtonLowTag; i<=kKillerButtonHighTag; i++) {
+    for (int i=kKillerButtonLowTag; i<kKillerFirstCustomTag; i++) {
         UIButton *button = (UIButton *)[self.view viewWithTag:i];
         UILabel* label = (UILabel*)[self.view viewWithTag:i*2];
         if (button != nil) {
             [ResearchUtility logEvent:0 inSection:EVENT_SECTION_RESILIENCEKILLERS withItem:label.text withActivity:EVENT_ACTIVITY_SELECTED withValue:button.selected ? @"On" : @"Off"];
+            
             if (button.selected) {
                 scoreKillers += 5;        // These will be subtracted from the total!
                 if (scoreKillers >= 10)
                     break;                // They 'get' (lose) 5 points for each (up to 10 points)
-            }                                          
+            }
         }
     }
+    
+    // And now score the Bonus Builder
+    
+    // Look at each button to see what they checked...
+    // We'll count on the buttons being tagged...since it is possible the user prompts us to create one on the fly!
+    for (int i=kKillerFirstCustomTag; i<=kKillerButtonHighTag; i++) {
+        UIButton *button = (UIButton *)[self.view viewWithTag:i];
+        UITextField* label = (UITextField*)[self.view viewWithTag:i*2];
+        if (button != nil && label != nil && label.hasText) {
+            [ResearchUtility logEvent:0 inSection:EVENT_SECTION_RESILIENCEKILLERS withItem:label.text withActivity:EVENT_ACTIVITY_SELECTED withValue:button.selected ? @"On" : @"Off"];
+            
+            if (button.selected) {
+                scoreKillers += 5;        // These will be subtracted from the total!
+                if (scoreKillers >= 10)
+                    break;                // They 'get' (lose) 5 points for each (up to 10 points)
+            }
+        }
+    }
+
         
     // Save these scores    
     // Save the date and this score! (both parts)  

@@ -35,7 +35,8 @@
 #define kBuilderButtonHighTag  26
 // Tags 31-35 are Killer Buttons
 #define kKillerButtonLowTag     31
-#define kKillerButtonHighTag    35
+#define kKillerFirstCustomTag   36
+#define kKillerButtonHighTag    36
 
 
 @interface DashboardViewController : UIViewController <DateTimePickerDelegate, SChartDelegate, UITextFieldDelegate> {
