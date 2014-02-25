@@ -35,6 +35,7 @@
     
     NSDate *startSession;
     int duration;
+    int videoReturn;
     BOOL wasCancelledOrError;
 }
 
@@ -46,6 +47,7 @@
 @property (nonatomic) long long videoID;
 @property (nonatomic, strong) NSString *videoDescription;
 @property (nonatomic) int duration;
+@property (nonatomic) int videoReturn;
 @property (nonatomic) BOOL wasCancelledOrError;
 @property (nonatomic, strong) 	IBOutlet UILabel *lblLoading;
 @property (nonatomic, weak) id < ViewBCDelegate > delegate;

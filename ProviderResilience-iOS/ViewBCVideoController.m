@@ -25,6 +25,7 @@
 @synthesize delegate;
 @synthesize startSession;
 @synthesize duration;
+@synthesize videoReturn;
 @synthesize wasCancelledOrError;
 
 BOOL bPlayBackStopped=YES;
@@ -175,6 +176,7 @@ BOOL isFullscreen=YES;
         //[Analytics logEvent:[NSString stringWithFormat:@"MOVIE: %@", self.videoDescription]];
         ProviderResilienceAppDelegate *appDelegate = (ProviderResilienceAppDelegate *)[UIApplication sharedApplication].delegate;
         NSError *err;
+        
         if (self.videoID)
         {
             BCVideo *vid = (BCVideo *)[appDelegate.bcServices findVideoById:self.videoID error:&err];
@@ -184,7 +186,7 @@ BOOL isFullscreen=YES;
                 startSession = [NSDate date];
                 
                 // Research Study
-                [ResearchUtility logEvent:0 inSection:EVENT_SECTION_VIDEOS withItem:self.videoDescription withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+                [ResearchUtility logEvent:0 inSection:(videoReturn == 0 ? EVENT_SECTION_VIDEOS : EVENT_SECTION_REMINDMEWHYIDOTHIS) withItem:self.videoDescription withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
                 [self.bcPlayer setContentURL:vid];
                 [self.bcPlayer prepareToPlay];
                 [self.bcPlayer play];

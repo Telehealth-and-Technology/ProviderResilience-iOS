@@ -36,6 +36,7 @@
 	
 	[datePicker setDate:defaultDate animated:YES];
     [datePicker setDatePickerMode:ourMode];             // Note...this must be set as part of initialization
+    datePicker.backgroundColor = [UIColor colorWithWhite:1.0 alpha:.90];
 }
 
 - (void)resetDatePickerMode:(UIDatePickerMode)newMode {

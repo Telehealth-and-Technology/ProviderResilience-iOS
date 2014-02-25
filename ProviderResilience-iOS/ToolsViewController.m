@@ -246,7 +246,7 @@
             
         case 2:
             videoName = [NSString stringWithFormat:@"anger"];
-            videoKey = [NSString stringWithFormat:@"apikey1"];
+            videoKey = [NSString stringWithFormat:@"apikey2"];
             break;
             
         case 3:
@@ -293,6 +293,7 @@
 
     anotherController2.videoID = videoID;
     anotherController2.delegate = self;
+    anotherController2.videoReturn = videoReturn;
     
     //Restart the start date
     startSession = [NSDate date];
@@ -307,7 +308,7 @@
     // The video finished...return to menu
     if(controller.wasCancelledOrError == NO)
     {
-        [ResearchUtility logEvent:controller.duration inSection:EVENT_SECTION_VIDEOS withItem:controller.videoDescription withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION  withValue:@"null"];
+        [ResearchUtility logEvent:controller.duration inSection:(videoReturn == 0 ? EVENT_SECTION_VIDEOS : EVENT_SECTION_REMINDMEWHYIDOTHIS) withItem:controller.videoDescription withActivity:EVENT_ACTIVITY_CLOSEWITHDURATION  withValue:@"null"];
     }
     
     [controller dismissViewControllerAnimated:YES completion:nil];

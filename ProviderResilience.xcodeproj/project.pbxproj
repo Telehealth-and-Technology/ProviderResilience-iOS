@@ -384,6 +384,7 @@
 		08DBD4C0169C852F00DC38EB /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DBD4BE169C852F00DC38EB /* arrow.png */; };
 		08DBD4C9169CCC2800DC38EB /* clockbackground-Stretch.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DBD4C8169CCC2800DC38EB /* clockbackground-Stretch.png */; };
 		08EB5B3615CAE6310023AED1 /* ball-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 08EB5B3515CAE6310023AED1 /* ball-green.png */; };
+		46ACFA0318BC323D006D2056 /* buttonbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 46ACFA0218BC323D006D2056 /* buttonbackground.png */; };
 		FB5833FB17CD1B3600671CD8 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833FA17CD1B3600671CD8 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FB5833FD17CD1B3D00671CD8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833FC17CD1B3D00671CD8 /* Security.framework */; };
 		FB58343217D7A11200671CD8 /* ShinobiCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833F417CD1A9100671CD8 /* ShinobiCharts.framework */; };
@@ -807,6 +808,7 @@
 		08DBD4BE169C852F00DC38EB /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		08DBD4C8169CCC2800DC38EB /* clockbackground-Stretch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clockbackground-Stretch.png"; sourceTree = "<group>"; };
 		08EB5B3515CAE6310023AED1 /* ball-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ball-green.png"; sourceTree = "<group>"; };
+		46ACFA0218BC323D006D2056 /* buttonbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonbackground.png; sourceTree = "<group>"; };
 		FB5833F417CD1A9100671CD8 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShinobiCharts.framework; path = ../B2R/Classes/ViewControllers/ShinobiCharts.framework; sourceTree = "<group>"; };
 		FB5833FA17CD1B3600671CD8 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		FB5833FC17CD1B3D00671CD8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -1337,6 +1339,7 @@
 			isa = PBXGroup;
 			children = (
 				082B34B815D171D400ED01E8 /* NCTTLogoLarge@2x.png */,
+				46ACFA0218BC323D006D2056 /* buttonbackground.png */,
 				087F13051593927700174F60 /* NCTTLogo.png */,
 				087F13071593931100174F60 /* buttonBackgroundHighlightedMedium.png */,
 				087F13081593931100174F60 /* buttonBackgroundNormalMedium.png */,
@@ -1753,6 +1756,7 @@
 				083BFA0515616BC0001CCC2D /* card_sacrifice_front.jpg in Resources */,
 				083BFA0615616BC0001CCC2D /* card_sacrifice_reverse.jpg in Resources */,
 				083BFA0715616BC0001CCC2D /* card_self_discipline_front.jpg in Resources */,
+				46ACFA0318BC323D006D2056 /* buttonbackground.png in Resources */,
 				083BFA0815616BC0001CCC2D /* card_self_discipline_reverse.jpg in Resources */,
 				083BFA0915616BC0001CCC2D /* card_serenity_front.jpg in Resources */,
 				083BFA0A15616BC0001CCC2D /* card_serenity_reverse.jpg in Resources */,

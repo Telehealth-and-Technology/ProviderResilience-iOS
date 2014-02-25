@@ -12,7 +12,6 @@
 
 + (void)logEvent:(int)duration inSection:(NSString *)section withItem:(NSString *)item withActivity:(NSString *)activity withValue:(NSString *)value
 {
-    NSLog(@"Event Logged: %i, %@, %@, %@, %@", duration, section, item, activity, value);
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     //If enrolled then log event
@@ -23,7 +22,7 @@
         NSMutableString * txtFile = [NSMutableString string];
         NSDate *today = [NSDate date];
         NSString *participant = [defaults objectForKey:@"DEFAULTS_PARTICIPANTNUMBER"];
-        float ver = [[[UIDevice currentDevice] systemVersion] floatValue];
+        NSString* ver = [[UIDevice currentDevice] systemVersion];
         
         //Format duration
         NSString* Duration = [self formatDuration:duration];
@@ -60,7 +59,7 @@
         // Change Hard Coded info for app version number when updating
         NSString* appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
         
-        NSString * logLine = [NSString stringWithFormat:@"%@,%@,%@,iOS,%f,PR,%@,%@,%@,%@,%@,%@", participant, today, device, ver, appVersion, Duration, section, item, activity, value];
+        NSString * logLine = [NSString stringWithFormat:@"%@,%@,%@,iOS,%@,PR,%@,%@,%@,%@,%@,%@", participant, today, device, ver, appVersion, Duration, section, item, activity, value];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
         NSString *documentsDir = [paths objectAtIndex:0];
@@ -79,11 +78,8 @@
 
 +(NSString*)formatDuration:(long)duration
 {
-    if(duration && duration >= 1000)
+    if(duration && duration > 0)
     {
-        //Convert from ms to s
-        duration = duration / 1000;
-        
         //Get minutes and seconds
         int minutes = duration / 60;
         int seconds = duration % 60;
