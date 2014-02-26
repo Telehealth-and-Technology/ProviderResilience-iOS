@@ -23,39 +23,29 @@
         NSDate *today = [NSDate date];
         NSString *participant = [defaults objectForKey:@"DEFAULTS_PARTICIPANTNUMBER"];
         NSString* ver = [[UIDevice currentDevice] systemVersion];
-        
-        //Format duration
-        NSString* Duration = [self formatDuration:duration];
+        NSString *device = [[UIDevice currentDevice] model];
         
         //Cleanse the pass in data
         section = [self cleanseString:section];
         item = [self cleanseString:item];
         activity = [self cleanseString:activity];
-        value = [self cleanseString:value];
+        if([value isEqual: @"null"] && duration && duration > 0)
+        {
+            value = [self formatDuration:duration];
+        }
+        else
+        {
+            value = [self cleanseString:value];
+        }
+
         
         // File Name
         NSString *fileName = [NSString stringWithFormat:@"ProviderResilience_Participant_%@.csv",participant];
         
-        // Device
-        NSString *device = [[UIDevice currentDevice] model];
-        
-        //participant = Participant
-        //today = Timestamp
-        //device = Device
-        //(manual entry) = OS
-        //ver = OS Version
-        //(manual entry) = App
-        //(manual entry) = App Version
-        //duration = Duration (sec)
-        //section = Section
-        //item = Item
-        //activityString = Activity
-        //value = Value
-        
         // Change Hard Coded info for app version number when updating
         NSString* appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
         
-        NSString * logLine = [NSString stringWithFormat:@"%@,%@,%@,iOS,%@,PR,%@,%@,%@,%@,%@,%@", participant, today, device, ver, appVersion, Duration, section, item, activity, value];
+        NSString * logLine = [NSString stringWithFormat:@"%@,%@,%@,iOS,%@,PR,%@,%@,%@,%@,%@", participant, today, device, ver, appVersion, section, item, activity, value];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
         NSString *documentsDir = [paths objectAtIndex:0];
@@ -72,23 +62,20 @@
     }
 }
 
-+(NSString*)formatDuration:(long)duration
++(NSString*)formatDuration:(int)duration
 {
     if(duration && duration > 0)
     {
-        //Get minutes and seconds
-        int minutes = duration / 60;
-        int seconds = duration % 60;
-        return [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+        return [NSString stringWithFormat:@"%i", duration];
     }
     else
-        return @"null";
+        return @"0";
 }
 
 +(NSString*)cleanseString:(NSString*)item
 {
     return [[[item stringByReplacingOccurrencesOfString:@"," withString:@" "]
-             stringByReplacingOccurrencesOfString:@"\n" withString:@""]
+             stringByReplacingOccurrencesOfString:@"\n" withString:@" "]
             stringByReplacingOccurrencesOfString:@"\t" withString:@""];
 }
 

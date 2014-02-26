@@ -371,8 +371,6 @@
     NSString *participantID = [[NSUserDefaults standardUserDefaults] stringForKey:@"DEFAULTS_PARTICIPANTNUMBER"];
     NSString *subjectLine = [NSString stringWithFormat:@"ProviderResilience Study Log - Participant:%@", participantID];
 	[picker setSubject:subjectLine];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_RESEARCHSTUDY withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
-
 	
 	// Set up recipient
     NSString *recipientEmail = [[NSUserDefaults standardUserDefaults] stringForKey:@"DEFAULTS_STUDYEMAIL"];

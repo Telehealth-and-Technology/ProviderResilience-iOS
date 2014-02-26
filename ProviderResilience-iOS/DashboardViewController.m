@@ -447,6 +447,16 @@
 #ifdef DEBUG
     NSLog(@"***** FUNCTION %s *****", __FUNCTION__);
 #endif
+    
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:@"ShowingWelcome"] isEqual: @"YES"]) {
+        //Record dashboard startup
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:[NSString stringWithFormat:@"%i", [self computeResilienceRating]]];
+        
+        //Record the ShowWelcome to help with event tracking
+        [[NSUserDefaults standardUserDefaults] setObject:@"NO" forKey:@"ShowingWelcome"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
     // Not in Assessment mode!
     bAssessmentMode = NO;
     //buttonReturnToAssessment.hidden = YES;
@@ -489,7 +499,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if(comingFromDialog == NO)
+    
+    if(comingFromDialog == NO && [[[NSUserDefaults standardUserDefaults] objectForKey:@"ShowingWelcome"] isEqual: @"NO"])
     {
         [self doExitEvent];
         
@@ -2313,7 +2324,7 @@
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
-    [dateFormatter setDateFormat:@"dd-MM-yyyy"];
+    [dateFormatter setDateFormat:@"d-M-yyyy"];
     
     [ResearchUtility logEvent:0 inSection:EVENT_SECTION_VACATIONCLOCK withItem:EVENT_ITEM_UPDATECLOCK withActivity:EVENT_ACTIVITY_CLICKED withValue:[dateFormatter stringFromDate:newDate]];
     

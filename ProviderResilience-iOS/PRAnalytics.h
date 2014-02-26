@@ -38,7 +38,6 @@
 #define EVENT_ITEM_REMINDME @"Remind Me At"
 #define EVENT_ITEM_DAILYSCORESRESET @"Daily Scores Reset At"
 #define EVENT_ITEM_FEEDBACK @"Feedback"
-#define EVENT_ITEM_RESEARCHSTUDY @"Send Research Data"
 
 
 /*-------------- ACTIVITY ------------------*/
@@ -49,5 +48,3 @@
 #define EVENT_ACTIVITY_TOGGLE @"Toggle"
 #define EVENT_ACTIVITY_SELECTED @"Selected"
 #define EVENT_ACTIVITY_COMPLETED @"Completed"
-#define EVENT_ACTIVITY_ENROLLED @"Enrolled"
-#define EVENT_ACTIVITY_DISENROLLED @"Disenrolled"

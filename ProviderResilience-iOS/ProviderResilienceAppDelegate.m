@@ -68,7 +68,11 @@ void uncaughtExceptionHandler(NSException *exception)
     // Make sure we have a database before we go too far
     PRdatabaseSQL *mySQL = [PRdatabaseSQL alloc];
     [mySQL createDbTables];
-   // [mySQL release];
+    // [mySQL release];
+    
+    //Set the default ShowingWelcome value to NO to achieve a normal launch and event tracking
+    [[NSUserDefaults standardUserDefaults] setObject:@"NO" forKey:@"ShowingWelcome"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     //self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
@@ -91,6 +95,13 @@ void uncaughtExceptionHandler(NSException *exception)
         // Set up the On/Off buttons 
         BOOL bShowWelcome = [currentSettings boolFromNumber:[currentSettings bWelcomeMessage]];
         if (bShowWelcome) {
+            //Record the ShowWelcome to help with event tracking
+            [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"ShowingWelcome"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            //Record the help open event
+            [ResearchUtility logEvent:0 inSection:EVENT_SECTION_HELPVIEW  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
+            
             // Display the welcome
             AboutViewController *viewController = [AboutViewController alloc];
             [viewController StartupMode];
@@ -114,6 +125,12 @@ void uncaughtExceptionHandler(NSException *exception)
 }
 
 - (void)eulaStartUp {
+    //Record the ShowWelcome to help with event tracking
+    [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"ShowingWelcome"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    //Record the help open event
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_HELPVIEW  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:@"null"];
     
     // Display the welcome
     AboutViewController *viewController = [AboutViewController alloc];
@@ -128,8 +145,10 @@ void uncaughtExceptionHandler(NSException *exception)
 }
 
 - (void)normalStartUp {
-    //Record dashboard startup
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:[NSString stringWithFormat:@"%i", [self computeResilienceRating]]];
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:@"ShowingWelcome"] isEqual: @"NO"]) {
+        //Record dashboard startup
+        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_DASHBOARD  withItem:EVENT_ITEM_NONE  withActivity:EVENT_ACTIVITY_OPEN withValue:[NSString stringWithFormat:@"%i", [self computeResilienceRating]]];
+    }
     
     //Assign DashboardViewController to previousTabNibName
     previousTabNibName = @"DashboardViewController";
