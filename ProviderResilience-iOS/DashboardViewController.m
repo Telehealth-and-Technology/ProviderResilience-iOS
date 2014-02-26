@@ -2313,7 +2313,7 @@
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
-    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setDateFormat:@"dd-MM-yyyy"];
     
     [ResearchUtility logEvent:0 inSection:EVENT_SECTION_VACATIONCLOCK withItem:EVENT_ITEM_UPDATECLOCK withActivity:EVENT_ACTIVITY_CLICKED withValue:[dateFormatter stringFromDate:newDate]];
     

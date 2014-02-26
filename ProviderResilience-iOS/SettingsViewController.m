@@ -425,9 +425,7 @@
 
 - (void)disEnrolled
 {
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_DISENROLLED withValue:@"null"];
     // Disenroll from the study....delete all remnants
-    
     NSLog(@"Delete Log");
     
    // NSString *fileName = @"/study.csv";

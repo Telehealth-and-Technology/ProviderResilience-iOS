@@ -37,11 +37,7 @@
         NSString *fileName = [NSString stringWithFormat:@"ProviderResilience_Participant_%@.csv",participant];
         
         // Device
-        NSString *device = @"iPhone/iPod";
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        {
-            device = @"iPad";
-        }
+        NSString *device = [[UIDevice currentDevice] model];
         
         //participant = Participant
         //today = Timestamp

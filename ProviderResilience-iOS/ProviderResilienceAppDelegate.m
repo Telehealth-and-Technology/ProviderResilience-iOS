@@ -313,7 +313,7 @@ application.applicationIconBadgeNumber = 0;
        // NSString *fileName = @"/study.csv";
         NSString *fileName = [NSString stringWithFormat:@"ProviderResilience_Participant_%@.csv",participantID];
         //NSString * headerLine = [NSString stringWithFormat:@"Participant#: %@",participantID];
-        NSString * topRows = [NSString stringWithFormat:@"Participant,Timestamp,Device,OS,OS Version,App,App Version,Duration (sec),Section,Item,Activity,Value"];
+        NSString * topRows = [NSString stringWithFormat:@"Participant,Timestamp,Device,OS,OS Version,App,App Version,View,Item,Action,Value"];
         
       //  [txtFile appendFormat:@"%@\n", headerLine];
         [txtFile appendFormat:@"%@\n", topRows];
@@ -324,8 +324,6 @@ application.applicationIconBadgeNumber = 0;
         [txtFile writeToFile:finalPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
         
         [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW withItem:EVENT_ITEM_NONE withActivity:EVENT_ACTIVITY_ENROLLED withValue:@"null"];
     }
     return YES;
     
