@@ -29,7 +29,7 @@
         section = [self cleanseString:section];
         item = [self cleanseString:item];
         activity = [self cleanseString:activity];
-        if([value isEqual: @"null"] && duration && duration > 0)
+        if([activity isEqual: @"Close With Duration"])
         {
             value = [self formatDuration:duration];
         }
@@ -55,7 +55,7 @@
         NSString* fileContents = [NSString stringWithContentsOfFile:finalPath
                                                            encoding:NSUTF8StringEncoding error:nil];
         [txtFile appendFormat:@"%@\n", fileContents];
-        [txtFile appendFormat:@"%@ ", logLine];
+        [txtFile appendFormat:@"%@", logLine];
         NSLog(@"ResearchUtility: %@", logLine);
         
         [txtFile writeToFile:finalPath atomically:YES encoding:NSUTF8StringEncoding error:nil];

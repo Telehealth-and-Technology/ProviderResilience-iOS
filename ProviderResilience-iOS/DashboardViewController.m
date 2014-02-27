@@ -1237,17 +1237,17 @@
     newScore += boSliderValuable.value;
     newScore += -1*boSliderTraumatized.value;
     
-    //Record each category score
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Happy" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", boSliderHappy.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Trapped" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", -1*boSliderTrapped.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Satisfied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", boSliderSatisfied.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Preoccupied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", -1*boSliderPreoccupied.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Connected" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", boSliderConnected.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Wornout" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", -1*boSliderWornout.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Caring" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", boSliderCaring.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"On Edge" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", -1*boSliderOnedge.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Valuable" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", boSliderValuable.value]];
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Traumatized" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.02f", -1*boSliderTraumatized.value]];
+    //Record each category score divid by 10 to get a value between 0 and 10
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Happy" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.f", boSliderHappy.value / 10]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Trapped" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.f", -1*boSliderTrapped.value / 10]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Satisfied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.f", boSliderSatisfied.value / 10]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Preoccupied" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.f", -1*boSliderPreoccupied.value / 10]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Connected" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.f", boSliderConnected.value / 10]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Wornout" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.f", -1*boSliderWornout.value / 10]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Caring" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.f", boSliderCaring.value / 10]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"On Edge" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.f", -1*boSliderOnedge.value / 10]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Valuable" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.f", boSliderValuable.value / 10]];
+    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_BURNOUT withItem:@"Traumatized" withActivity:EVENT_ACTIVITY_SELECTED withValue:[NSString stringWithFormat:@"%.f", -1*boSliderTraumatized.value / 10]];
     
     // Average the new score
     newScore = newScore/10;
@@ -2182,10 +2182,14 @@
     if (tag == kBuilderFirstCustomTag) {
         if (((txtBonusBuilder1.text == nil) || (txtBonusBuilder1.text.length < 1)) )
             bToggle = NO;
+            UIButton *myButton = (UIButton *)sender;
+            [myButton setSelected:NO];
     }
     else if (tag == kKillerFirstCustomTag) {
         if (((txtBonusKiller1.text == nil) || (txtBonusKiller1.text.length < 1)) )
             bToggle = NO;
+            UIButton *myButton = (UIButton *)sender;
+            [myButton setSelected:NO];
     }
     
     if (bToggle) {

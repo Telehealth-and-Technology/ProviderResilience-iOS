@@ -335,7 +335,7 @@ application.applicationIconBadgeNumber = 0;
         NSString * topRows = [NSString stringWithFormat:@"Participant,Timestamp,Device,OS,OS Version,App,App Version,View,Item,Action,Value"];
         
       //  [txtFile appendFormat:@"%@\n", headerLine];
-        [txtFile appendFormat:@"%@\n", topRows];
+        [txtFile appendFormat:@"%@", topRows];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
         NSString *documentsDir = [paths objectAtIndex:0];

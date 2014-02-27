@@ -209,6 +209,14 @@
         dispatch_sync(dispatch_get_main_queue(), ^{
             // Tear down the UI ???
             
+            // Grab the current settings
+            self.currentSettings = [SaveSettings alloc];
+            [self.currentSettings initPlist];
+            
+            // Set up the On/Off buttons
+            [self setUpWelcomeButton:[self.currentSettings boolFromNumber:[self.currentSettings bWelcomeMessage]]];
+            [self setUpReminderButton:[self.currentSettings boolFromNumber:[self.currentSettings bDailyReminders]]];
+            
             NSString *alertTitle = NSLocalizedString(@"Application Reset", nil);
             NSString *alertMessage = NSLocalizedString(@"All user-entered data has been cleared.", nil);
             
@@ -237,7 +245,7 @@
     else
         [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_WELCOME withActivity:EVENT_ACTIVITY_TOGGLE withValue:@"Off"];
     
-    [self setUpWelcomeButton:bCurrent];  
+    [self setUpWelcomeButton:bCurrent];
     
     //[self.currentSettings release];
     //self.currentSettings = nil;
@@ -256,9 +264,6 @@
 
 #pragma mark Reset Daily Scores
 - (IBAction)resetScores_clicked:(id)sender {
-    
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_DAILYSCORESRESET withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
-    
     // Present dialog to allow user to enter the time of day to reset the daily scores
 	DateTimePicker *controller = [[DateTimePicker alloc] init];
     [controller resetDatePickerMode:UIDatePickerModeTime];
@@ -313,8 +318,6 @@
 
 // Remind me at:
 - (IBAction)remindAt_Clicked:(id)sender {
-    [ResearchUtility logEvent:0 inSection:EVENT_SECTION_SETTINGSVIEW  withItem:EVENT_ITEM_REMINDME withActivity:EVENT_ACTIVITY_CLICKED withValue:@"null"];
-    
     // Present dialog to allow user to enter the time of day to send the notification reminder
 	DateTimePicker *controller = [[DateTimePicker alloc] init];
     [controller resetDatePickerMode:UIDatePickerModeTime];
@@ -326,7 +329,6 @@
     controller.view.tag = kTagRemindAt;
     
 	[self presentViewController:controller animated:YES completion:nil];
-    
 }
 
 

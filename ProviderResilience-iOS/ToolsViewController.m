@@ -235,42 +235,42 @@
     // Select the video to play (identified by the tag value)
     UIButton *ourButton = (UIButton *)sender;
     long long videoID;
-    NSString *videoName = [NSString stringWithFormat:@"alcohol"];
+    NSString *videoName = [NSString stringWithFormat:@"Alcohol"];
     NSString *videoKey = [NSString stringWithFormat:@"apikey2"];
     
     switch (ourButton.tag) {
         case 1:
-            videoName = [NSString stringWithFormat:@"alcohol"];
+            videoName = [NSString stringWithFormat:@"Alcohol"];
             videoKey = [NSString stringWithFormat:@"apikey2"];
             break;
             
         case 2:
-            videoName = [NSString stringWithFormat:@"anger"];
+            videoName = [NSString stringWithFormat:@"Anger"];
             videoKey = [NSString stringWithFormat:@"apikey2"];
             break;
             
         case 3:
-            videoName = [NSString stringWithFormat:@"compassion"];
+            videoName = [NSString stringWithFormat:@"Compassion"];
             videoKey = [NSString stringWithFormat:@"apikey1"];
             break;
             
         case 4:
-            videoName = [NSString stringWithFormat:@"depression"];
+            videoName = [NSString stringWithFormat:@"Depression"];
             videoKey = [NSString stringWithFormat:@"apikey2"];
             break;
             
         case 5:
-            videoName = [NSString stringWithFormat:@"stigma"];
+            videoName = [NSString stringWithFormat:@"Stigma"];
             videoKey = [NSString stringWithFormat:@"apikey2"];
             break;
             
         case 6:
-            videoName = [NSString stringWithFormat:@"trauma"];
+            videoName = [NSString stringWithFormat:@"Trauma"];
             videoKey = [NSString stringWithFormat:@"apikey1"];
             break;
             
         case 7:
-            videoName = [NSString stringWithFormat:@"depression2"];
+            videoName = [NSString stringWithFormat:@"Depression Support"];
             videoKey = [NSString stringWithFormat:@"apikey2"];
             break;
             
