@@ -95,6 +95,7 @@
                 <outlet property="surveyQolStatementLabel" destination="194" id="245"/>
                 <outlet property="testScoreStepper" destination="626" id="627"/>
                 <outlet property="txtBonusBuilder1" destination="596" id="599"/>
+                <outlet property="txtBonusKiller1" destination="4na-yf-cZO" id="S8v-Px-4xX"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="viewBuilders" destination="364" id="510"/>
                 <outlet property="viewBurnoutChart" destination="278" id="304"/>

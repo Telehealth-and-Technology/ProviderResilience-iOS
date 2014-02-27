@@ -139,6 +139,7 @@
 
 @synthesize lblBonusBuilder;
 @synthesize txtBonusBuilder1;
+@synthesize txtBonusKiller1;
 
 #pragma mark Initialization
 
@@ -248,6 +249,7 @@
     
     // Set our delegates
     txtBonusBuilder1.delegate = self;
+    txtBonusKiller1.delegate = self;
     
     // Housekeeping
     lblBonusBuilder.layer.cornerRadius = 8;
@@ -2165,6 +2167,7 @@
     [self.currentSettings initPlist];
     
     txtBonusBuilder1.text = [self.currentSettings txtBonus1];
+    txtBonusKiller1.text = [self.currentSettings txtBonus2];
     
     [self switchView:viewBuilders];
 //    self.view = self.viewBuilders;
@@ -2179,7 +2182,11 @@
     if (tag == kBuilderFirstCustomTag) {
         if (((txtBonusBuilder1.text == nil) || (txtBonusBuilder1.text.length < 1)) )
             bToggle = NO;
-    }    
+    }
+    else if (tag == kKillerFirstCustomTag) {
+        if (((txtBonusKiller1.text == nil) || (txtBonusKiller1.text.length < 1)) )
+            bToggle = NO;
+    }
     
     if (bToggle) {
         UIButton *myButton = (UIButton *)sender;
@@ -2281,6 +2288,7 @@
     [self.currentSettings uScoreKillers:&(scoreKillers)];
     
     [self.currentSettings uTextBonus1:txtBonusBuilder1.text];
+    [self.currentSettings uTextBonus2:txtBonusKiller1.text];
     [self.currentSettings writeToPlist];     // Save the changes
         
     // Update the displays

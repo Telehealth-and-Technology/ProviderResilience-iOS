@@ -40,7 +40,7 @@
 
         
         // File Name
-        NSString *fileName = [NSString stringWithFormat:@"ProviderResilience_Participant_%@.csv",participant];
+        NSString *fileName = [NSString stringWithFormat:@"Provider_Resilience_Participant_%@.csv",participant];
         
         // Change Hard Coded info for app version number when updating
         NSString* appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];

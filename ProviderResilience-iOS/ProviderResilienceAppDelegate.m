@@ -330,7 +330,7 @@ application.applicationIconBadgeNumber = 0;
         // Create new text log
         NSMutableString * txtFile = [NSMutableString string];
        // NSString *fileName = @"/study.csv";
-        NSString *fileName = [NSString stringWithFormat:@"ProviderResilience_Participant_%@.csv",participantID];
+        NSString *fileName = [NSString stringWithFormat:@"Provider_Resilience_Participant_%@.csv",participantID];
         //NSString * headerLine = [NSString stringWithFormat:@"Participant#: %@",participantID];
         NSString * topRows = [NSString stringWithFormat:@"Participant,Timestamp,Device,OS,OS Version,App,App Version,View,Item,Action,Value"];
         

@@ -27,6 +27,7 @@
 @synthesize nScoreBuilders;
 @synthesize nScoreFunStuff;
 @synthesize txtBonus1;
+@synthesize txtBonus2;
 
 NSString *fileName;
 
@@ -68,6 +69,7 @@ NSString *fileName;
     nScoreFunStuff = [NSNumber numberWithInteger:0];
     
     txtBonus1 = [NSString stringWithFormat:@""];
+    txtBonus2 = [NSString stringWithFormat:@""];
     
     // Read our data from the plist
     NSString *filePath = [self dataFilePath];
@@ -124,6 +126,7 @@ NSString *fileName;
             nScoreKillers = [temp objectForKey:kLastProQOLScoreKillers];
             nScoreFunStuff = [temp objectForKey:kLastScoreFunStuff];
             txtBonus1 = [temp objectForKey:kTextBonus1];
+            txtBonus2 = [temp objectForKey:kTextBonus2];
                                    
         }
         
@@ -249,6 +252,14 @@ NSString *fileName;
     }
 }
 
+- (void)uTextBonus2:(NSString *)myNewTextBonus2 {
+    if (myNewTextBonus2 != nil) {
+        txtBonus2 = nil;
+        
+        txtBonus2 = [[NSString alloc] initWithString:myNewTextBonus2];
+    }
+}
+
 - (void)uVacation:(BOOL)bYesNo{
     bVacationOnOff = nil;
     
@@ -336,6 +347,7 @@ else
     [data setObject:nScoreKillers forKey:kLastProQOLScoreKillers];
     [data setObject:nScoreFunStuff forKey:kLastScoreFunStuff];
     if (txtBonus1 != nil) [data setObject:txtBonus1 forKey:kTextBonus1];
+    if (txtBonus2 != nil) [data setObject:txtBonus2 forKey:kTextBonus2];
     
     
     [data writeToFile:[self dataFilePath] atomically:YES];

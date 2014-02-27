@@ -195,8 +195,10 @@
         NSFileManager *fileManager = [[NSFileManager alloc] init];
         NSString *applicationDocumentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
         NSError *error = nil;
-        for (NSString *filename in [fileManager contentsOfDirectoryAtPath:applicationDocumentsPath error:&error]) {
-            [fileManager removeItemAtPath:[applicationDocumentsPath stringByAppendingPathComponent:filename] error:&error];
+        for (NSString *filename in [fileManager contentsOfDirectoryAtPath:applicationDocumentsPath error:&error])
+        {
+            if([filename rangeOfString:@"Provider_Resilience_Participant"].location == NSNotFound)
+                [fileManager removeItemAtPath:[applicationDocumentsPath stringByAppendingPathComponent:filename] error:&error];
         }  
         
         
@@ -379,7 +381,7 @@
 	
 	[picker setToRecipients:toRecipients];
 	
-    NSString *fileName = [NSString stringWithFormat:@"ProviderResilience_Participant_%@.csv",participantID];
+    NSString *fileName = [NSString stringWithFormat:@"Provider_Resilience_Participant_%@.csv",participantID];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory , NSUserDomainMask, YES);
     NSString *documentsDir = [paths objectAtIndex:0];
     NSString *finalPath = [NSString stringWithFormat:@"%@/%@",documentsDir, fileName];
@@ -432,7 +434,7 @@
     NSString *participant = [defaults objectForKey:@"DEFAULTS_PARTICIPANTNUMBER"];
 
     
-    NSString *fileName = [NSString stringWithFormat:@"ProviderResilience_Participant_%@.csv",participant];
+    NSString *fileName = [NSString stringWithFormat:@"Provider_Resilience_Participant_%@.csv",participant];
 
     
     NSFileManager *fileMgr = [NSFileManager defaultManager];

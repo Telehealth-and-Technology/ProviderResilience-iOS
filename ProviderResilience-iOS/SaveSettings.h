@@ -57,7 +57,8 @@
     NSNumber *nScoreBonus;
     NSNumber *nScoreKillers;
     NSNumber *nScoreFunStuff;
-    NSString *txtBonus1;    
+    NSString *txtBonus1;
+    NSString *txtBonus2;
 }
 
 @property (copy, nonatomic) NSNumber *bWelcomeMessage;
@@ -78,6 +79,7 @@
 @property (copy, nonatomic) NSNumber *nScoreKillers;
 @property (copy, nonatomic) NSNumber *nScoreFunStuff;
 @property (copy, nonatomic) NSString *txtBonus1;
+@property (copy, nonatomic) NSString *txtBonus2;
 
 - (NSString *)dataFilePath;
 - (void)initPlist;
@@ -102,4 +104,5 @@
 - (void)uScoreKillers:(NSInteger *)myNewScoreKillers;
 - (void)uScoreFunStuff:(NSInteger *)myNewScoreFunStuff;
 - (void)uTextBonus1:(NSString *)myNewTextBonus1;
+- (void)uTextBonus2:(NSString *)myNewTextBonus2;
 @end

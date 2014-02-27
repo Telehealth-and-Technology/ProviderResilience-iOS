@@ -125,6 +125,7 @@
 // Resilience (res) Elements
 @property (strong, nonatomic) IBOutlet UILabel *lblBonusBuilder;
 @property (strong, nonatomic) IBOutlet UITextField *txtBonusBuilder1;
+@property (strong, nonatomic) IBOutlet UITextField *txtBonusKiller1;
 
 // Turn off Assessment mode everytime this view is selected
 // Assessment must be proactively selected by the user
