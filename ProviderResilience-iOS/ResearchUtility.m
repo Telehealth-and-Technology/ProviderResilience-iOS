@@ -52,13 +52,19 @@
         NSString *finalPath = [NSString stringWithFormat:@"%@/%@",documentsDir, fileName];
         
         
+        NSError* error;
         NSString* fileContents = [NSString stringWithContentsOfFile:finalPath
                                                            encoding:NSUTF8StringEncoding error:nil];
+        if(error)
+            NSLog(@"Research logging error: %@", error);
+        
         [txtFile appendFormat:@"%@\n", fileContents];
         [txtFile appendFormat:@"%@", logLine];
         NSLog(@"ResearchUtility: %@", logLine);
         
-        [txtFile writeToFile:finalPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        [txtFile writeToFile:finalPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+        if(error)
+            NSLog(@"Research logging error: %@", error);
     }
 }
 

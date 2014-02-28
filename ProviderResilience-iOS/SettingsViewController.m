@@ -445,7 +445,7 @@
     
     NSString *documentsDir = [paths objectAtIndex:0];
     
-    NSString *finalPath = [NSString stringWithFormat:@"%@%@",documentsDir, fileName];
+    NSString *finalPath = [NSString stringWithFormat:@"%@/%@",documentsDir, fileName];
     
     NSLog(@"finalPath: %@", finalPath);
     
