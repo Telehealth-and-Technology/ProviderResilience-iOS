@@ -299,11 +299,25 @@ application.applicationIconBadgeNumber = 0;
     
     if(!url) { return NO; }
     
-    NSString *filePath = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+    NSString* decodedString;
+    NSData* myData;
     
-    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:filePath];//Using nsdata category base64 to decode string to nsdata
-    NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];//Convert data to nstring
-    NSData *myData = [decodedString dataUsingEncoding:NSUTF8StringEncoding];
+    if([url.scheme isEqualToString:@"t2pr"])
+    {
+        NSString* urlData = [url host];
+        
+        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:urlData];//Using nsdata category base64 to decode string to nsdata
+        decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+        myData = [decodedString dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    else
+    {
+        NSString *filePath = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+        
+        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:filePath];//Using nsdata category base64 to decode string to nsdata
+        decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+        myData = [decodedString dataUsingEncoding:NSUTF8StringEncoding];
+    }
     
     if ([decodedString length] > 0) {
         /* JSON Parsing */
