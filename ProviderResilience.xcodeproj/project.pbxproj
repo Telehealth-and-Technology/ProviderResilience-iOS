@@ -384,10 +384,10 @@
 		08DBD4C0169C852F00DC38EB /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DBD4BE169C852F00DC38EB /* arrow.png */; };
 		08DBD4C9169CCC2800DC38EB /* clockbackground-Stretch.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DBD4C8169CCC2800DC38EB /* clockbackground-Stretch.png */; };
 		08EB5B3615CAE6310023AED1 /* ball-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 08EB5B3515CAE6310023AED1 /* ball-green.png */; };
+		4691EFE418CA608200F03053 /* ShinobiCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4691EFE318CA608200F03053 /* ShinobiCharts.framework */; };
 		46ACFA0318BC323D006D2056 /* buttonbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 46ACFA0218BC323D006D2056 /* buttonbackground.png */; };
 		FB5833FB17CD1B3600671CD8 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833FA17CD1B3600671CD8 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FB5833FD17CD1B3D00671CD8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833FC17CD1B3D00671CD8 /* Security.framework */; };
-		FB58343217D7A11200671CD8 /* ShinobiCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833F417CD1A9100671CD8 /* ShinobiCharts.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -808,6 +808,7 @@
 		08DBD4BE169C852F00DC38EB /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		08DBD4C8169CCC2800DC38EB /* clockbackground-Stretch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clockbackground-Stretch.png"; sourceTree = "<group>"; };
 		08EB5B3515CAE6310023AED1 /* ball-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ball-green.png"; sourceTree = "<group>"; };
+		4691EFE318CA608200F03053 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShinobiCharts.framework; sourceTree = "<group>"; };
 		46ACFA0218BC323D006D2056 /* buttonbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonbackground.png; sourceTree = "<group>"; };
 		FB5833F417CD1A9100671CD8 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShinobiCharts.framework; path = ../B2R/Classes/ViewControllers/ShinobiCharts.framework; sourceTree = "<group>"; };
 		FB5833FA17CD1B3600671CD8 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -820,7 +821,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB58343217D7A11200671CD8 /* ShinobiCharts.framework in Frameworks */,
+				4691EFE418CA608200F03053 /* ShinobiCharts.framework in Frameworks */,
 				FB5833FD17CD1B3D00671CD8 /* Security.framework in Frameworks */,
 				FB5833FB17CD1B3600671CD8 /* AdSupport.framework in Frameworks */,
 				0871559A15C6F6A100723BF8 /* SystemConfiguration.framework in Frameworks */,
@@ -933,6 +934,7 @@
 		081D986B1559894500424E28 /* ProviderResilience-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				4691EFE318CA608200F03053 /* ShinobiCharts.framework */,
 				0893D83F16A0D2DF00A40CFE /* StudyEnrollment */,
 				085630D11559909900FDD952 /* Nibs iPhone */,
 				087F12E115937C4000174F60 /* Nibs iPad */,
@@ -2051,8 +2053,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Desktop/ShinobiCharts\"",
-					"\"$(SRCROOT)/../B2R/Classes/ViewControllers\"",
+					"\\\"$(SRCROOT)/../../../Desktop/ShinobiCharts\\\"",
+					"\\\"$(SRCROOT)/../B2R/Classes/ViewControllers\\\"",
+					"/Users/bradlett/Desktop/ProviderResilience/ProviderResilience-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ProviderResilience-iOS/ProviderResilience-Prefix.pch";
@@ -2086,8 +2089,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Desktop/ShinobiCharts\"",
-					"\"$(SRCROOT)/../B2R/Classes/ViewControllers\"",
+					"\\\"$(SRCROOT)/../../../Desktop/ShinobiCharts\\\"",
+					"\\\"$(SRCROOT)/../B2R/Classes/ViewControllers\\\"",
+					"/Users/bradlett/Desktop/ProviderResilience/ProviderResilience-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ProviderResilience-iOS/ProviderResilience-Prefix.pch";
