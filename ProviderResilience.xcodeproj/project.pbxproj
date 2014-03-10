@@ -2051,7 +2051,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\\\"$(SRCROOT)/../../../Desktop/ShinobiCharts\\\"",
 					"/Users/bradlett/Desktop/ProviderResilience/ProviderResilience-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2062,7 +2061,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
@@ -2086,7 +2084,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\\\"$(SRCROOT)/../../../Desktop/ShinobiCharts\\\"",
 					"/Users/bradlett/Desktop/ProviderResilience/ProviderResilience-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2097,7 +2094,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
