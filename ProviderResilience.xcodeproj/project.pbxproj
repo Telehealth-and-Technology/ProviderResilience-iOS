@@ -2052,7 +2052,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(SRCROOT)/../../../Desktop/ShinobiCharts\\\"",
-					"\\\"$(SRCROOT)/../B2R/Classes/ViewControllers\\\"",
 					"/Users/bradlett/Desktop/ProviderResilience/ProviderResilience-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2088,7 +2087,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(SRCROOT)/../../../Desktop/ShinobiCharts\\\"",
-					"\\\"$(SRCROOT)/../B2R/Classes/ViewControllers\\\"",
 					"/Users/bradlett/Desktop/ProviderResilience/ProviderResilience-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
