@@ -385,7 +385,7 @@
 		08DBD4C9169CCC2800DC38EB /* clockbackground-Stretch.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DBD4C8169CCC2800DC38EB /* clockbackground-Stretch.png */; };
 		08EB5B3615CAE6310023AED1 /* ball-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 08EB5B3515CAE6310023AED1 /* ball-green.png */; };
 		46ACFA0318BC323D006D2056 /* buttonbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 46ACFA0218BC323D006D2056 /* buttonbackground.png */; };
-		46C8269718CE360D00477BAF /* ShinobiCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46C8269618CE360D00477BAF /* ShinobiCharts.framework */; };
+		46EFF5EC18CE7EDB00748FD6 /* ShinobiCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46EFF5EB18CE7EDB00748FD6 /* ShinobiCharts.framework */; };
 		FB5833FB17CD1B3600671CD8 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833FA17CD1B3600671CD8 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FB5833FD17CD1B3D00671CD8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB5833FC17CD1B3D00671CD8 /* Security.framework */; };
 /* End PBXBuildFile section */
@@ -809,7 +809,7 @@
 		08DBD4C8169CCC2800DC38EB /* clockbackground-Stretch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clockbackground-Stretch.png"; sourceTree = "<group>"; };
 		08EB5B3515CAE6310023AED1 /* ball-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ball-green.png"; sourceTree = "<group>"; };
 		46ACFA0218BC323D006D2056 /* buttonbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonbackground.png; sourceTree = "<group>"; };
-		46C8269618CE360D00477BAF /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShinobiCharts.framework; sourceTree = "<group>"; };
+		46EFF5EB18CE7EDB00748FD6 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShinobiCharts.framework; sourceTree = "<group>"; };
 		FB5833FA17CD1B3600671CD8 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		FB5833FC17CD1B3D00671CD8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		FB7CFFC11818259700D397DD /* PRAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRAnalytics.h; sourceTree = "<group>"; };
@@ -820,8 +820,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46C8269718CE360D00477BAF /* ShinobiCharts.framework in Frameworks */,
 				FB5833FD17CD1B3D00671CD8 /* Security.framework in Frameworks */,
+				46EFF5EC18CE7EDB00748FD6 /* ShinobiCharts.framework in Frameworks */,
 				FB5833FB17CD1B3600671CD8 /* AdSupport.framework in Frameworks */,
 				0871559A15C6F6A100723BF8 /* SystemConfiguration.framework in Frameworks */,
 				0844468915B0E50B00187A93 /* MediaPlayer.framework in Frameworks */,
@@ -890,6 +890,7 @@
 		081D98541559894500424E28 = {
 			isa = PBXGroup;
 			children = (
+				46EFF5EB18CE7EDB00748FD6 /* ShinobiCharts.framework */,
 				0844468F15B0EA0D00187A93 /* BrightCove */,
 				08DBD4BB169B91F000DC38EB /* libBrightcovePlayerKit.a */,
 				08DBD4B9169B917B00DC38EB /* libBrightcoveMediaAPI.a */,
@@ -913,7 +914,6 @@
 		081D98621559894500424E28 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				46C8269618CE360D00477BAF /* ShinobiCharts.framework */,
 				FB5833FC17CD1B3D00671CD8 /* Security.framework */,
 				FB5833FA17CD1B3600671CD8 /* AdSupport.framework */,
 				0871559915C6F6A100723BF8 /* SystemConfiguration.framework */,
@@ -2052,6 +2052,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/bradlett/Desktop/ProviderResilience,
+					/Users/bradlett/Desktop,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ProviderResilience-iOS/ProviderResilience-Prefix.pch";
@@ -2085,6 +2086,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/bradlett/Desktop/ProviderResilience,
+					/Users/bradlett/Desktop,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ProviderResilience-iOS/ProviderResilience-Prefix.pch";
